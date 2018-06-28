@@ -1,6 +1,16 @@
 import re
 
 
+class Check_equal:
+    def __init__(self, expression, result):
+        self.expression=expression
+        self.result=result
+
+    def __repr__(self):
+        return "Check.equal({0}, {1})".format(self.expression, self.result)
+        
+    
+    
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
         self.part_id = part_id
@@ -8,14 +18,25 @@ class ProblemPart:
         self.precode = precode
         self.solution = solution
         self.tests = tests
+        ## {"Check_equal":[...], "Other": "STRING OF OTHER TESTS"}
 
 
     def __repr__(self):
-        repr_string = ""
-        # TODO 1 make part without validation
-        # TODO 2 add validation
+        lines = []
+        lines.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))        # beginning of part header
+        lines.append("# "+self.description.replace("\n", "\n# ")+"\n")      # description
+        lines.append("# "+"-"*77+"\n")                                      # optional beginning of template 
+        lines.append(("# "+self.precode.replace("\n", "\n# ")+"\n"))        # precode (solution tamplate)
+        lines.append("# "+"="*77+"\n")                                      # boarder between description and precode # tega ni ?
+        lines.append(self.solution+"\n\n")                                  # solution
+        lines.append("Check.part()\n")                                      # beginning of validation
 
-        return repr_string
+        for test_equal in self.tests["Check_equal"]:
+            lines.append(str(test_equal) + "\n")
+
+        lines.append(tests["Other"])
+
+        return "".join(lines)
 
     @staticmethod
     def parse(problem_part_string):
@@ -50,22 +71,7 @@ class ProblemPart:
 
     def write_on_file(self, file):
         with open(file, "w", encoding="utf-8") as f:
-            f.write("# "+"="*69+"@{0:06d}=\n".format(self.part_id))     # beginning of part header
-            f.write("# "+self.description.replace("\n", "\n# ")+"\n")   # description
-            
-            # ti 2 vrstici kode (namesto spodnjih 3) izpišeta del z prekodo na tak način
-            # da prekoda ni zakomentirana in nad njo ni ---------
-            # f.write("# "+"="*77+"\n")                                 # boarder between description and precode            
-            # f.write(self.precode+"\n")                                # precode (solution template)
-            f.write("# "+"-"*77+"\n")                                   # optional beginning of template          # tega ni ?
-            f.write("# "+self.precode.replace("\n", "\n# ")+"\n")       # precode (solution tamplate)             # tega ni ?
-            f.write("# "+"="*77+"\n")                                   # boarder between description and precode # tega ni ?
-            
-            f.write(self.solution+"\n\n")                               # solution
-            f.write("Check.part()\n")                                   # beginning of validation
-
-            # TODO
-            # tests
+            f.write(str(self))
 
 
 

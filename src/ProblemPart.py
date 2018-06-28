@@ -46,6 +46,27 @@ class ProblemPart:
 
         return ProblemPart(part_id, description, precode, solution, None)
 
+    
+
+    def write_on_file(self, file):
+        with open(file, "w", encoding="utf-8") as f:
+            f.write("# "+"="*69+"@{0:06d}=\n".format(self.part_id))     # beginning of part header
+            f.write("# "+self.description.replace("\n", "\n# ")+"\n")   # description
+            
+            # ti 2 vrstici kode (namesto spodnjih 3) izpišeta del z prekodo na tak način
+            # da prekoda ni zakomentirana in nad njo ni ---------
+            # f.write("# "+"="*77+"\n")                                 # boarder between description and precode            
+            # f.write(self.precode+"\n")                                # precode (solution template)
+            f.write("# "+"-"*77+"\n")                                   # optional beginning of template          # tega ni ?
+            f.write("# "+self.precode.replace("\n", "\n# ")+"\n")       # precode (solution tamplate)             # tega ni ?
+            f.write("# "+"="*77+"\n")                                   # boarder between description and precode # tega ni ?
+            
+            f.write(self.solution+"\n\n")                               # solution
+            f.write("Check.part()\n")                                   # beginning of validation
+
+            # TODO
+            # tests
+
 
 
 
@@ -106,5 +127,42 @@ if "Enterobacteria phage lambda" not in resitev:
 
     return problem_part
 
+
+
+
+def napisi_na_dat(file_name):
+    problem_part_string = """
+
+# =====================================================================@015027=
+# Na spletni strani `https://www.ncbi.nlm.nih.gov/guide/howto/dwn-genome/`
+# poišči genski zapis z oznako KT232076.1 in v obliki niza povej za
+# katero vrsto bakterije gre.
+# 
+#     # Resitev bo oblike:
+#     "Enterobacteria *** lambda"
+#     # kjer tri zvezdice zamenjaj za ustrezno ime.
+# -----------------------------------------------------------------------------
+# # Resitev bo oblike:
+# "Enterobacteria *** lambda"
+# # kjer tri zvezdice zamenjaj za ustrezno ime.
+# =============================================================================
+"Enterobacteria phage lambda"
+
+Check.part()
+resitev = eval(Check.current_part['solution'])
+if not isinstance(resitev, str):
+    Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
+
+if "Enterobacteria phage lambda" not in resitev:
+    Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
+
+"""
+
+    problem_part = ProblemPart.parse(problem_part_string)
+    problem_part.write_on_file(file_name)
+
+    
+
 if __name__ == "__main__":
     problem_part = parse_test()
+    napisi_na_dat("podnaloga.py")

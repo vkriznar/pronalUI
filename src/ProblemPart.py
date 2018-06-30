@@ -29,6 +29,11 @@ class ProblemPart:
         lines.append(("# "+self.precode.replace("\n", "\n# ")+"\n"))        # precode (solution tamplate)
         lines.append("# "+"="*77+"\n")                                      # boarder between description and precode # tega ni ?
         lines.append(self.solution+"\n\n")                                  # solution
+
+        ## TODO remove this in future
+        if self.tests is None:
+            return "".join(lines)
+        
         lines.append("Check.part()\n")                                      # beginning of validation
 
         for test_equal in self.tests["Check_equal"]:
@@ -85,33 +90,7 @@ class ProblemPart:
 
 
 
-def parse_test():
-    problem_part_string = """
-
-# =====================================================================@015027=
-# Na spletni strani `https://www.ncbi.nlm.nih.gov/guide/howto/dwn-genome/`
-# poišči genski zapis z oznako KT232076.1 in v obliki niza povej za
-# katero vrsto bakterije gre.
-# 
-#     # Resitev bo oblike:
-#     "Enterobacteria *** lambda"
-#     # kjer tri zvezdice zamenjaj za ustrezno ime.
-# -----------------------------------------------------------------------------
-# # Resitev bo oblike:
-# "Enterobacteria *** lambda"
-# # kjer tri zvezdice zamenjaj za ustrezno ime.
-# =============================================================================
-"Enterobacteria phage lambda"
-
-Check.part()
-resitev = eval(Check.current_part['solution'])
-if not isinstance(resitev, str):
-    Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
-
-if "Enterobacteria phage lambda" not in resitev:
-    Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
-
-"""
+def parse_test(problem_part_string):
     problem_part = ProblemPart.parse(problem_part_string)
 
     print("ID podnaloge:","problem_part.part_id")
@@ -134,9 +113,13 @@ if "Enterobacteria phage lambda" not in resitev:
     return problem_part
 
 
+def napisi_na_dat(file_name, problem_part_string):
+    problem_part = ProblemPart.parse(problem_part_string)
+    problem_part.write_on_file(file_name)
 
+    
 
-def napisi_na_dat(file_name):
+if __name__ == "__main__":
     problem_part_string = """
 
 # =====================================================================@015027=
@@ -163,12 +146,10 @@ if "Enterobacteria phage lambda" not in resitev:
     Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
 
 """
-
-    problem_part = ProblemPart.parse(problem_part_string)
-    problem_part.write_on_file(file_name)
-
+    def instructions_string(problem_part_string):
+        return problem_part_string.split("Check.part()")[0].strip()
     
-
-if __name__ == "__main__":
-    problem_part = parse_test()
-    napisi_na_dat("podnaloga.py")
+    problem_part = parse_test(problem_part_string)
+    assert instructions_string(problem_part_string) == instructions_string(str(problem_part))
+    
+    napisi_na_dat("podnaloga.py", problem_part_string)

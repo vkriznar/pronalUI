@@ -1,10 +1,10 @@
 import re
 
 
-class Check_equal:
+class CheckEqual:
     def __init__(self, expression, result):
-        self.expression=expression
-        self.result=result
+        self.expression = expression
+        self.result = result
 
     def __repr__(self):
         return "Check.equal({0}, {1})".format(self.expression, self.result)
@@ -18,7 +18,7 @@ class ProblemPart:
         self.precode = precode
         self.solution = solution
         self.tests = tests
-        ## {"Check_equal":[...], "Other": "STRING OF OTHER TESTS"}
+        ## {"check_equal":[...], "other": "STRING OF OTHER TESTS"}
 
 
     def __repr__(self):
@@ -36,10 +36,10 @@ class ProblemPart:
         
         lines.append("Check.part()\n")                                      # beginning of validation
 
-        for test_equal in self.tests["Check_equal"]:
+        for test_equal in self.tests["check_equal"]:
             lines.append(str(test_equal) + "\n")
 
-        lines.append(tests["Other"])
+        lines.append(tests["other"])
 
         return "".join(lines)
 

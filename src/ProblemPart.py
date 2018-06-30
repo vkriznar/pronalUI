@@ -39,7 +39,7 @@ class ProblemPart:
         for test_equal in self.tests["check_equal"]:
             lines.append(str(test_equal) + "\n")
 
-        lines.append(tests["other"])
+        lines.append(self.tests["other"])
 
         return "".join(lines)
 
@@ -52,6 +52,51 @@ class ProblemPart:
                 lines = description.strip().splitlines()
                 return "\n".join(line[line.index('#')+2:] for line in lines)
 
+        ## TODO add meta data
+        def classify_tests(validation):
+            def classify_check_equal(line):
+                data = line.strip("Check.equal(")
+
+                ## TODO maybe use: from ast import literal_eval
+                ## evaluates the right part of touple wich for now is OK?
+                ## posible problem: ("15", [0, 15, 2][1])
+                ## as it can not evaluate such complex expresions
+                ## but this is ok: ("(12, [3, 5])", (12, [3, 5]))
+                counter = 1
+                element_chars = []
+                touple_elements = []
+                for z in data:
+                    if z == "(":
+                        counter += 1
+                        
+                    elif z == ")":
+                        counter -= 1
+                        if counter == 0:
+                            touple_elements.append("".join(element_chars))
+                            break
+                            
+                    elif z == "," and counter == 1:
+                        touple_elements.append("".join(element_chars))
+                        element_chars = []
+
+                    element_chars.append(z)
+
+                return touple_elements
+                        
+                
+            lines = validation.split("\n")
+            other_lines = []
+            check_equals = []
+
+            for line in lines:
+                if line.startswith("Check.equal"):
+                    x, y = classify_check_equal(line)
+                    check_equals.append(CheckEqual(x,y))
+                else:
+                    other_lines.append(line)
+
+            return check_equals, other_lines
+
         match = re.search(
             r'# ===+@(?P<part>\d+)=\s*\n'             # beginning of part header
             r'(?P<description>(\s*#( [^\n]*)?\n)+?)'  # description
@@ -60,17 +105,23 @@ class ProblemPart:
             r'\s*# ===+\s*?\n'                        # end of part header
             r'(?P<solution>.*?)'                      # solution
             r'^Check\s*\.\s*part\s*\(\s*\)\s*?(?=\n)' # beginning of validation
-            r'(?P<validation>.*?)',                   # validation
-            problem_part_string,
+            r'(?P<validation>.*?)'                    # validation
+            r'\n -><-',
+            problem_part_string + "\n -><-",
             flags=re.DOTALL | re.MULTILINE
         )
         part_id = int(match.group('part'))
         description = strip_hashes(match.group('description'))
         precode = strip_hashes(match.group('template'))
         solution = match.group('solution').strip()
+        validation = match.group('validation').strip()
+        check_equals, other_lines = classify_tests(validation)
+
+        tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
+
         # TODO validation (check part), problem_id
 
-        return ProblemPart(part_id, description, precode, solution, None)
+        return ProblemPart(part_id, description, precode, solution, tests)
 
     
 
@@ -150,6 +201,7 @@ if "Enterobacteria phage lambda" not in resitev:
         return problem_part_string.split("Check.part()")[0].strip()
     
     problem_part = parse_test(problem_part_string)
+    print(str(problem_part))
     assert instructions_string(problem_part_string) == instructions_string(str(problem_part))
     
     napisi_na_dat("podnaloga.py", problem_part_string)

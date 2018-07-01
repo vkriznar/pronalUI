@@ -27,7 +27,7 @@ class ProblemPart:
         lines.append("# "+self.description.replace("\n", "\n# ")+"\n")      # description
         lines.append("# "+"-"*77+"\n")                                      # optional beginning of template 
         lines.append(("# "+self.precode.replace("\n", "\n# ")+"\n"))        # precode (solution tamplate)
-        lines.append("# "+"="*77+"\n")                                      # boarder between description and precode # tega ni ?
+        lines.append("# "+"="*77+"\n")                                      # boarder between description and precode
         lines.append(self.solution+"\n\n")                                  # solution
 
         ## TODO remove this in future
@@ -36,8 +36,12 @@ class ProblemPart:
         
         lines.append("Check.part()\n")                                      # beginning of validation
 
-        for test_equal in self.tests["check_equal"]:
-            lines.append(str(test_equal) + "\n")
+        for test_equal_connected_with_and in self.tests["check_equal"]:
+            for test_equal in test_equal_connected_with_and:
+                if test_equal_connected_with_and.index(test_equal)==len(test_equal_connected_with_and)-1:
+                    lines.append(str(test_equal) + "\n")
+                else:
+                    lines.append(str(test_equal) + " and \\ \n")
 
         lines.append(self.tests["other"])
 
@@ -54,34 +58,21 @@ class ProblemPart:
 
         ## TODO add meta data
         def classify_tests(validation):
-            def classify_check_equal(line):
-                data = line.strip("Check.equal(")
-
+            def classify_check_equal(check_equal_string):
                 ## TODO maybe use: from ast import literal_eval
                 ## evaluates the right part of touple wich for now is OK?
                 ## posible problem: ("15", [0, 15, 2][1])
                 ## as it can not evaluate such complex expresions
                 ## but this is ok: ("(12, [3, 5])", (12, [3, 5]))
-                counter = 1
-                element_chars = []
-                touple_elements = []
-                for z in data:
-                    if z == "(":
-                        counter += 1
-                        
-                    elif z == ")":
-                        counter -= 1
-                        if counter == 0:
-                            touple_elements.append("".join(element_chars))
-                            break
-                            
-                    elif z == "," and counter == 1:
-                        touple_elements.append("".join(element_chars))
-                        element_chars = []
 
-                    element_chars.append(z)
+                check_equal_string=check_equal_string.strip().strip("Check.equal(")
 
-                return touple_elements
+                # expression=re.search(r"'\w+(\(([^\(\)]*,)*([^\(\)])*\))*'", check_equal_string).group(0).strip()
+                expression=re.search(r"'([^'])+'", check_equal_string).group(0).strip()
+                result=check_equal_string[len(expression)+1:].strip().strip(",").strip(")").strip()
+        
+                
+                return expression, result
                         
                 
             lines = validation.split("\n")
@@ -90,8 +81,17 @@ class ProblemPart:
 
             for line in lines:
                 if line.startswith("Check.equal"):
-                    x, y = classify_check_equal(line)
-                    check_equals.append(CheckEqual(x,y))
+                    # line lahko predstavlja le en Check.equal stavek npr.: "Check.equal('zmnozi(7, 7)', 49)\n"
+                    # lahko pa jih je več povezanih z and npr.: "Check.equal('zmnozi(7, 7)', 49) and Check.equal('zmnozi(5, 4)', 20)\n"
+                    
+                    list_of_check_equals=line.split("and") # preverimo, če je v vrstici več check.equal stavkov povezanih z and
+                    check_equals_connected_with_and=[]
+                    
+                    for check_equal_string in list_of_check_equals:
+                        expression, result = classify_check_equal(check_equal_string)
+                        check_equals_connected_with_and.append(CheckEqual(expression,  result))
+                        
+                    check_equals.append(check_equals_connected_with_and)
                 else:
                     other_lines.append(line)
 
@@ -116,6 +116,9 @@ class ProblemPart:
         solution = match.group('solution').strip()
         validation = match.group('validation').strip()
         check_equals, other_lines = classify_tests(validation)
+
+        print("\nCHECK_EQUALS: ", check_equals)
+        print("\nOTHER_LINES: ", other_lines)
 
         tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
 
@@ -186,9 +189,20 @@ if __name__ == "__main__":
 # "Enterobacteria *** lambda"
 # # kjer tri zvezdice zamenjaj za ustrezno ime.
 # =============================================================================
-"Enterobacteria phage lambda"
+def zmnozi(x, y):
+    return x*y
+Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
+Check.equal('zmnozi(2, 2)', 4) and \
+Check.equal('zmnozi(3, 3)', 9 )
+Check.equal('zmnozi(4, 4)', 16)
+Check.equal('zmnozi(5, 5)', 25 ) and \
+Check.equal('zmnozi(10, 10)', 100)
+Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
+Check.secret(zmnozi(100, 100))
+Check.secret(zmnozi(500, 123))
+
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
     Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')

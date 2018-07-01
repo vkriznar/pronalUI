@@ -11,9 +11,20 @@
 # "Enterobacteria *** lambda"
 # # kjer tri zvezdice zamenjaj za ustrezno ime.
 # =============================================================================
-"Enterobacteria phage lambda"
+def zmnozi(x, y):
+    return x*y
+Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
+Check.equal('zmnozi(2, 2)', 4) and \ 
+Check.equal('zmnozi(3, 3)', 9)
+Check.equal('zmnozi(4, 4)', 16)
+Check.equal('zmnozi(5, 5)', 25) and \ 
+Check.equal('zmnozi(10, 10)', 100)
+Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
+Check.secret(zmnozi(100, 100))
+Check.secret(zmnozi(500, 123))
+
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
     Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')

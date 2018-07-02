@@ -1,0 +1,17 @@
+**teste te oblike program obravnava kot le en Check.equal stavek, kar ni pravilno - 
+tega problema verjetno ne bomo reševali, ker je že kompliciranje, nihèe ne sestavlja takih testov
+(
+    Check.equal('zmnozi(9, 9)', 25 ),
+    Check.equal('zmnozi(88, 18)', 100)
+)
+
+
+Check.equal('zmnozi(9, 9)', 25 ), Check.equal('zmnozi(88, 18)', 100)
+
+**teste te oblike program obravnava pravilno, le zapišejo se na datoteko tako, da niso veè v tuplu -
+kar je ok
+(
+    Check.equal('sestej(81, 81)', 25 ) and 
+    Check.equal('sestej(88, 18)', 100) and 
+    Check.equal("sestej(20, 20)", 400)
+)

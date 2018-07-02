@@ -80,12 +80,12 @@ def vmesnik():
     # okno za naslov naloge
     Label(root, text="Naslov naloge",font='Helvetica 12').pack(anchor=W, padx=25)
     text_naslov = Text(root, width=90, height= 2, bg='white', bd=5, relief=SUNKEN)
-
-    # okno za opis naloge
     # v = StringVar(root, value='default text')
     # text_naslov.insert('end', "naslov")
     text_naslov.pack()
     # text_naslov.config(foreground="green")
+
+    # okno za opis naloge
     Label(root, text="Opis naloge", font='Helvetica 12').pack(anchor=W, padx=25)
     text_opis = Text(root, width=90, height= 10, bg='white', bd=5, relief=SUNKEN)
     text_opis.pack()

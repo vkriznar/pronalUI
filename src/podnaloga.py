@@ -16,9 +16,9 @@ def zmnozi(x, y):
 Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
-Check.equal('zmnozi(2, 2)', 4) and \ 
+Check.equal('zmnozi((2, 88), 2)', 4) and \ 
 Check.equal('zmnozi(3, 3)', 9)
-Check.equal('zmnozi(4, 4)', 16)
+Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
 Check.equal('zmnozi(5, 5)', 25) and \ 
 Check.equal('zmnozi(10, 10)', 100)
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")

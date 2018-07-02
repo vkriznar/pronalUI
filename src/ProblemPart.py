@@ -26,7 +26,7 @@ class ProblemPart:
         lines.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))        # beginning of part header
         lines.append("# "+self.description.replace("\n", "\n# ")+"\n")      # description
         lines.append("# "+"-"*77+"\n")                                      # optional beginning of template 
-        lines.append(("# "+self.precode.replace("\n", "\n# ")+"\n"))        # precode (solution tamplate)
+        lines.append("# "+self.precode.replace("\n", "\n# ")+"\n")          # precode (solution tamplate)
         lines.append("# "+"="*77+"\n")                                      # boarder between description and precode
         lines.append(self.solution+"\n\n")                                  # solution
 
@@ -194,9 +194,9 @@ def zmnozi(x, y):
 Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
-Check.equal('zmnozi(2, 2)', 4) and \
+Check.equal('zmnozi((2, 88), 2)', 4) and \
 Check.equal('zmnozi(3, 3)', 9 )
-Check.equal('zmnozi(4, 4)', 16)
+Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
 Check.equal('zmnozi(5, 5)', 25 ) and \
 Check.equal('zmnozi(10, 10)', 100)
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")

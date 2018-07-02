@@ -30,7 +30,7 @@ def sklop():
             f.write(data_opis)
 
     def naprej_na_dodajanje_nalog():
-        naloga()
+        dodaj_nalogo()
     
     Label(root, text="Dodaj Sklop", font='Helvetica 14 bold').pack(anchor=W, padx=25)
     separator = Frame(height=2, bd=1, relief=SUNKEN)
@@ -65,7 +65,7 @@ def sklop():
 
     
     
-def naloga():
+def dodaj_nalogo():
     global stevec
     
     
@@ -105,7 +105,7 @@ def naloga():
     def naslednja_naloga():
         global stevec
         stevec+=1
-        naloga()
+        dodaj_nalogo()
         
 
     Label(root, text="Dodaj nalogo {0}".format(stevec), font='Helvetica 14 bold').pack(anchor=W, padx=25)
@@ -152,4 +152,4 @@ def naloga():
     
     root.mainloop()
 sklop()
-#naloga()
+#dodaj_nalogo()

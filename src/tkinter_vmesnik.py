@@ -19,19 +19,19 @@ def vmesnik():
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
     
-    def napisi_naslov():
+    def napisi_vsebino_na_dat():
         data_naslov = text_naslov.get("1.0", 'end')
         data_opis=text_opis.get("1.0", 'end')
         data_resitev = text_resitev.get("1.0", 'end')
         data_testi=text_testi.get("1.0", 'end')
         
-        with open("naslov.txt", "w") as f:
+        with open("vmesnik_tkinter_naslov.txt", "w") as f:
             f.write(data_naslov)
-        with open("opis.txt", "w") as f:
+        with open("vmesnik_tkinter_opis.txt", "w") as f:
             f.write(data_opis)
-        with open("resitev.txt", "w") as f:
+        with open("vmesnik_tkinter_resitev.txt", "w") as f:
             f.write(data_resitev)
-        with open("testi.txt", "w") as f:
+        with open("vmesnik_tkinter_testi.txt", "w") as f:
             f.write(data_testi)
             
         root.destroy()
@@ -67,7 +67,7 @@ def vmesnik():
     gumb_preklici = Button(root, text="prekliči", command=root.destroy, height=1, width=8, relief=RAISED, font='Helvetica 12')
     gumb_preklici.grid(row=10, sticky="e")
     
-    gumb_dodaj = Button(root, text="dodaj", command=napisi_naslov)
+    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat)
     gumb_dodaj.grid(row=10)
     """
 
@@ -80,10 +80,10 @@ def vmesnik():
     # okno za naslov naloge
     Label(root, text="Naslov naloge",font='Helvetica 12').pack(anchor=W, padx=25)
     text_naslov = Text(root, width=90, height= 2, bg='white', bd=5, relief=SUNKEN)
-    # v = StringVar(root, value='default text')
-    # text_naslov.insert('end', "naslov")
+    # v = StringVar(root, value='default text')         ## na ta način v okno dodaš default text
+    # text_naslov.insert('end', "naslov")               ## na ta način v okno dodaš default text
     text_naslov.pack()
-    # text_naslov.config(foreground="green")
+    # text_naslov.config(foreground="green")            ## na ta način nastaviš barvo default texta
 
     # okno za opis naloge
     Label(root, text="Opis naloge", font='Helvetica 12').pack(anchor=W, padx=25)
@@ -103,7 +103,7 @@ def vmesnik():
     gumb_preklici = Button(root, text="prekliči", command=root.destroy, height=1, width=8, relief=RAISED, font='Helvetica 12')
     gumb_preklici.pack(side=RIGHT, padx=25)
     
-    gumb_dodaj = Button(root, text="dodaj", command=napisi_naslov, height=1, width=8, relief=RAISED, bg="royalblue", font='Helvetica 12')
+    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat, height=1, width=8, relief=RAISED, bg="royalblue", font='Helvetica 12')
     gumb_dodaj.pack(side=RIGHT)
     
     root.mainloop()

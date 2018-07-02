@@ -20,10 +20,22 @@ Check.equal('zmnozi((2, 88), 2)', 4) and \
 Check.equal('zmnozi(3, 3)', 9)
 Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
 Check.equal('zmnozi(5, 5)', 25) and \ 
-Check.equal('zmnozi(10, 10)', 100) and \ 
+Check.equal('zmnozi("10", "10")', 100) and \ 
 Check.equal("zmnozi(20, 20)", 400) and \ 
 Check.equal('x', 50 // 6)
+Check.equal('odstej(8, 8)', 25) and \ 
+Check.equal('odstej(88, 18)', 100) and \ 
+Check.equal("odstej(20, 20)", 400) and \ 
+Check.equal("odstej(20, 20)", 400)
+Check.equal('sestej(81, 81)', 25) and \ 
+Check.equal('sestej(88, 18)', 100) and \ 
+Check.equal("sestej(20, 20)", 400)
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
+
+
+
+
+
 Check.secret(zmnozi(100, 100))
 Check.secret(zmnozi(500, 123))
 

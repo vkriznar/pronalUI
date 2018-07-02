@@ -193,6 +193,8 @@ def zmnozi(x, y):
     return x*y
 Spremenljivka="Nek string, ki je enak spremenljivki"
 
+(( CE and CE) and ( CE and CE))
+
 Check.part()
 Check.equal('zmnozi((2, 88), 2)', 4) and \
 Check.equal('zmnozi(3, 3)', 9 )
@@ -200,6 +202,7 @@ Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
 Check.equal('zmnozi(5, 5)', 25 ) and \
 Check.equal('zmnozi(10, 10)', 100) and \
 Check.equal("zmnozi(20, 20)", 400) and \
+Check.equal("zmnozi('20', 20)", 400) and \
 Check.equal('x', 50 // 6)
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
 Check.secret(zmnozi(100, 100))

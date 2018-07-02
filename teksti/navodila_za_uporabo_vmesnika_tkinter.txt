@@ -1,0 +1,10 @@
+gumb DODAJ: 
+ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih
+èe kaj spremeniš ali dodaš v okno in še enkrat pritisneš dodaj, se to doda na že obsotojeèo datoteko
+
+gumb NASLEDNJA:
+odpre novo okno pri èemer starega okna ne zapre, v staro okno še vedno lahko dodajaš in pišeš dokler ga ne zapreš
+
+
+gumb ZAPRI:
+samo zapre obstojeèe okno

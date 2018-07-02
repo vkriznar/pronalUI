@@ -65,21 +65,60 @@ class ProblemPart:
                 ## as it can not evaluate such complex expresions
                 ## but this is ok: ("(12, [3, 5])", (12, [3, 5]))
 
-                check_equal_string=check_equal_string.strip().strip("Check.equal(")
+                check_equal_string=check_equal_string.strip().strip("Check.equal(").strip()
 
                 # expression=re.search(r"'['|\"|\"""]\w+(\(([^\(\)]*,)*([^\(\)])*\))*['|\"|\"""]", check_equal_string).group(0)
-                expression=re.search(r"['|\"|\"""]([^'|\"|\"""])+['|\"|\"""]", check_equal_string).group(0)
+                quotation_mark_type=check_equal_string[0]
+                expression=re.search(r"{0}([^{0}])+{0}".format(quotation_mark_type), check_equal_string).group(0)
                 result=check_equal_string[len(expression)+1:].strip().strip(",").strip(")").strip()
         
-                
-                return expression, result
-                        
+                return expression, result     
                 
             lines = validation.split("\n")
             other_lines = []
             check_equals = []
+            search_equal=False
 
-            for line in lines:
+            def check_parentheses(line):
+                stevec=0
+                for char in line:
+                    if char=="(": stevec+=1
+                    elif char==")": stevec-=1 
+                if stevec==0: return True
+                else: return False
+
+            def reshape_lines(lines):
+                """
+                funkcija, ki vse dele testov, ki so zapisni v več vrstičnih tuplih, zapiše v enovrstične tuple
+                """
+                lines2=[]
+                lines_inside_tuple=[]
+                inside_tuple=False
+                
+                for line in lines:
+                    if line.startswith("("):
+                        if not check_parentheses(line): # če se število oklepajev in zaklepajev v tej vrstici ne ujema, nadaljujem v naslednji vrstici
+                            inside_tuple=True
+                            lines_inside_tuple.append(line.strip())
+                            continue
+                        else:
+                            inside_tuple=False # če se tuple zaključi v isti vrstici, se delam kot da nisem v tuplu in vrstico na koncu le dodam na lines2
+                    
+                    if not inside_tuple: # če nisem znotraj tupla samo dodam line na iine2
+                        lines2.append(line)
+                        
+                    elif inside_tuple: # če sem znotraj tupla, dodam trenutno vrstico na pomožne in preverim, če se tuple v tej vrstici zakluči
+                        lines_inside_tuple.append(line.strip())
+                        
+                        if not check_parentheses(line): # če se število oklepajev in zaklepajev v tej vrstici ne ujema, se je tuple zaključil
+                            inside_tuple=False
+                            lines2.append(" ".join(lines_inside_tuple))
+                            lines_inside_tuple=[]
+                        
+                return lines2
+
+                
+            for line in reshape_lines(lines):
                 if line.startswith("Check.equal"):
                     # line lahko predstavlja le en Check.equal stavek npr.: "Check.equal('zmnozi(7, 7)', 49)\n"
                     # lahko pa jih je več povezanih z and npr.: "Check.equal('zmnozi(7, 7)', 49) and Check.equal('zmnozi(5, 4)', 20)\n"
@@ -92,6 +131,24 @@ class ProblemPart:
                         check_equals_connected_with_and.append(CheckEqual(expression,  result))
                         
                     check_equals.append(check_equals_connected_with_and)
+                    
+                elif line.startswith("("):
+                    print("line: ", line)
+                    print()
+                    line=line[1:-1].strip()
+                    print(line)
+                    print()
+                    # če je sedaj line oblike: "Check.equal('zmnozi(9, 9)', 25 ), Check.equal('zmnozi(88, 18)', 100)" stvar ne dela ok
+                    
+                    list_of_check_equals=line.split("and") # preverimo, če je v vrstici več check.equal stavkov povezanih z and
+                    check_equals_connected_with_and=[]
+                    
+                    for check_equal_string in list_of_check_equals:
+                        expression, result = classify_check_equal(check_equal_string)
+                        check_equals_connected_with_and.append(CheckEqual(expression,  result))
+                        
+                    check_equals.append(check_equals_connected_with_and)
+                
                 else:
                     other_lines.append(line)
 
@@ -123,7 +180,6 @@ class ProblemPart:
         tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
 
         # TODO validation (check part), problem_id
-
         return ProblemPart(part_id, description, precode, solution, tests)
 
     
@@ -147,22 +203,22 @@ class ProblemPart:
 def parse_test(problem_part_string):
     problem_part = ProblemPart.parse(problem_part_string)
 
-    print("ID podnaloge:","problem_part.part_id")
-    print(problem_part.part_id)
-    print()
-    print("Navodila podnaloge:","problem_part.description")
-    print(problem_part.description)
-    print()
-    print("Prekoda naloge:","problem_part.precode")
-    print(problem_part.precode)
-    print()
-    print("Rešitev naloge:","problem_part.solution")
-    print(problem_part.solution)
-    print()
+    # print("ID podnaloge:","problem_part.part_id")
+    # print(problem_part.part_id)
+    # print()
+    # print("Navodila podnaloge:","problem_part.description")
+    # print(problem_part.description)
+    # print()
+    # print("Prekoda naloge:","problem_part.precode")
+    # print(problem_part.precode)
+    # print()
+    # print("Rešitev naloge:","problem_part.solution")
+    # print(problem_part.solution)
+    # print()
     # TODO:
-    print("Za teste moramo še določiti strukturo:")
-    print("problem_part.tests", problem_part.tests)
-    print()
+    # print("Za teste moramo še določiti strukturo:")
+    # print("problem_part.tests", problem_part.tests)
+    # print()
 
     return problem_part
 
@@ -197,13 +253,27 @@ Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
 Check.equal('zmnozi((2, 88), 2)', 4) and \
-Check.equal('zmnozi(3, 3)', 9 )
+Check.equal('zmnozi(3, 3)', 9)
 Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
 Check.equal('zmnozi(5, 5)', 25 ) and \
-Check.equal('zmnozi(10, 10)', 100) and \
+Check.equal('zmnozi("10", "10")', 100) and \
 Check.equal("zmnozi(20, 20)", 400) and \
 Check.equal("zmnozi('20', 20)", 400) and \
 Check.equal('x', 50 // 6)
+
+(   Check.equal('odstej(8, 8)', 25 ) and 
+    Check.equal('odstej(88, 18)', 100) and 
+    Check.equal("odstej(20, 20)", 400)
+)
+
+(
+    Check.equal('sestej(81, 81)', 25 ) and 
+    Check.equal('sestej(88, 18)', 100) and 
+    Check.equal("sestej(20, 20)", 400)
+)
+
+
+
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
 Check.secret(zmnozi(100, 100))
 Check.secret(zmnozi(500, 123))
@@ -216,11 +286,13 @@ if "Enterobacteria phage lambda" not in resitev:
     Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
 
 """
+    
     def instructions_string(problem_part_string):
         return problem_part_string.split("Check.part()")[0].strip()
     
     problem_part = parse_test(problem_part_string)
-    print(str(problem_part))
+    # print(str(problem_part))
     assert instructions_string(problem_part_string) == instructions_string(str(problem_part))
     
     napisi_na_dat("podnaloga.py", problem_part_string)
+

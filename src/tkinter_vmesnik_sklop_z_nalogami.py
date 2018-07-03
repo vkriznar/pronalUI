@@ -1,21 +1,18 @@
 from tkinter import *
-stevec=1
 
+st_naloge=1
 
-def sklop():
+def okno_sklop():
     root = Tk()
     
     w = 770 # width for the Tk root
     h = 600 # height for the Tk root
-    
     # get screen width and height
     ws = root.winfo_screenwidth() # width of the screen
     hs = root.winfo_screenheight() # height of the screen
-    
     # calculate x and y coordinates for the Tk root window
     x = (ws/2) - (w/2)
     y = (hs/2) - (h/2)
-    
     # set the dimensions of the screen and where it is placed
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
@@ -24,14 +21,15 @@ def sklop():
         data_naslov = text_naslov.get("1.0", 'end')
         data_opis=text_opis.get("1.0", 'end')
         
-        with open("Sklop_naslov.txt".format(stevec), "w") as f:
+        with open("Sklop_naslov.txt".format(st_naloge), "w") as f:
             f.write(data_naslov)
-        with open("Sklop_opis.txt".format(stevec), "w") as f:
+        with open("Sklop_opis.txt".format(st_naloge), "w") as f:
             f.write(data_opis)
 
     def naprej_na_dodajanje_nalog():
-        dodaj_nalogo()
-    
+        okno_naloga()
+        
+    # text zapisan na vrhu okna
     Label(root, text="Dodaj Sklop", font='Helvetica 14 bold').pack(anchor=W, padx=25)
     separator = Frame(height=2, bd=1, relief=SUNKEN)
     separator.pack(fill=X)
@@ -49,40 +47,33 @@ def sklop():
     text_opis = Text(root, width=90, height= 10, bg='white', bd=5, relief=SUNKEN)
     text_opis.pack()
 
-    
     gumb_dodaj_sklop = Button(root, text="dodaj sklop", command=napisi_vsebino_na_dat, height=1, width=10, relief=RAISED, bg="royalblue", font='Helvetica 14')
     gumb_dodaj_sklop.pack(side=LEFT)
     
     gumb_naprej_na_dodajanje_nalog = Button(root, text="naprej na dodajanje nalog", command=naprej_na_dodajanje_nalog, height=1, width=22, relief=RAISED, bg="red", font='Helvetica 14')
     gumb_naprej_na_dodajanje_nalog.pack(side=LEFT, padx=10)
     
-    
-
     gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=10, relief=RAISED, font='Helvetica 14')
     gumb_zapri_okno.pack(side=RIGHT)
 
+    root.mainloop()
     
 
     
     
-def dodaj_nalogo():
-    global stevec
-    
-    
+def okno_naloga():
+    global st_naloge
     
     root = Tk()
     
     w = 770 # width for the Tk root
     h = 750 # height for the Tk root
-    
     # get screen width and height
     ws = root.winfo_screenwidth() # width of the screen
     hs = root.winfo_screenheight() # height of the screen
-    
     # calculate x and y coordinates for the Tk root window
     x = (ws/2) - (w/2)
     y = (hs/2) - (h/2)
-    
     # set the dimensions of the screen and where it is placed
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
@@ -93,22 +84,22 @@ def dodaj_nalogo():
         data_resitev = text_resitev.get("1.0", 'end')
         data_testi=text_testi.get("1.0", 'end')
         
-        with open("Naloga{0}_naslov.txt".format(stevec), "w") as f:
+        with open("Naloga{0}_naslov.txt".format(st_naloge), "w") as f:
             f.write(data_naslov)
-        with open("Naloga{0}_opis.txt".format(stevec), "w") as f:
+        with open("Naloga{0}_opis.txt".format(st_naloge), "w") as f:
             f.write(data_opis)
-        with open("Naloga{0}_resitev.txt".format(stevec), "w") as f:
+        with open("Naloga{0}_resitev.txt".format(st_naloge), "w") as f:
             f.write(data_resitev)
-        with open("Naloga{0}_testi.txt".format(stevec), "w") as f:
+        with open("Naloga{0}_testi.txt".format(st_naloge), "w") as f:
             f.write(data_testi)
         
     def naslednja_naloga():
-        global stevec
-        stevec+=1
-        dodaj_nalogo()
+        global st_naloge
+        st_naloge+=1
+        okno_naloga()
         
-
-    Label(root, text="Dodaj nalogo {0}".format(stevec), font='Helvetica 14 bold').pack(anchor=W, padx=25)
+    # text zapisan na vrhu okna
+    Label(root, text="Dodaj nalogo {0}".format(st_naloge), font='Helvetica 14 bold').pack(anchor=W, padx=25)
     separator = Frame(height=2, bd=1, relief=SUNKEN)
     separator.pack(fill=X)
 
@@ -143,13 +134,8 @@ def dodaj_nalogo():
     
     gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=10, relief=RAISED, font='Helvetica 14')
     gumb_zapri_okno.pack(side=RIGHT)
-
-    
-    
-    
-
-    
     
     root.mainloop()
-sklop()
-#dodaj_nalogo()
+    
+okno_sklop()
+#okno_naloga()

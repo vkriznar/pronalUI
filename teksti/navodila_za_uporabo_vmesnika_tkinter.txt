@@ -1,10 +1,12 @@
 gumb DODAJ: 
-ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih
-èe kaj spremeniš ali dodaš v okno in še enkrat pritisneš dodaj, se to doda na že obsotojeèo datoteko
+ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih.
+Èe kaj spremeniš ali dodaš v okno in še enkrat pritisneš dodaj, se to doda na že obsotojeèo datoteko,
+vendar to dela le, dokler ne odpreš novega okna (za novo nalogo). 
+Èe se potem vrneš nazaj na katero od prejšnjih odprtih nalog in kaj dopišeš v katrega izmed oken, 
+se bo vsebina zapisala na datoteke pripadajoèe nazadje odprtemu oknu.
 
 gumb NASLEDNJA:
-odpre novo okno pri èemer starega okna ne zapre, v staro okno še vedno lahko dodajaš in pišeš dokler ga ne zapreš
-
+odpre novo okno pri èemer starega okna ne zapre
 
 gumb ZAPRI:
 samo zapre obstojeèe okno

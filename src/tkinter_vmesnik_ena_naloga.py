@@ -1,20 +1,17 @@
 from tkinter import *
 
-def vmesnik():
+def okno_naloga():
     
     root = Tk()
     
     w = 770 # width for the Tk root
     h = 800 # height for the Tk root
-    
     # get screen width and height
     ws = root.winfo_screenwidth() # width of the screen
     hs = root.winfo_screenheight() # height of the screen
-    
     # calculate x and y coordinates for the Tk root window
     x = (ws/2) - (w/2)
     y = (hs/2) - (h/2)
-    
     # set the dimensions of the screen and where it is placed
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
@@ -25,21 +22,19 @@ def vmesnik():
         data_resitev = text_resitev.get("1.0", 'end')
         data_testi=text_testi.get("1.0", 'end')
         
-        with open("naslov.txt", "w") as f:
+        with open("Naloga_naslov.txt", "w") as f:
             f.write(data_naslov)
-        with open("opis.txt", "w") as f:
+        with open("Naloga_opis.txt", "w") as f:
             f.write(data_opis)
-        with open("resitev.txt", "w") as f:
+        with open("Naloga_resitev.txt", "w") as f:
             f.write(data_resitev)
-        with open("testi.txt", "w") as f:
+        with open("Naloga_testi.txt", "w") as f:
             f.write(data_testi)
-            
-        root.destroy()
-
 
 
     ## narejeno isto kot spodaj, le da z grid
     """
+    # text zapisan na vrhu okna
     Label(root, text="Dodaj nalogo", font='Helvetica 14 bold').grid(row=0)
     separator = Frame(height=2, bd=1, relief=SUNKEN)
     separator.grid(row=1, sticky="we")
@@ -64,15 +59,17 @@ def vmesnik():
     text_testi = Text(root, width=80, height=8, bg='white', bd=5, relief=SUNKEN)
     text_testi.grid(row=9, sticky="we")
 
-    gumb_preklici = Button(root, text="prekliči", command=root.destroy, height=1, width=8, relief=RAISED, font='Helvetica 12')
-    gumb_preklici.grid(row=10, sticky="e")
+    gumb_zapri_okno = Button(root, text="_zapri okno", command=root.destroy, height=1, width=8, relief=RAISED, font='Helvetica 14')
+    gumb_zapri_okno.grid(row=10, sticky="e")
     
-    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat)
+    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat, height=1, width=8, relief=RAISED, font='Helvetica 14')
     gumb_dodaj.grid(row=10)
     """
 
     
     ## narejeno isto kot zgoraj, le da s pack
+
+    # text zapisan na vrhu okna
     Label(root, text="Dodaj nalogo", font='Helvetica 14 bold').pack(anchor=W, padx=25)
     separator = Frame(height=2, bd=1, relief=SUNKEN)
     separator.pack(fill=X)
@@ -100,12 +97,12 @@ def vmesnik():
     text_testi = Text(root, width=90, height= 10, bg='white', bd=5, relief=SUNKEN)
     text_testi.pack()
     
-    gumb_preklici = Button(root, text="prekliči", command=root.destroy, height=1, width=8, relief=RAISED, font='Helvetica 12')
-    gumb_preklici.pack(side=RIGHT, padx=25)
+    gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=10, relief=RAISED, font='Helvetica 14')
+    gumb_zapri_okno.pack(side=RIGHT, padx=25)
     
-    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat, height=1, width=8, relief=RAISED, bg="royalblue", font='Helvetica 12')
+    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_na_dat, height=1, width=10, relief=RAISED, bg="royalblue", font='Helvetica 14')
     gumb_dodaj.pack(side=RIGHT)
     
     root.mainloop()
 
-vmesnik()
+okno_naloga()

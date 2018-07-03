@@ -26,7 +26,12 @@ class Problem:
                 lines = description.strip().splitlines()
                 return "\n".join(line[line.index('#')+2:] for line in lines)
 
-        split_index = file_string.find("# =L=I=B=""R=A=R=Y=@=")
+        split_index = file_string.find(
+"""
+# # =====================================================================@000000=
+# # This is a template for a new problem part. To create a new part, uncomment
+# # the template and fill in your content.
+""")
         problem_string = file_string[:split_index]
         lib_string = file_string[split_index:]
         
@@ -53,11 +58,11 @@ class Problem:
 
         parts = [(
             ProblemPart(
-                int(match.group('part')),
-                strip_hashes(match.group('description')),
-                match.group('solution').strip(),
-                strip_hashes(match.group('template')),
-                match.group('validation').strip())
+                int(match.group('part')),                   # part_id
+                strip_hashes(match.group('description')),   # description
+                strip_hashes(match.group('template')),      # precode
+                match.group('solution').strip(),            # solution
+                match.group('validation').strip())          # tests (string form)
         ) for match in part_regex.finditer(file_string)]
 
         head = problem_match.group('head').strip()
@@ -92,6 +97,6 @@ if __name__ == "__main__":
         
     problem = Problem.parse(file_string)
     print(problem.parts[0])
-    problem.write_on_file(file_name + "out.py")
+    problem.write_on_file(file_name + "_out.py")
 
         

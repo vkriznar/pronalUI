@@ -17,8 +17,11 @@ class ProblemPart:
         self.description = description
         self.precode = precode
         self.solution = solution
+        if isinstance(tests, str):
+            tests = ProblemPart.parse_tests(tests)
+            
         self.tests = tests
-        ## {"check_equal":[...], "other": "STRING OF OTHER TESTS"}
+        ## {"check_equal":[[...],[...],...], "other": "STRING OF OTHER TESTS"}
 
 
     def __repr__(self):
@@ -48,15 +51,8 @@ class ProblemPart:
         return "".join(lines)
 
     @staticmethod
-    def parse(problem_part_string):
-        def strip_hashes(description):
-            if description is None:
-                return ''
-            else:
-                lines = description.strip().splitlines()
-                return "\n".join(line[line.index('#')+2:] for line in lines)
-
-        ## TODO add meta data
+    def parse_tests(validation):
+        ## TODO add meta data (for now we have double list for and conection, maybe use dict?)
         def classify_tests(validation):
             def classify_check_equal(check_equal_string):
                 ## TODO maybe use: from ast import literal_eval
@@ -154,6 +150,21 @@ class ProblemPart:
 
             return check_equals, other_lines
 
+        check_equals, other_lines = classify_tests(validation)
+        tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
+
+        return tests
+        
+
+    @staticmethod
+    def parse(problem_part_string):
+        def strip_hashes(description):
+            if description is None:
+                return ''
+            else:
+                lines = description.strip().splitlines()
+                return "\n".join(line[line.index('#')+2:] for line in lines)
+
         match = re.search(
             r'# ===+@(?P<part>\d+)=\s*\n'             # beginning of part header
             r'(?P<description>(\s*#( [^\n]*)?\n)+?)'  # description
@@ -172,14 +183,12 @@ class ProblemPart:
         precode = strip_hashes(match.group('template'))
         solution = match.group('solution').strip()
         validation = match.group('validation').strip()
-        check_equals, other_lines = classify_tests(validation)
+        tests = ProblemPart.parse_tests(validation)
 
-        print("\nCHECK_EQUALS: ", check_equals)
-        print("\nOTHER_LINES: ", other_lines)
-
-        tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
-
+        ##print("\nCHECK_EQUALS: ", check_equals)
+        ##print("\nOTHER_LINES: ", other_lines)
         # TODO validation (check part), problem_id
+        
         return ProblemPart(part_id, description, precode, solution, tests)
 
     

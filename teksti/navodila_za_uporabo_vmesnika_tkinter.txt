@@ -1,8 +1,22 @@
-gumb DODAJ: 
+gumb DODAJ:
 ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih.
+
+V oknu za sklop se ustvarijo datoteke:
+-Sklop_naslov.txt
+-Slop_opis.txt
+
+V oknu za nalogo pa:
+Naloga#_naslov.txt
+Naloga#_opis.txt
+Naloga#_resitev.txt
+Naloga#_testi_ostali.txt
+Naloga#_testi_equal_numbers.txt, v kateri so shranjene številke check.equal testov (prvo okence) (povezava z and)
+Naloga#_testi_equal_expressions.txt, v kateri so shranjeni prvi argumenti check.equal testov (drugo okence)
+Naloga#_testi_equal_results.txt, v kateri so shranjeni drugi argumenti check.equal testov (tretje okence)
+
 Èe kaj spremeniš ali dodaš v okno in še enkrat pritisneš dodaj, se to doda na že obsotojeèo datoteko,
 vendar to dela le, dokler ne odpreš novega okna (za novo nalogo). 
-Èe se potem vrneš nazaj na katero od prejšnjih odprtih nalog in kaj dopišeš v katrega izmed oken, 
+Èe se potem vrneš nazaj na katero od prejšnjih odprtih nalog in kaj dopišeš v katerega izmed oken, 
 se bo vsebina zapisala na datoteke pripadajoèe nazadje odprtemu oknu.
 
 gumb NASLEDNJA:

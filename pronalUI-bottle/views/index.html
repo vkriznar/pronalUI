@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="slo">
+<head>
+	<title>Program z Tomo</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+	<meta name="author" content="Vid Križnar">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<form action="." class="form" id="form" method="post" style="width:960px">
+	<div class="container">
+		<label for="naslov"><b>Naslov</b></label>
+		<input type="text" placeholder="Vnesi naslov naloge" name="naslov" autofocus required>
+
+		<label for="opis"><b>Opis</b></label>
+		<br>
+		<body onLoad="onload();">
+		<input type="button" value="bold" onClick="formatText('b');"/> 
+		<input type="button" value="italic" onClick="formatText('i');"/> 
+		<input type="button" value="underline" onClick="formatText('u');"/>
+		<input type="button" value="equation" onClick="formatText('m')"/>
+		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
+		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required></textarea>
+		<label for="predogled"><b>Predogled opisa</b></label>
+		<div id="opis_preview"></div>
+		<label for="koda"><b>Koda</b></label>
+		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required></textarea>
+		
+		<button type="submit">Pretvori v Python datoteko</button>
+		<h5>
+			%if napaka is not None:
+					{{napaka}}
+			%end
+		</h5>
+	</div>
+</form>
+
+<script>
+// jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
+$(document).delegate('#koda, #opis', 'keydown', function(e) {
+  var keyCode = e.keyCode || e.which;
+
+  if (keyCode == 9 || keyCode == 13) {
+    var start = this.selectionStart;
+    var end = this.selectionEnd;
+	// dodaj znak tab(/t) textarea-ju 
+	if (keyCode == 9){
+	    e.preventDefault();
+		$(this).val($(this).val().substring(0, start)
+					+ "    "
+					+ $(this).val().substring(end));
+		// postavi caret nazaj na prvotno mest
+		this.selectionStart =
+		this.selectionEnd = start + 4;
+	}
+	else {
+	$(this).val($(this).val().substring(0, start)
+					+ "<br>"
+					+ $(this).val().substring(end));
+	this.selectionStart =
+	this.selectionEnd = start + 4;
+	}
+  }
+
+});
+
+// js koda, za underlying, bold, italic, ter LaTex enačbe
+
+function formatText(x) {
+	var textArea = document.getElementById('opis');
+	var textAreaValue = textArea.value;
+	var textAreaSubstring = textAreaValue.substring(textArea.selectionStart, textArea.selectionEnd);
+	var textAreaBefore = textAreaValue.substring(0, textArea.selectionStart);
+	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
+	textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
+}
+
+function opis_preview() {
+    var textArea = document.getElementById('opis');
+	var replacedTextArea = textArea.value.replace(" ", "&nbsp")
+	var textView = document.getElementById("opis_preview");
+	textView.innerHTML = replacedTextArea
+}
+
+</script>
+
+	
+
+
+
+</body>
+</head>

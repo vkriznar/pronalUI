@@ -1,0 +1,73 @@
+
+
+body {
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+html {overflow-x: hidden;}
+
+form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
+
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #262626;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.form {
+	margin-top: 200px;
+}
+
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+
+
+.container {
+    padding: 12px;
+}
+
+
+#opis, #opis_preview, #koda {
+	white-space: pre-wrap;
+	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
+	height: 400px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#opis_preview {
+	height:200px;
+	line-height: 70%;
+}
+
+

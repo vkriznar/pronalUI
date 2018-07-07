@@ -6,9 +6,9 @@ V oknu za sklop se ustvarijo datoteke:
 -Slop_opis.txt
 
 V oknu za nalogo pa:
-Naloga#_naslov.txt
 Naloga#_opis.txt
 Naloga#_resitev.txt
+Naloga#_prekoda.txt
 Naloga#_testi_ostali.txt
 Naloga#_testi_equal_numbers.txt, v kateri so shranjene številke check.equal testov (prvo okence) (povezava z and)
 Naloga#_testi_equal_expressions.txt, v kateri so shranjeni prvi argumenti check.equal testov (drugo okence)

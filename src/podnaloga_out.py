@@ -39,9 +39,9 @@ Check.secret(zmnozi(100, 100))
 Check.secret(zmnozi(500, 123))
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
-Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
+    Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
 if "Enterobacteria phage lambda" not in resitev:
-Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
+    Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
 print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)
 print('Zato bo vsaka rešitev označena kot pravilna. ')
 print('\nZagotovo si oglej tudi uradno rešitvo (žarnica)')

@@ -69,9 +69,9 @@ print('\n' + '*' * 50)
 Check.part()
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
-Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
+    Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
 if "Enterobacteria phage lambda" not in resitev:
-Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
+    Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
 # =====================================================================@015028=
 # Uporabi kodo:
 # 

@@ -105,7 +105,7 @@ class ProblemPart:
                             inside_tuple=False # če se tuple zaključi v isti vrstici, se delam kot da nisem v tuplu in vrstico na koncu le dodam na lines2
                     
                     if not inside_tuple: # če nisem znotraj tupla samo dodam line na iine2
-                        lines2.append(line.strip())
+                        lines2.append(line.rstrip())
                         
                     elif inside_tuple: # če sem znotraj tupla, dodam trenutno vrstico na pomožne in preverim, če se tuple v tej vrstici zakluči
                         lines_inside_tuple.append(line)
@@ -124,7 +124,7 @@ class ProblemPart:
                 lines_inside_and_connection=[]
                 inside_and=False
                 for line in lines:
-                    line=line.strip().strip("\\").strip()
+                    line=line.rstrip().rstrip("\\").rstrip()
                     if inside_and==False and line.endswith("and"):
                         inside_and=True
                         lines_inside_and_connection.append("( "+line)

@@ -14,15 +14,17 @@
 def zmnozi(x, y):
     return x*y
 Spremenljivka="Nek string, ki je enak spremenljivki"
-
 (( CE and CE) and ( CE and CE))
 
 Check.part()
 Check.equal('zmnozi((2, 88), 2)', 4) and \ 
 Check.equal('zmnozi(3, 3)', 9)
 Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
-Check.equal('zmnozi(5, 5)', 25) and \ 
-Check.equal('zmnozi("10", "10")', 100) and \ 
+Check.equal('zmnozi(5, 5)', 25)
+Check.equal('zmnozi(int("10"), 10)', int('100'))
+Check.equal("zmnozi(int('10'), 10)", 100)
+Check.equal("zmnozi(int('''10'''), int('10'))", int('100'))
+Check.equal('''zmnozi(int('10'), int("10"))''', 100)
 Check.equal("zmnozi(20, 20)", 400) and \ 
 Check.equal("zmnozi('20', 20)", 400) and \ 
 Check.equal('x', 50 // 6)
@@ -33,17 +35,15 @@ Check.equal('sestej(81, 81)', 25) and \
 Check.equal('sestej(88, 18)', 100) and \ 
 Check.equal("sestej(20, 20)", 400)
 Check.equal('Spremenljivka', "Nek string, ki je enak spremenljivki")
-
-
-
-
-
 Check.secret(zmnozi(100, 100))
 Check.secret(zmnozi(500, 123))
-
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
     Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
-
 if "Enterobacteria phage lambda" not in resitev:
     Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
+print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)
+print('Zato bo vsaka rešitev označena kot pravilna. ')
+print('\nZagotovo si oglej tudi uradno rešitvo (žarnica)')
+print('in jo primerjaj s svojo.')
+print('\n' + '*' * 50)

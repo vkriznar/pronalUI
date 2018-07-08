@@ -1,11 +1,10 @@
 from tkinter import *
 
 def okno_naloga():
-    
     root = Tk()
     
     w = 1075 # width for the Tk root
-    h = 690 # height for the Tk root
+    h = 750 # height for the Tk root
     # get screen width and height
     ws = root.winfo_screenwidth() # width of the screen
     hs = root.winfo_screenheight() # height of the screen
@@ -17,9 +16,9 @@ def okno_naloga():
     #root.geometry("840x600") #širina, višina
     
     def napisi_vsebino_na_dat():
-        data_naslov = text_naslov.get("1.0", 'end')
         data_opis=text_opis.get("1.0", 'end')
         data_resitev = text_resitev.get("1.0", 'end')
+        data_prekoda=text_prekoda.get("1.0", 'end')
         data_testi_ostali=text_testi_ostali.get("1.0", 'end')
 
         # check equal 1
@@ -51,13 +50,13 @@ def okno_naloga():
         data_testi_check_equal_st6=text_testi_check_equal_st6.get("1.0", 'end')
         data_testi_check_equal_expression6=text_testi_check_equal_expression6.get("1.0", 'end')
         data_testi_check_equal_result6=text_testi_check_equal_result6.get("1.0", 'end')
-        
-        with open("Naloga_naslov.txt", "w") as f:
-            f.write(data_naslov)
+            
         with open("Naloga_opis.txt", "w") as f:
             f.write(data_opis)
         with open("Naloga_resitev.txt", "w") as f:
             f.write(data_resitev)
+        with open("Naloga_prekoda.txt", "w") as f:
+            f.write(data_prekoda)
         with open("Naloga_testi_ostali.txt", "w") as f:
             f.write(data_testi_ostali)
 
@@ -107,20 +106,25 @@ def okno_naloga():
     separator = Frame(height=2, bd=1, relief=SUNKEN)
     separator.grid(row=1, column=0, columnspan=6, sticky="we")
 
-    # napis in okno za naslov naloge
-    Label(root, text="Naslov naloge",font='Helvetica 12').grid(row=2, column=0, columnspan=6, sticky="w")
-    text_naslov = Text(root, width=80, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_naslov.grid(row=3, column=0, columnspan=6, sticky="we")
 
     # napis in okno za opis naloge
-    Label(root, text="Opis naloge", font='Helvetica 12').grid(row=4, column=0, columnspan=6, sticky="w")
-    text_opis = Text(root, width=65, height=12, bg='white', bd=5, relief=SUNKEN)
-    text_opis.grid(row=5, column=0, columnspan=3, sticky="w")
+    Label(root, text="Opis naloge",font='Helvetica 12').grid(row=2, column=0, columnspan=6, sticky="w")
+    text_opis = Text(root, width=80, height=8, bg='white', bd=5, relief=SUNKEN)
+    text_opis.grid(row=3, column=0, columnspan=6, sticky="we")
+
+    
 
     # napis in okno za rešitev naloge
     Label(root, text="Rešitev naloge", font='Helvetica 12').grid(row=4, column=3, columnspan=6, sticky="w")
-    text_resitev = Text(root, width=65, height=12, bg='white', bd=5, relief=SUNKEN)
+    text_resitev = Text(root, width=65, height=10, bg='white', bd=5, relief=SUNKEN)
     text_resitev.grid(row=5, column=3, columnspan=3, sticky="e")
+
+    # napis in okno za prekodo naloge
+    Label(root, text="Prekoda naloge", font='Helvetica 12').grid(row=4, column=0, columnspan=6, sticky="w")
+    text_prekoda = Text(root, width=65, height=10, bg='white', bd=5, relief=SUNKEN)
+    text_prekoda.grid(row=5, column=0, columnspan=3, sticky="w")
+
+    
 
     # napis za teste check equal
     Label(root, text="Testi check equal", font='Helvetica 12').grid(row=8, column=0, columnspan=3, sticky="w")

@@ -15,8 +15,7 @@
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
 		<label for="naslov"><b>Naslov</b></label>
-		<input type="text" placeholder="Vnesi naslov naloge" name="naslov" autofocus required>
-
+		<input type="text" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus required>
 		<label for="opis"><b>Opis</b></label>
 		<br>
 		<body onLoad="onload();">
@@ -25,13 +24,12 @@
 		<input type="button" value="underline" onClick="formatText('u');"/>
 		<input type="button" value="equation" onClick="formatText('m')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
-		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required></textarea>
+		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
 		<label for="koda"><b>Koda</b></label>
-		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required></textarea>
-		
-		<button type="submit">Pretvori v Python datoteko</button>
+		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
+		<button type="submit" id="naprej" style="display: block;">Naprej na dodajanje testov</button>
 		<h5>
 			%if napaka is not None:
 					{{napaka}}
@@ -39,6 +37,51 @@
 		</h5>
 	</div>
 </form>
+<br>
+<div class="container" id="testi" style="display:none; margin: auto">
+	<div class="testi">
+		<label for="testi"><b>Dodani testi</b></label>
+		<br><br>
+		<table class="table-fill">
+		<thead>
+			<tr>
+				<th class="text-left"># Testa</th>
+				<th class="text-left">Tip testa</th>
+				<th class="text-left">Niz s klicem funkcije</th>
+				<th class="text-left">Rezultat niza</th>
+			</tr>
+		</thead>
+		<tbody class="table-hover">
+			<tbody>  
+				% if rows is not None:
+				% for row in rows:
+				<tr>
+					%for col in row:
+						<td class="text-left-me">{{col}}</td>
+					%end
+				</tr>
+				%end
+				%end
+			</tbody>
+		</tbody>
+		</table>
+		<br>
+		<div class="dodajanje">
+			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
+			<select id="testSelect" form="form1" name="tipTesta" onchange="tipTesta()">
+				<option selected value='chkeql'>Check.equal</option>
+				<option value='test2'>Test no.2</option>
+			</select>
+			<br><br>
+			<form action="." role="form" method="post" class="form" id="form1" style="border:0px, margin: 0; padding: 0; display:block;">
+				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:500px;" required>
+				<input type="number" placeholder="Rezultat" name="rezultat" style="float:center; width:300px;" required>
+				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
+			</form>
+			
+		</div>
+	</div>
+</div>
 
 <script>
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
@@ -70,7 +113,6 @@ $(document).delegate('#koda, #opis', 'keydown', function(e) {
 });
 
 // js koda, za underlying, bold, italic, ter LaTex enačbe
-
 function formatText(x) {
 	var textArea = document.getElementById('opis');
 	var textAreaValue = textArea.value;
@@ -80,11 +122,25 @@ function formatText(x) {
 	textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
 }
 
+//koda, ki prikaze uporabniku kako zgleda njegov opis
 function opis_preview() {
     var textArea = document.getElementById('opis');
 	var replacedTextArea = textArea.value.replace(" ", "&nbsp")
 	var textView = document.getElementById("opis_preview");
 	textView.innerHTML = replacedTextArea
+}
+
+//ko gre uporabnik naprej
+%if testi:
+	var testi = document.getElementById("testi");
+	testi.style.display = "block";
+	document.getElementById("naprej").style.display = "none";
+	$('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+%end
+
+function tipTesta() {
+	alert("hello");
+
 }
 
 </script>

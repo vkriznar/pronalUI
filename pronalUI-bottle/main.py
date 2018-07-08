@@ -2,9 +2,9 @@ from bottle import *
 import webbrowser
 
 static_directory = "./static"
-adress = None
-description = None
-code = None
+tmp=[]
+
+
 
 webbrowser.open('http://localhost:8080/index/')
 
@@ -18,21 +18,32 @@ def blank():
 
 @get("/index/")
 def index():
-    return template("index.html", napaka=None)
+    return template("index.html", napaka=None, adress="", description="", code="", rows=None, testi=False)
 
 @post("/index/")
 def index_post():
     naslov = request.forms.naslov
     opis = request.forms.opis
     koda = request.forms.koda
-    print(naslov, opis, koda)
+    global adress
+    global description
+    global code
     if all([naslov, opis, koda]):
         adress = naslov
         description = opis
         code = koda
-        redirect("/index/")
+        redirect("/index/testi/")
     else:
         return template("index.html", napaka="Vsa polja morajo biti izpolnjena")
 
+
+@get("/index/testi/")
+def index_testi():
+    return template("index.html", adress=adress, description=description, code=code, napaka=None, rows=tmp, testi=True)
+
+@post("/index/testi/")
+def index_testi_post():
+    tmp.append([len(tmp)+1, request.forms.tipTesta, request.forms.niz, int(request.forms.rezultat)])
+    redirect("/index/testi/")
 
 run(host='localhost', port=8080, debug=True)

@@ -1,4 +1,4 @@
-
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
 
 body {
 	margin-top: 0px;
@@ -12,7 +12,7 @@ html {overflow-x: hidden;}
 form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
 
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], input[type=number] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -39,6 +39,15 @@ button:hover {
 	margin-top: 200px;
 }
 
+.testi {
+	width: 940px;
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+#testi {
+	border: 3px solid #f1f1f1;
+}
 
 .imgcontainer {
     text-align: center;
@@ -49,6 +58,7 @@ button:hover {
 
 .container {
     padding: 12px;
+    width: 940px;
 }
 
 
@@ -71,3 +81,194 @@ button:hover {
 }
 
 
+
+
+
+
+div.table-title {
+   display: block;
+  margin: auto;
+  max-width: 1110px;
+  padding:30px 5px 5px 5px;
+  width: 100%;
+}
+
+.table-title h3 {
+   color: #666B85;
+   font-size: 30px;
+   font-weight: 400;
+   font-style:normal;
+   font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+   text-transform:uppercase;
+}
+
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  height: 120px;
+
+  margin: auto;
+  max-width: 1110px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+ 
+th {
+  color:#D5DDE5;
+  background:#1b1e24;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:15px;
+  font-weight: 100;
+  padding:8px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+ 
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+  
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+ 
+tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+}
+ 
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+ 
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+ 
+tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+ 
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+ 
+td {
+  background:#FFFFFF;
+  padding:5px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-left-me {
+  text-align: left;
+  font-style: oblique;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+
+.add {font-size:18px; font-family: Georgia;}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.submit button{
+	float:right; 
+	width:100px; 
+	margin-top: 8px;
+    background-color: #1b1e24;
+    color: white;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit button:hover {
+    opacity: 0.8;
+}
+
+.form {
+	margin-top: 15px;
+}
+
+select {
+	width: 150px;
+	float: right;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	height: 34px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background: url(http://www.stackoverflow.com/favicon.ico) 96% / 15% no-repeat #eee;
+}
+
+#testi {
+	margin-left:auto;
+	margin-right: auto;
+}

@@ -1,3 +1,16 @@
+**opis delovanja vmesnika, ki omogoèa vnos le ene naloge:
+
+Ko se požene datoteka, v kateri je implementiran vmesnik, se najprej poklièe parser iz razreda ProblemPart, 
+ki sparsa vhodno datoteko »podnaloga_in.py«,  nato pa se posamezne dele podnaloge zapiše v ustrezna okna na 
+vmesniku. Uporabnik lahko nato že vnešeno vsebino v oknih pobriše, spremeni ali kaj doda. 
+S klikom na gumb DODAJ se vsebina posameznih oken shrani v ustrezne atribute iz razreda ProblemPart, 
+pri èemer se generira objekt iz tega razreda, ki se ga nato s pomoèjo metode repr zapiše na izhodno datoteko 
+»podnaloga_out.py«.
+
+
+
+**opis delovanja vmesnika, ki omogoèa vnos celotnega sklopa:
+
 gumb DODAJ:
 ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih.
 

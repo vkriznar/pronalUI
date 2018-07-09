@@ -14,9 +14,10 @@ class CheckEqual:
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
         self.part_id = part_id
-        self.description = description
-        self.precode = precode
-        self.solution = solution
+        self.description = description.strip()
+        self.precode = precode.strip() # če uporabnik v okno na vmesniku za prekodo ne napiše ničesar ali napiše le presledek,
+        # verejtno ne želimo, da se na datoteko izpišejo črtkane črte in pod njimi prazen prostor (ker je prekoda le presledek) ?
+        self.solution = solution.strip()
         if isinstance(tests, str):
             tests = ProblemPart.parse_tests(tests)
             
@@ -26,12 +27,12 @@ class ProblemPart:
 
     def __repr__(self):
         lines = []
-        lines.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))        # beginning of part header
-        lines.append("# "+self.description.replace("\n", "\n# ")+"\n")      # description
-        lines.append("# "+"-"*77+"\n")                                      # optional beginning of template 
-        lines.append("# "+self.precode.replace("\n", "\n# ")+"\n")          # precode (solution tamplate)
-        lines.append("# "+"="*77+"\n")                                      # boarder between description and precode
-        lines.append(self.solution+"\n\n")                                  # solution
+        lines.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))                        # beginning of part header
+        lines.append("# "+self.description.replace("\n", "\n# ")+"\n")                      # description
+        if len(self.precode)>0: lines.append("# "+"-"*77+"\n")                              # optional beginning of template (preverimo ali je prekoda le prazen prostor)
+        if len(self.precode)>0: lines.append("# "+self.precode.replace("\n", "\n# ")+"\n")  # precode (solution tamplate) (preverimo ali je prekoda le prazen prostor)
+        lines.append("# "+"="*77+"\n")                                                      # boarder between description and precode
+        lines.append(self.solution+"\n\n")                                                  # solution
 
         ## TODO remove this in future
         if self.tests is None:

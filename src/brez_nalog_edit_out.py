@@ -6,9 +6,8 @@ Check.initialize(problem['parts'])
 
 # =============================================================================
 # Brez naslova
+#
 # 
-# opis
-# še opis
 
 # # =====================================================================@000000=
 # # To je predloga za novo podnalogo. Če želite ustvariti novo podnalogo,

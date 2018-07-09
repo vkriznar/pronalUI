@@ -6,18 +6,15 @@
 #     # Resitev bo oblike:
 #     "Enterobacteria *** lambda"
 #     # kjer tri zvezdice zamenjaj za ustrezno ime.
-# 
 # -----------------------------------------------------------------------------
 # # Resitev bo oblike:
 # "Enterobacteria *** lambda"
 # # kjer tri zvezdice zamenjaj za ustrezno ime.
-# 
 # =============================================================================
 def zmnozi(x, y):
     return x*y
 Spremenljivka="Nek string, ki je enak spremenljivki"
 (( CE and CE) and ( CE and CE))
-
 
 Check.part()
 Check.equal('x', 50 // 6)

@@ -6,14 +6,9 @@ def okno_naloga(file_name):
 
     with open(file_name + "_in.py", "r", encoding="utf-8") as f:
         problem_part_string = f.read()
-
+    global problem_part
     problem_part = ProblemPart.parse(problem_part_string)
 
-    part_id=problem_part.part_id
-    description=problem_part.description
-    precode=problem_part.precode
-    solution=problem_part.solution
-    tests=problem_part.tests
     
     w = 1075 # width for the Tk root
     h = 750 # height for the Tk root
@@ -27,12 +22,12 @@ def okno_naloga(file_name):
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
 
-    def napisi_vsebino_dat_na_vmesnik(description, precode, solution, tests):
-        text_opis.insert('end', description)
-        text_resitev.insert('end', solution)
-        text_prekoda.insert('end', precode)
+    def napisi_vsebino_dat_na_vmesnik():
+        text_opis.insert('end', problem_part.description)
+        text_resitev.insert('end', problem_part.solution)
+        text_prekoda.insert('end', problem_part.precode)
         
-        check_equal_testi=tests['check_equal']
+        check_equal_testi=problem_part.tests['check_equal']
         print(check_equal_testi)
 
         okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_result1),
@@ -74,14 +69,15 @@ def okno_naloga(file_name):
                     okna_check_equal[equal_st_okna][2].insert("end", test.result)
                     equal_st_okna+=1
         
-        text_testi_ostali.insert("end", tests['other'])
+        text_testi_ostali.insert("end", problem_part.tests['other'])
         
     
     def napisi_vsebino_vmesnika_na_dat():
-        problem_part.part_id
-        problem_part.description=text_opis.get("1.0", 'end')
-        problem_part.precode=text_prekoda.get("1.0", 'end')
-        problem_part.solution=text_resitev.get("1.0", 'end')
+        global problem_part
+        part_id=problem_part.part_id
+        description=text_opis.get("1.0", 'end')
+        precode=text_prekoda.get("1.0", 'end')
+        solution=text_resitev.get("1.0", 'end')
 
         tests = ProblemPart.parse_tests(text_testi_ostali.get("1.0", 'end'))
         #print("OSTALI:", tests)
@@ -125,7 +121,7 @@ def okno_naloga(file_name):
                 
    
         #print("VSI:", tests)
-        problem_part.tests=tests
+        problem_part=ProblemPart(part_id, description, precode, solution, tests)
         problem_part.write_on_file(file_name+"_out.py")
 
 
@@ -221,7 +217,7 @@ def okno_naloga(file_name):
     text_testi_ostali.grid(row=9, column=3, columnspan=3, rowspan=6, sticky="e")
     
 
-    napisi_vsebino_dat_na_vmesnik(description, precode, solution, tests)
+    napisi_vsebino_dat_na_vmesnik()
 
     # gumbi
     gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=20, relief=RAISED, font='Helvetica 14')

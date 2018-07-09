@@ -1,9 +1,16 @@
 from tkinter import *
+from Problem import Problem
+from ProblemPart import ProblemPart, CheckEqual
 
 st_naloge=1
 
-def okno_sklop():
+def okno_sklop(file_name):
     root = Tk()
+
+    with open(file_name + "_in.py", "r", encoding="utf-8") as f:
+        file_string = f.read()
+    global problem
+    problem = Problem.parse(file_string)
     
     w = 740 # width for the Tk root
     h = 500 # height for the Tk root
@@ -17,16 +24,32 @@ def okno_sklop():
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
 
-    def napisi_vsebino_na_dat():
-        data_naslov = text_naslov.get("1.0", 'end')
-        data_opis=text_opis.get("1.0", 'end')
+    def napisi_vsebino_dat_na_vmesnik():
+        global problem
+        global st_naloge
+        text_opis.insert('end', problem.description)
+        text_naslov.insert('end', problem.title)
         
-        with open("Sklop_naslov.txt", "w") as f:
-            f.write(data_naslov)
-        with open("Sklop_opis.txt", "w") as f:
-            f.write(data_opis)
+
+    def napisi_vsebino_vmesnika_na_dat():
+        global problem
+        global st_naloge
+        lib_string_kopija=problem.lib_string # ker ga hočm zapisat na koncu in ne pri dodajanju trenutnega sklopa
+        lib_string=""
+        head_string=problem.head_string
+        title = text_naslov.get("1.0", 'end')
+        description=text_opis.get("1.0", 'end')
+        parts_kopija=problem.parts#.copy()
+        parts=[]
+        problem=Problem(title, description, parts, lib_string, head_string)
+        
+        problem.write_on_file(file_name + "_out.py")
+        problem.parts=parts_kopija
+        problem.lib_string=lib_string_kopija
 
     def naprej_na_dodajanje_nalog():
+        global problem
+        global st_naloge
         okno_naloga()
         
     # text zapisan na vrhu okna
@@ -48,9 +71,11 @@ def okno_sklop():
     text_opis = Text(root, width=90, height=20, bg='white', bd=5, relief=SUNKEN)
     text_opis.grid(row=5, column=0, columnspan=3, sticky="we")
 
+    napisi_vsebino_dat_na_vmesnik()
+
     # gumbi
-    gumb_dodaj_sklop = Button(root, text="dodaj sklop", command=napisi_vsebino_na_dat, height=1, width=10, relief=RAISED, font='Helvetica 14')
-    gumb_dodaj_sklop.grid(row=6, column=0, sticky="w")
+    gumb_dodaj = Button(root, text="dodaj", command=napisi_vsebino_vmesnika_na_dat, height=1, width=10, relief=RAISED, font='Helvetica 14')
+    gumb_dodaj.grid(row=6, column=0, sticky="w")
     
     gumb_naprej_na_dodajanje_nalog = Button(root, text="naprej na dodajanje nalog", command=naprej_na_dodajanje_nalog, height=1, width=22, relief=RAISED, font='Helvetica 14')
     gumb_naprej_na_dodajanje_nalog.grid(row=6, column=1, sticky="w")
@@ -65,7 +90,12 @@ def okno_sklop():
     
 def okno_naloga():
     global st_naloge
+    global problem
     root = Tk()
+
+    if st_naloge-1>=len(problem.parts):
+        problem.parts.append(ProblemPart(0, "", "", "", ""))
+    #print("id:", problem.parts[st_naloge-1].part_id)
     
     w = 1075 # width for the Tk root
     h = 750 # height for the Tk root
@@ -79,94 +109,129 @@ def okno_naloga():
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
     #root.geometry("840x600") #širina, višina
     
-    def napisi_vsebino_na_dat():
-        data_opis=text_opis.get("1.0", 'end')
-        data_resitev = text_resitev.get("1.0", 'end')
-        data_prekoda=text_prekoda.get("1.0", 'end')
-        data_testi_ostali=text_testi_ostali.get("1.0", 'end')
-
-        # check equal 1
-        data_testi_check_equal_st1=text_testi_check_equal_st1.get("1.0", 'end')
-        data_testi_check_equal_expression1=text_testi_check_equal_expression1.get("1.0", 'end')
-        data_testi_check_equal_result1=text_testi_check_equal_result1.get("1.0", 'end')
-
-        # check equal 2
-        data_testi_check_equal_st2=text_testi_check_equal_st2.get("1.0", 'end')
-        data_testi_check_equal_expression2=text_testi_check_equal_expression2.get("1.0", 'end')
-        data_testi_check_equal_result2=text_testi_check_equal_result2.get("1.0", 'end')
-
-        # check equal 3
-        data_testi_check_equal_st3=text_testi_check_equal_st3.get("1.0", 'end')
-        data_testi_check_equal_expression3=text_testi_check_equal_expression3.get("1.0", 'end')
-        data_testi_check_equal_result3=text_testi_check_equal_result3.get("1.0", 'end')
-
-        # check equal 4
-        data_testi_check_equal_st4=text_testi_check_equal_st4.get("1.0", 'end')
-        data_testi_check_equal_expression4=text_testi_check_equal_expression4.get("1.0", 'end')
-        data_testi_check_equal_result4=text_testi_check_equal_result4.get("1.0", 'end')
-
-        # check equal 5
-        data_testi_check_equal_st5=text_testi_check_equal_st5.get("1.0", 'end')
-        data_testi_check_equal_expression5=text_testi_check_equal_expression5.get("1.0", 'end')
-        data_testi_check_equal_result5=text_testi_check_equal_result5.get("1.0", 'end')
-
-        # check equal 6
-        data_testi_check_equal_st6=text_testi_check_equal_st6.get("1.0", 'end')
-        data_testi_check_equal_expression6=text_testi_check_equal_expression6.get("1.0", 'end')
-        data_testi_check_equal_result6=text_testi_check_equal_result6.get("1.0", 'end')
-        
-        with open("Naloga{0}_opis.txt".format(st_naloge), "w") as f:
-            f.write(data_opis)
-        with open("Naloga{0}_resitev.txt".format(st_naloge), "w") as f:
-            f.write(data_resitev)
-        with open("Naloga{0}_prekoda.txt".format(st_naloge), "w") as f:
-            f.write(data_prekoda)
-        with open("Naloga{0}_testi_ostali.txt".format(st_naloge), "w") as f:
-            f.write(data_testi_ostali)
-
-        with open("Naloga{0}_testi_equal_numbers.txt".format(st_naloge), "w") as f:
-            f.write(data_testi_check_equal_st1)
-            f.write("\n")
-            f.write(data_testi_check_equal_st2)
-            f.write("\n")
-            f.write(data_testi_check_equal_st3)
-            f.write("\n")
-            f.write(data_testi_check_equal_st4)
-            f.write("\n")
-            f.write(data_testi_check_equal_st5)
-            f.write("\n")
-            f.write(data_testi_check_equal_st6)
-        
-        with open("Naloga{0}_testi_equal_expressions.txt".format(st_naloge), "w") as f:
-            f.write(data_testi_check_equal_expression1)
-            f.write("\n")
-            f.write(data_testi_check_equal_expression2)
-            f.write("\n")
-            f.write(data_testi_check_equal_expression3)
-            f.write("\n")
-            f.write(data_testi_check_equal_expression4)
-            f.write("\n")
-            f.write(data_testi_check_equal_expression5)
-            f.write("\n")
-            f.write(data_testi_check_equal_expression6)
-
-        with open("Naloga{0}_testi_equal_results.txt".format(st_naloge), "w") as f:
-            f.write(data_testi_check_equal_result1)
-            f.write("\n")
-            f.write(data_testi_check_equal_result2)
-            f.write("\n")
-            f.write(data_testi_check_equal_result3)
-            f.write("\n")
-            f.write(data_testi_check_equal_result4)
-            f.write("\n")
-            f.write(data_testi_check_equal_result5)
-            f.write("\n")
-            f.write(data_testi_check_equal_result6)
-        
-    def naslednja_naloga():
+    def napisi_vsebino_dat_na_vmesnik():
+        global problem
         global st_naloge
+        
+        text_opis.insert('end', problem.parts[st_naloge-1].description)
+        text_resitev.insert('end', problem.parts[st_naloge-1].solution)
+        text_prekoda.insert('end', problem.parts[st_naloge-1].precode)
+        
+        check_equal_testi=problem.parts[st_naloge-1].tests['check_equal']
+        #print(check_equal_testi)
+
+        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_result1),
+                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_result2),
+                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_result3),
+                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_result4),
+                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_result5),
+                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_result6)]
+        
+        equal_ki_ne_grejo_v_okna=[]
+        equal_st_okna=0
+        equal_st_testa=0
+        for equal_test in range(0, len(check_equal_testi)):
+            equal_st_testa+=1
+            
+            if len(check_equal_testi[equal_test])>1: # imamo povezavo z and
+                if equal_st_okna-1+len(check_equal_testi[equal_test])>=len(okna_check_equal):
+                    # zmanjkalo je check.equal oken za vse teste povezane z and
+                    # da ne prekinem and povezave, vse check.equal povezane z and (če ne grejo vsi v posebna okenca) napišem pod ostale teste
+                    for test in check_equal_testi[equal_test]:
+                            if check_equal_testi[equal_test].index(test)==len(check_equal_testi[equal_test])-1:
+                                text_testi_ostali.insert('end', str(test)+"\n")
+                            else: text_testi_ostali.insert('end', str(test)+" and \ \n")
+                    
+                else:
+                    for test in check_equal_testi[equal_test]:
+                        okna_check_equal[equal_st_okna][0].insert("end", equal_st_testa)
+                        okna_check_equal[equal_st_okna][1].insert("end", test.expression[3:-3] if test.expression[0]==test.expression[1] else test.expression[1:-1])
+                        okna_check_equal[equal_st_okna][2].insert("end", test.result)
+                        equal_st_okna+=1
+                    
+            else: # nimamo povezave z and
+                test=check_equal_testi[equal_test][0]
+                if equal_st_okna>=len(okna_check_equal): # zmanjako je check.equal oken, preostali check.equal testi gredo med ostale
+                        text_testi_ostali.insert('end', str(test)+"\n")
+                else:
+                    okna_check_equal[equal_st_okna][0].insert("end", equal_st_testa)
+                    okna_check_equal[equal_st_okna][1].insert("end", test.expression[3:-3] if test.expression[0]==test.expression[1] else test.expression[1:-1])
+                    okna_check_equal[equal_st_okna][2].insert("end", test.result)
+                    equal_st_okna+=1
+                    
+        
+        text_testi_ostali.insert("end", problem.parts[st_naloge-1].tests['other'])
+        
+    
+    def napisi_vsebino_podnaloge_na_dat():
+        global problem
+        global st_naloge
+
+        part_id=problem.parts[st_naloge-1].part_id
+        description=text_opis.get("1.0", 'end')
+        precode=text_prekoda.get("1.0", 'end')
+        solution=text_resitev.get("1.0", 'end')
+
+        tests = ProblemPart.parse_tests(text_testi_ostali.get("1.0", 'end'))
+        #print("OSTALI:", tests)
+
+        # teste v okni za check.equal je potrebno dodati k ostalim check.equal testom
+        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_result1),
+                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_result2),
+                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_result3),
+                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_result4),
+                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_result5),
+                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_result6)]
+        
+        okna_check_equal.reverse()
+        inside_and_connection=False
+        
+        for equal_st_okna in range(1, len(okna_check_equal)+1):
+            expression="'{0}'".format(okna_check_equal[equal_st_okna-1][1].get("1.0", 'end').strip())
+            result=okna_check_equal[equal_st_okna-1][2].get("1.0", 'end').strip()
+            #print(expression, result)
+            if expression=="''": continue
+
+            if equal_st_okna==len(okna_check_equal) and inside_and_connection==False:
+                tests['check_equal'].insert(0, [CheckEqual(expression, result)])
+                
+            elif equal_st_okna==len(okna_check_equal) and inside_and_connection==True:
+                check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                tests['check_equal'].insert(0, check_equals_connected_with_and)
+            else:
+
+                if inside_and_connection==False and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')==okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
+                    inside_and_connection=True
+                    check_equals_connected_with_and=[CheckEqual(expression, result)]
+                elif inside_and_connection==True and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')==okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
+                    check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                elif inside_and_connection==True and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')!=okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
+                    inside_and_connection=False
+                    check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                    tests['check_equal'].insert(0, check_equals_connected_with_and)
+                elif inside_and_connection==False and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')!=okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
+                    tests['check_equal'].insert(0, [CheckEqual(expression, result)])
+                
+   
+        #print("VSI:", tests)
+
+        problem_part=ProblemPart(part_id, description, precode, solution, tests)
+        with open(file_name+'_out.py', "a", encoding="utf-8") as f:
+            f.write(str(problem_part)+"\n")
+        
+    def naslednja_naloga(): # kle se more vsebina naslednje naloge napisat na vmesnik
+        global st_naloge
+        global problem
         st_naloge+=1
+        root.destroy()
         okno_naloga()
+                                  
+    def napisi_lib_string_na_dat():
+        global problem
+        with open(file_name+'_out.py', "a", encoding="utf-8") as f:
+            f.write("\n"+problem.lib_string)
+        root.destroy()
+                                  
         
     # text zapisan na vrhu okna
     Label(root, text="Dodaj nalogo {0}".format(st_naloge), font='Helvetica 14 bold').grid(row=0, column=0, columnspan=6, sticky="w")
@@ -257,17 +322,25 @@ def okno_naloga():
     text_testi_ostali = Text(root, width=65, height=17, bg='white', bd=5, relief=SUNKEN)# font='Helvetica 12')
     text_testi_ostali.grid(row=9, column=3, columnspan=3, rowspan=6, sticky="e")
 
+    if st_naloge-1<len(problem.parts): napisi_vsebino_dat_na_vmesnik()
+
     # gumbi
-    gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=20, relief=RAISED, font='Helvetica 14')
-    gumb_zapri_okno.grid(row=15, column=5, columnspan=2, sticky="e")
     
-    gumb_dodaj = Button(root, text="dodaj nalogo", command=napisi_vsebino_na_dat, height=1, width=20, relief=RAISED, font='Helvetica 14')
-    gumb_dodaj.grid(row=15, column=0, columnspan=2, sticky="e")
+    gumb_dodaj = Button(root, text="dodaj nalogo", command=napisi_vsebino_podnaloge_na_dat, height=1, width=20, relief=RAISED, font='Helvetica 14')
+    gumb_dodaj.grid(row=15, column=1, sticky="e")
 
     gumb_naslednja_naloga = Button(root, text="ustvari naslednjo nalogo", command=naslednja_naloga, height=1, width=20, relief=RAISED, font='Helvetica 14')
-    gumb_naslednja_naloga.grid(row=15, column=2, columnspan=2, sticky="e")
+    gumb_naslednja_naloga.grid(row=15, column=2, sticky="e")
+                                     
+    gumb_dodaj_sklop = Button(root, text="dodaj celoten sklop", command=napisi_lib_string_na_dat, height=1, width=20, relief=RAISED, font='Helvetica 14')
+    gumb_dodaj_sklop.grid(row=15, column=4, columnspan=1, sticky="e")
+
+    gumb_zapri_okno = Button(root, text="zapri okno", command=root.destroy, height=1, width=20, relief=RAISED, font='Helvetica 14')
+    gumb_zapri_okno.grid(row=15, column=5, columnspan=1, sticky="e")
     
     root.mainloop()
-    
-okno_sklop()
-#okno_naloga()
+
+if __name__ == "__main__":
+    file_name="naloga"
+    okno_sklop(file_name)
+

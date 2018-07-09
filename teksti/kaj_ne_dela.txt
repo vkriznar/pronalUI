@@ -15,3 +15,5 @@ kar je ok
     Check.equal('sestej(88, 18)', 100) and 
     Check.equal("sestej(20, 20)", 400)
 )
+
+**Parser ne more obdelati datotek na katerih ni opisa sklopa!

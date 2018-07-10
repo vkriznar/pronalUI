@@ -7,6 +7,9 @@ Check.initialize(problem['parts'])
 
 # =============================================================================
 # Biopython
+#
+# opis sklopa
+# Biopython
 # =====================================================================@015026=
 # Iz spletne strani `http://biopython.org/` si inštaliraj modul Biopython.
 # 
@@ -46,6 +49,12 @@ Check.equal('''zmnozi(int('10'), int("10"))''', 100)
 Check.equal("zmnozi(20, 20)", 400) and \
 Check.equal("zmnozi('20', 20)", 400) and \
 Check.equal('x', 50 // 6)
+
+Check.secret(zmnozi(100, 100))
+Check.secret(zmnozi(500, 123))
+
+Check.secret(zmnozi(11, 11)) and \
+Check.secret(zmnozi(33, 33))
 
 
 print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)

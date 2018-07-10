@@ -57,7 +57,7 @@
 				% for row in rows:
 				<tr>
 					%for col in row:
-						<td class="text-left-me">{{col}}</td>
+						<td class="text-center">{{col}}</td>
 					%end
 				</tr>
 				%end
@@ -68,17 +68,22 @@
 		<br>
 		<div class="dodajanje">
 			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
-			<select id="testSelect" form="form1" name="tipTesta" onchange="tipTesta()">
+			<select id="testSelect1" form="form1" name="tipTesta1" onchange="tiptesta(this)" style="display: inline-block;">
 				<option selected value='chkeql'>Check.equal</option>
 				<option value='test2'>Test no.2</option>
 			</select>
 			<br><br>
-			<form action="." role="form" method="post" class="form" id="form1" style="border:0px, margin: 0; padding: 0; display:block;">
-				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:500px;" required>
+			<form action="." role="form" method="post" class="form1" id="form1" style="display: inline-block;">
+				<input type="hidden" name="tipTesta" value="chkeql">
+				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:540px;" required>
 				<input type="number" placeholder="Rezultat" name="rezultat" style="float:center; width:300px;" required>
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
-			
+			<form action="." role="form" method="post" class="form1" id="form2" style="height: 53px; display: none;">
+				<input type="hidden" name="tipTesta" value="test2">
+				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:840px;" required>
+				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
+			</form>
 		</div>
 	</div>
 </div>
@@ -87,7 +92,6 @@
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
 $(document).delegate('#koda, #opis', 'keydown', function(e) {
   var keyCode = e.keyCode || e.which;
-
   if (keyCode == 9 || keyCode == 13) {
     var start = this.selectionStart;
     var end = this.selectionEnd;
@@ -109,9 +113,7 @@ $(document).delegate('#koda, #opis', 'keydown', function(e) {
 	this.selectionEnd = start + 4;
 	}
   }
-
 });
-
 // js koda, za underlying, bold, italic, ter LaTex enačbe
 function formatText(x) {
 	var textArea = document.getElementById('opis');
@@ -121,7 +123,6 @@ function formatText(x) {
 	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
 	textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
 }
-
 //koda, ki prikaze uporabniku kako zgleda njegov opis
 function opis_preview() {
     var textArea = document.getElementById('opis');
@@ -129,7 +130,6 @@ function opis_preview() {
 	var textView = document.getElementById("opis_preview");
 	textView.innerHTML = replacedTextArea
 }
-
 //ko gre uporabnik naprej
 %if testi:
 	var testi = document.getElementById("testi");
@@ -138,11 +138,16 @@ function opis_preview() {
 	$('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
 %end
 
-function tipTesta() {
-	alert("hello");
-
+function tiptesta(test) {
+	if(test.value == "chkeql") {
+		document.getElementById("form1").style.display = "inline-block";
+		document.getElementById("form2").style.display = "none";
+	}
+	else if(test.value == "test2") {
+		document.getElementById("form1").style.display = "none";
+		document.getElementById("form2").style.display = "inline-block";
+	}
 }
-
 </script>
 
 	

@@ -43,7 +43,9 @@ def index_testi():
 
 @post("/index/testi/")
 def index_testi_post():
-    tmp.append([len(tmp)+1, request.forms.tipTesta, request.forms.niz, int(request.forms.rezultat)])
+    "Če test nima določenega atributa vrne None namest praznega niza"
+    rezultat = request.forms.rezultat if request.forms.rezultat != "" else "None"
+    tmp.append([len(tmp)+1, request.forms.tipTesta, request.forms.niz, rezultat])
     redirect("/index/testi/")
 
 run(host='localhost', port=8080, debug=True)

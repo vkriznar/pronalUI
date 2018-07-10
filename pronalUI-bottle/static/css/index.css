@@ -7,10 +7,11 @@ body {
 	margin-left: 0px;
 	font-family: Arial, Helvetica, sans-serif;
 }
-html {overflow-x: hidden;}
+html {overflow-x: hidden; margin-bottom: 100px;}
 
 form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
 
+label {font-size: 19px;}
 
 input[type=text], input[type=password], input[type=number] {
     width: 100%;
@@ -24,7 +25,7 @@ input[type=text], input[type=password], input[type=number] {
 button {
     background-color: #262626;
     color: white;
-    padding: 14px 20px;
+    padding: 13px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
@@ -35,9 +36,15 @@ button:hover {
     opacity: 0.8;
 }
 
-.form {
-	margin-top: 200px;
+.form1 {
+	margin-top: 15px;
+	border: 0px; 
+	margin: 0px; 
+	padding: 0px;
+	height: auto;
+	width: auto;
 }
+
 
 .testi {
 	width: 940px;
@@ -79,10 +86,6 @@ button:hover {
 	height:200px;
 	line-height: 70%;
 }
-
-
-
-
 
 
 div.table-title {
@@ -265,10 +268,11 @@ select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
-	background: url(http://www.stackoverflow.com/favicon.ico) 96% / 15% no-repeat #eee;
-}
+	background: url(https://image.flaticon.com/icons/svg/60/60995.svg) 96% / 15% no-repeat #eee;
+} 
 
 #testi {
 	margin-left:auto;
 	margin-right: auto;
 }
+

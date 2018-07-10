@@ -71,10 +71,6 @@ print('\n' + '*' * 50)
 #     # Resitev bo oblike:
 #     "Enterobacteria *** lambda"
 #     # kjer tri zvezdice zamenjaj za ustrezno ime.
-# -----------------------------------------------------------------------------
-# # Resitev bo oblike:
-# "Enterobacteria *** lambda"
-# # kjer tri zvezdice zamenjaj za ustrezno ime.
 # =============================================================================
 "Enterobacteria phage lambda"
 

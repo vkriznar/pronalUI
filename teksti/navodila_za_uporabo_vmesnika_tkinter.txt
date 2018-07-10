@@ -1,26 +1,26 @@
-gumb DODAJ:
-ustvari datoteke, pripadajoèe posameznim oknom, z vsebino zapisano v oknih.
+**opis delovanja vmesnika, ki omogoèa vnos le ene naloge:
 
-V oknu za sklop se ustvarijo datoteke:
--Sklop_naslov.txt
--Slop_opis.txt
+Ko se požene datoteka, v kateri je implementiran vmesnik, se najprej poklièe parser iz razreda ProblemPart, 
+ki sparsa vhodno datoteko »podnaloga_in.py«,  nato pa se posamezne dele podnaloge zapiše v ustrezna okna na 
+vmesniku. Uporabnik lahko nato že vnešeno vsebino v oknih pobriše, spremeni ali kaj doda. 
+S klikom na gumb DODAJ se vsebina posameznih oken shrani v ustrezne atribute iz razreda ProblemPart, 
+pri èemer se generira objekt iz tega razreda, ki se ga nato s pomoèjo metode repr zapiše na izhodno datoteko 
+»podnaloga_out.py«.
 
-V oknu za nalogo pa:
-Naloga#_opis.txt
-Naloga#_resitev.txt
-Naloga#_prekoda.txt
-Naloga#_testi_ostali.txt
-Naloga#_testi_equal_numbers.txt, v kateri so shranjene številke check.equal testov (prvo okence) (povezava z and)
-Naloga#_testi_equal_expressions.txt, v kateri so shranjeni prvi argumenti check.equal testov (drugo okence)
-Naloga#_testi_equal_results.txt, v kateri so shranjeni drugi argumenti check.equal testov (tretje okence)
 
-Èe kaj spremeniš ali dodaš v okno in še enkrat pritisneš dodaj, se to doda na že obsotojeèo datoteko,
-vendar to dela le, dokler ne odpreš novega okna (za novo nalogo). 
-Èe se potem vrneš nazaj na katero od prejšnjih odprtih nalog in kaj dopišeš v katerega izmed oken, 
-se bo vsebina zapisala na datoteke pripadajoèe nazadje odprtemu oknu.
 
-gumb NASLEDNJA:
-odpre novo okno pri èemer starega okna ne zapre
+**opis delovanja vmesnika, ki omogoèa vnos celotnega sklopa:
 
-gumb ZAPRI:
-samo zapre obstojeèe okno
+Ko se požene datoteka, v kateri je implementiran vmesnik, se najprej poklièe parser iz razreda Problem, 
+ki sparsa vhodno datoteko »naloga_in.py«,  nato pa se naslov in opis sklopa napišeta v prvo okno, v za to namenjen prostor.
+Uporabnik lahko nato že vnešeno vsebino v oknih pobriše, spremeni ali kaj doda. 
+S klikom na gumb DODAJ se vsebina posameznih oken shrani v ustrezne atribute iz razreda Problem, nakar se
+na vrhu datoteke "naloga_out.py" izpiše glava datoteke (torej magic vrstice na vrhu), naslov sklopa in opis sklopa.
+
+S klikom na gumb NASLEDNJA se odpre okno za vnos prve naloge, kamor se samodejno izpišejo opis, prekoda, rešitev, check.equal
+testi in ostali testi za prvo nalogo, èe je ta zapisana na datoteki. Uporabnik lahko nato spet dodaja in briše vsebino
+in klikne na gumb DODAJ, pri èimer se vsebina oken shrani v ustrezne atributev iz razreda ProblemPart in zapiše na datoteko pod že zapisan
+naslov in opis sklopa. Naloga se zapiše tudi z ustrezno id številko. Nato lahko uporabnik pritisne na gumb NASLEDNJA, pri
+èemer se spet odpre okno za novo nalogo, kjer je vsebina že vnešena (torej vsebina 2. naloge na datoteki, èe je ta zapisana,
+èe ni zapisana, pa so oknenca prazna) itd. Uporabnik lahko kadarkoli pritisne gumb DODAJ SKLOP, pri èemer se vnašanje konèa,
+na konec datoteke pa se zapišejo še magic vrstice v TOMO, ki so napisane na koncu. Vse naloge, ki jih uporabnik doda in niso bile na datoteki zapise prej, se zapišejo z id številko 000000.

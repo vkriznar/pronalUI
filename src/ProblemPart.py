@@ -132,9 +132,9 @@ class ProblemPart:
                 check_equal_string=check_equal_string.strip().strip("Check.equal(").strip() 
 
                 quotation_mark_type_expression = check_equal_string[0] # can be ' or ''' or " or """
-                triple_quotation_mark_expression = check_equal_string[0]==check_equal_string[1] # True if ''' or """
                 
-                if not triple_quotation_mark_expression:
+                
+                if not is_triple_quotation_mark(check_equal_string):
                     expression=re.match(r"({0}(.*?)[^{0}]{0})[^{0}]".format(quotation_mark_type_expression), check_equal_string).group(1)
                     
                 else:
@@ -142,38 +142,40 @@ class ProblemPart:
                     
                 output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
  
-                return CheckEqual(expression, output)    
+                return CheckEqual(expression, output)
+
+            def is_triple_quotation_mark(string):
+                string = string.strip()
+                # True if ''' or """
+                return string[0] == string[1] if len(string) > 2 else False
+                
             
             def classify_check_secret(check_secret_string):
+                # TODO add clean option
                 check_secret_string=check_secret_string.strip().strip("Check.secret(").strip()[:-1].strip()
-                #odstranim Check.secret( in oklepaj na koncu
-                # pri recimo b primeru ostane torej: "zmnozi(int('3'), 6), 'sporočilo o, napaki'"
 
-
-                quotation_mark_type=check_secret_string[-1] # pogledam kakšen narekovaj je na koncu
-                if quotation_mark_type=="'" or quotation_mark_type=='"': # preverjanje ali check.secret sploh ima drugi argument
-                    
-                    triple_quotation_mark=check_secret_string[-1]==check_secret_string[-2] # prevrjanje če je trojni narekovaj
-                    # morda bo tu problem, če arg ne bo dovolj dolg ? 
-                    if triple_quotation_mark==False: # nimamo trojnih narekovajev
-                        
-                        drugi_arg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1]) #iščem ujemanje na obrnjenem nizu
-                        if drugi_arg!=None: # check.secret ni nujno, da ima drugi argument
-                            drugi_arg=drugi_arg.group(1)[::-1] # ga obrnem, da je spet prav            
+                quotation_mark_type=check_secret_string[-1]
+                if quotation_mark_type == "'" or quotation_mark_type == '"':
+                    # check if there is hint argument
+                    if not is_triple_quotation_mark(check_secret_string):
+                        # check if matches on reversed string
+                        hint_msg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1])           
                     else:
-                        drugi_arg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
-                        if drugi_arg!=None:
-                            drugi_arg=drugi_arg.group(0)[::-1]
-                        
-                    if drugi_arg!=None:
-                        prvi_arg=check_secret_string[0:-len(drugi_arg)].strip().strip(",").strip() # prvi argument je tisto kar ostane
-                    else: # če drugega arg ni potem je vse le prvi arg
-                        prvi_arg=check_secret_string
+                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
+
+                    if hint_msg!=None:
+                        hint_msg=hint_msg.group(0)[::-1]
+                        # remaining string is expression
+                        expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
+                    else:
+                        # if there is no hint msg all string represents the expression
+                        expression=check_secret_string
 
                 else:
-                    prvi_arg=check_secret_string
-                    drugi_arg=None
-                return CheckSecret(prvi_arg, drugi_arg)
+                    expression=check_secret_string
+                    hint_msg=None
+                    
+                return CheckSecret(expression, hint_msg)
 
             def decompose_and(line):
                 list_of_check_equals=line.split(" and ")
@@ -196,8 +198,6 @@ class ProblemPart:
             other_lines = []
             check_equals = []
             check_secrets = []
-
-            # for i in make_tuples_for_and_connected(make_one_line_tuples(lines)): print(i)
             
             for line in make_one_line_tuples(lines):
                 line = line.strip()

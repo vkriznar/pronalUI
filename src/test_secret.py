@@ -21,7 +21,7 @@ for i in [a, b, c, d]:
             
             drugi_arg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1]) #iščem ujemanje na obrnjenem nizu
             if drugi_arg!=None: # check.secret ni nujno, da ima drugi argument
-                drugi_arg=drugi_arg.group(1)[::-1] # ga obrnem, da je spet prav            
+                drugi_arg=drugi_arg.group(0)[::-1] # ga obrnem, da je spet prav            
         else:
             drugi_arg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
             if drugi_arg!=None:

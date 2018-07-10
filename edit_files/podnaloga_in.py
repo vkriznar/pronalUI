@@ -21,7 +21,7 @@ Check.part()
 
 Check.equal('x', 50 // 6)
 
-(   Check.equal('''odstej(8, 8)''', 25 ) and 
+(   Check.equal('''odstej(8, 8)''', 25 ) and
     Check.equal("odstej(int('88'), 18)", 100) and 
     Check.equal("odstej(20, 20)", 400) and
     Check.equal("odstej(20, 20)", 400) and

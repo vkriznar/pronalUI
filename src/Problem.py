@@ -96,7 +96,7 @@ class Problem:
 
 
 if __name__ == "__main__":
-    file_name =   "naloga" #"brez_nalog_edit" 
+    file_name =   "../edit_files/naloga" #"brez_nalog_edit" 
     with open(file_name + "_in.py", "r", encoding="utf-8") as f:
         file_string = f.read()
     

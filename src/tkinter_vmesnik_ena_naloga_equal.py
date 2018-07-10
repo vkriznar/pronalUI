@@ -228,5 +228,5 @@ def okno_naloga(file_name):
     
     root.mainloop()
 if __name__ == "__main__":
-    file_name="podnaloga"
+    file_name="../edit_files/podnaloga"
     okno_naloga(file_name)

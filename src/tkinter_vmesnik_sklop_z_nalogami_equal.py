@@ -341,6 +341,6 @@ def okno_naloga():
     root.mainloop()
 
 if __name__ == "__main__":
-    file_name="naloga"
+    file_name="../edit_files/naloga"
     okno_sklop(file_name)
 

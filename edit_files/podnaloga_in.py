@@ -18,26 +18,42 @@ Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
 
+Check.equal('odstej(4, 4)', 21 )
+Check.equal('odstej(4, 4)', 22 )
 
-Check.equal('x', 50 // 6)
+Check.equal('odstej(4, 4)', 22 ) and Check.equal('odstej(4, 4)', 22 )
+
+Check.equal("odstej(4, 4)", 16 ) and \
+Check.equal('odstej(4, 4)', 18 ) and \
+Check.equal('odstej(4, 4)', 20 )
+
+Check.secret(zmnozi(100, 100))
+Check.secret(zmnozi(500, 123))
+
+Check.secret(zmnozi(11, 11)) and \
+Check.secret(zmnozi(33, 33))
+                 
 
 (   Check.equal('''odstej(8, 8)''', 25 ) and
     Check.equal("odstej(int('88'), 18)", 100) and 
-    Check.equal("odstej(20, 20)", 400) and
-    Check.equal("odstej(20, 20)", 400) and
     Check.equal("odstej(20, 20)", 400) and
     Check.equal("odstej(20, 20)", 400)
     
 )
 
-Check.equal("odstej(4, 4)", 16 ) and \
-Check.equal('odstej(4, 4)', 18 ) and \
-Check.equal('odstej(4, 4)', 20 )
-Check.equal('odstej(4, 4)', 21 )
-Check.equal('odstej(4, 4)', 22 )
+(
+    Check.equal('''odstej(8, 8)''', 335 ) and
+    Check.equal("odstej(int('88'), 18)", 1300) and 
+    Check.equal("odstej(20, 20)", 4300) and
+    Check.equal("odstej(20, 20)", 4030)
+    
+)
 
-Check.secret(zmnozi(100, 100))
-Check.secret(zmnozi(500, 123))
+(   Check.secret(odstej(8, 8)) and
+    Check.secret(odstej(6, 6)) and
+    Check.secret(odstej(1, 1))
+    
+)
 
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):

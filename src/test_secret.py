@@ -1,7 +1,7 @@
 import re
 
-a="Check.secret(zmnozi(3, 5) )"
-b="Check.secret(zmnozi(int('3'), 6), 'sporočilo o, napaki' )"
+a="Check.secret(zmnozi(3, 5))"
+b="Check.secret(zmnozi(int('3'), 6), 'r')"
 c="Check.secret([koren(i) for i in range(2, 7)] )"
 d="Check.secret([koren(i) for i in range(2, 7)], 'sporočilo, o napaki' )"
 

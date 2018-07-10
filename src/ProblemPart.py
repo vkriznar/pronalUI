@@ -54,9 +54,12 @@ class CheckEqual:
 class CheckSecret:
     def __init__(self, expression, other):
         self.expression = expression
-        self.ther = ther
+        self.other = other
 
     def __repr__(self):
+        if self.other == None:
+            return "Check.secret({0})".format(self.expression)  
+            
         return "Check.secret({0}, {1})".format(self.expression, self.other)  
     
 class ProblemPart:
@@ -110,6 +113,7 @@ class ProblemPart:
     def parse_tests(validation):
         ## TODO add meta data (for now we have double list for and conection, maybe use dict?)
         def classify_tests(validation):
+                
             def classify_check_equal(check_equal_string):
                 """
                 Check.equal tests are: Check.equal(expression, output), type(expression) = str
@@ -138,42 +142,88 @@ class ProblemPart:
                     
                 output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
  
-                return expression, output     
+                return CheckEqual(expression, output)    
             
+            def classify_check_secret(check_secret_string):
+                check_secret_string=check_secret_string.strip().strip("Check.secret(").strip()[:-1].strip()
+                #odstranim Check.secret( in oklepaj na koncu
+                # pri recimo b primeru ostane torej: "zmnozi(int('3'), 6), 'sporočilo o, napaki'"
 
+
+                quotation_mark_type=check_secret_string[-1] # pogledam kakšen narekovaj je na koncu
+                if quotation_mark_type=="'" or quotation_mark_type=='"': # preverjanje ali check.secret sploh ima drugi argument
+                    
+                    triple_quotation_mark=check_secret_string[-1]==check_secret_string[-2] # prevrjanje če je trojni narekovaj
+                    # morda bo tu problem, če arg ne bo dovolj dolg ? 
+                    if triple_quotation_mark==False: # nimamo trojnih narekovajev
+                        
+                        drugi_arg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1]) #iščem ujemanje na obrnjenem nizu
+                        if drugi_arg!=None: # check.secret ni nujno, da ima drugi argument
+                            drugi_arg=drugi_arg.group(1)[::-1] # ga obrnem, da je spet prav            
+                    else:
+                        drugi_arg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
+                        if drugi_arg!=None:
+                            drugi_arg=drugi_arg.group(0)[::-1]
+                        
+                    if drugi_arg!=None:
+                        prvi_arg=check_secret_string[0:-len(drugi_arg)].strip().strip(",").strip() # prvi argument je tisto kar ostane
+                    else: # če drugega arg ni potem je vse le prvi arg
+                        prvi_arg=check_secret_string
+
+                else:
+                    prvi_arg=check_secret_string
+                    drugi_arg=None
+                return CheckSecret(prvi_arg, drugi_arg)
+
+            def decompose_and(line):
+                list_of_check_equals=line.split(" and ")
+                
+                check_equals_connected_with_and = []
+                check_secrets_connected_with_and = []
+                
+                for check_string in list_of_check_equals:
+                    check_string=check_string.strip()
+                    if check_string.startswith("Check.equal"):
+                        check_equals_connected_with_and.append(classify_check_equal(check_string))
+                    elif check_string.startswith("Check.secret"):
+                        check_secrets_connected_with_and.append(classify_check_secret(check_string))
+                
+                return check_equals_connected_with_and, check_secrets_connected_with_and
             
-            
-            validation=re.sub(r"and\s*", r"and ", validation)
+            validation = re.sub(r"and\s*\\\s*", r"and ", validation)
             lines = validation.split("\n")
             
             other_lines = []
             check_equals = []
+            check_secrets = []
 
             # for i in make_tuples_for_and_connected(make_one_line_tuples(lines)): print(i)
             
             for line in make_one_line_tuples(lines):
-                if line.startswith("Check.equal"):
-                    expression, output = classify_check_equal(line.strip())
-                    check_equals.append([CheckEqual(expression,  output)])
+                line = line.strip()
+                
+                if line.startswith("Check.equal") or line.startswith("Check.secret"):
+                    check_equals_with_and, check_secrets_with_and = decompose_and(line)
+                    check_equals.append(check_equals_with_and)
+                    check_secrets.append(check_secrets_with_and)
                     
                 elif line.startswith("("):
-                    line=line[1:-1].strip()
+                    line = line[1:-1].strip()
+
+                    check_equals_with_and, check_secrets_with_and = decompose_and(line)
+                    check_equals.append(check_equals_with_and)
+                    check_secrets.append(check_secrets_with_and)
                     
-                    list_of_check_equals=line.split("and")
-                    check_equals_connected_with_and=[]
-                    
-                    for check_equal_string in list_of_check_equals:
-                        expression, output = classify_check_equal(check_equal_string)
-                        check_equals_connected_with_and.append(CheckEqual(expression,  output))
-                        
-                    check_equals.append(check_equals_connected_with_and)
                 else:
                     if line!="": other_lines.append(line)
 
-            return check_equals, other_lines
+            check_equals = [z for z in check_equals if len(z) > 0]
+            check_secrets = [z for z in check_secrets if len(z) > 0]
+            
+            return check_equals, check_secrets, other_lines
 
-        check_equals, other_lines = classify_tests(validation)
-        tests = {"check_equal" : check_equals, "other": "\n".join(other_lines)}
+        check_equals, check_secrets, other_lines = classify_tests(validation)
+        tests = {"check_equal" : check_equals, "other": "\n".join(other_lines), "check_secret" : check_secrets}
 
         return tests
         
@@ -207,7 +257,17 @@ class ProblemPart:
         validation = match.group('validation').strip()
         tests = ProblemPart.parse_tests(validation)
 
-        print("\nTESTI: ", tests)
+        print("\nTESTI: ")
+        for key in tests:
+            if not isinstance(tests[key], list):
+                print(tests[key])
+                continue
+            
+            for z in tests[key]:
+                print(z)
+
+                
+        # print("\nTESTI: ", tests)
         # TODO validation (check part), problem_id
         
         return ProblemPart(part_id, description, precode, solution, tests)

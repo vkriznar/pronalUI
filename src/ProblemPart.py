@@ -94,16 +94,17 @@ class ProblemPart:
         
         string_list.append("Check.part()\n")                                                      # beginning of validation
 
-        def add_check_equal_tests_to_string_list(string_list, check_equal_tests):
-            for test_equal_connected_with_and in check_equal_tests:
-                for test_equal in test_equal_connected_with_and:
-                    if test_equal_connected_with_and.index(test_equal)==len(test_equal_connected_with_and)-1:
-                        string_list.append(str(test_equal) + "\n")
+        def add_check_tests_to_string_list(string_list, check_tests):
+            for test_connected_with_and in check_tests:
+                for test in test_connected_with_and:
+                    if test_connected_with_and.index(test)==len(test_connected_with_and)-1:
+                        string_list.append(str(test) + "\n")
                     else:
-                        string_list.append(str(test_equal) + " and \\ \n")
+                        string_list.append(str(test) + " and \\ \n")
                         
 
-        add_check_equal_tests_to_string_list(string_list, self.tests["check_equal"])
+        add_check_tests_to_string_list(string_list, self.tests["check_equal"])
+        add_check_tests_to_string_list(string_list, self.tests["check_secret"])
         
         string_list.append(self.tests["other"])
 
@@ -221,8 +222,9 @@ class ProblemPart:
             check_secrets = [z for z in check_secrets if len(z) > 0]
             
             return check_equals, check_secrets, other_lines
-
+        
         check_equals, check_secrets, other_lines = classify_tests(validation)
+        print(check_equals, check_secrets)
         tests = {"check_equal" : check_equals, "other": "\n".join(other_lines), "check_secret" : check_secrets}
 
         return tests

@@ -10,29 +10,22 @@ def strip_hashes(description):
 
 class Problem:
     def __init__(self, title, description, parts, lib_string, head_string):
+        self.head_string = head_string # header lines at the beginning of file
         self.title = title.strip()
         self.description = description.strip()
         self.parts = parts
-        self.lib_string = lib_string
-        self.head_string = head_string
+        self.lib_string = lib_string # template and library
+        
 
     @staticmethod
-    def parse(file_string):
-        
-        def strip_hashes(description):
-            if description is None:
-                return ''
-            else:
-                lines = description.strip().splitlines()
-                return "\n".join(line[line.index('#')+2:] for line in lines)
-        
+    def parse(file_string):  
         split_index = file_string.find(
 """
 # # =====================================================================@000000=
 # # This is a template for a new problem part. To create a new part, uncomment
 # # the template and fill in your content.
 """)
-        if split_index==-1: # če je template v slovenščini
+        if split_index==-1: # if there is no english tempalate, then we try to find slovene template
             split_index = file_string.find(
 """
 # # =====================================================================@000000=
@@ -40,11 +33,11 @@ class Problem:
 # # pobrišite komentarje ter vsebino zamenjajte s svojo.
 """)
         #print(split_index)
-        problem_string = file_string[:split_index]
+        # for regex to work we add first template line
+        problem_string = file_string[:split_index + 100]
         lib_string = file_string[split_index:]
         #print(problem_string)
         #print(lib_string)
-        
         problem_match = re.search(
             r'(?P<head>.*?)'                         # head of file
             r'^\s*# =+\s*\n'                         # beginning of header
@@ -52,14 +45,6 @@ class Problem:
             r'(?P<description>(^\s*#( [^\n]*)?\n)*)' # description
             r'(?=\s*(# )?# =+@)',                    # beginning of first part
             problem_string, flags=re.DOTALL | re.MULTILINE)
-        
-        if problem_match==None: # če imamo v datoteki le templete za novo nalogo (z naslovom in opisom)
-            problem_match = re.search(
-                r'(?P<head>.*?)'                         # head of file
-                r'^\s*# =+\s*\n'                         # beginning of header
-                r'^\s*# (?P<title>[^\n]*)\n'             # title
-                r'(?P<description>(^\s#*( [^\n]*)?\n)*)',     # description
-                problem_string, flags=re.DOTALL | re.MULTILINE)
 
         part_regex = re.compile(
             r'# ===+@(?P<part>\d+)=\s*\n'             # beginning of part header
@@ -111,7 +96,7 @@ class Problem:
 
 
 if __name__ == "__main__":
-    file_name =  "naloga" #"naloga" #"brez_nalog_edit" 
+    file_name =   "naloga" #"brez_nalog_edit" 
     with open(file_name + "_in.py", "r", encoding="utf-8") as f:
         file_string = f.read()
     

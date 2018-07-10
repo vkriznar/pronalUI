@@ -18,17 +18,17 @@ Spremenljivka="Nek string, ki je enak spremenljivki"
 
 Check.part()
 Check.equal('x', 50 // 6)
-Check.equal('odstej(4, 4)', 16) and \ 
-Check.equal('odstej(4, 4)', 18) and \ 
-Check.equal('odstej(4, 4)', 20)
-Check.equal('odstej(4, 4)', 21)
-Check.equal('odstej(4, 4)', 22)
 Check.equal('''odstej(8, 8)''', 25) and \ 
 Check.equal("odstej(int('88'), 18)", 100) and \ 
 Check.equal("odstej(20, 20)", 400) and \ 
 Check.equal("odstej(20, 20)", 400) and \ 
 Check.equal("odstej(20, 20)", 400) and \ 
 Check.equal("odstej(20, 20)", 400)
+Check.equal("odstej(4, 4)", 16) and \ 
+Check.equal('odstej(4, 4)', 18) and \ 
+Check.equal('odstej(4, 4)', 20)
+Check.equal('odstej(4, 4)', 21)
+Check.equal('odstej(4, 4)', 22)
 Check.secret(zmnozi(100, 100))
 Check.secret(zmnozi(500, 123))
 resitev = eval(Check.current_part['solution'])

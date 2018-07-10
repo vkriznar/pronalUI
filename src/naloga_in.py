@@ -1,17 +1,12 @@
 with open(__file__, encoding='utf-8') as f:
     source = f.read()
-exec(source[source.find("# =L=I=B=""R=A=R=Y=@="):])
+exec(source[source.find("# =L=I=B="
+                        "R=A=R=Y=@="):])
 problem = extract_problem(__file__)
 Check.initialize(problem['parts'])
 
 # =============================================================================
 # Biopython
-#
-# Oglej si naslednji spletni strani in sledi navodilom v nadaljevanju:
-# 
-# http://biopython.org/
-# 
-# https://www.ncbi.nlm.nih.gov/sra
 # =====================================================================@015026=
 # Iz spletne strani `http://biopython.org/` si inštaliraj modul Biopython.
 # 
@@ -29,10 +24,7 @@ import Bio
 print(help(Bio))
 
 Check.part()
-(   Check.equal('odstej(8, 8)', 25 ) and 
-    Check.equal('odstej(88, 18)', 100) and 
-    Check.equal("odstej(20, 20)", 400)
-)
+(   Check.equal('odstej(8, 8)', 25 ) and Check.equal('odstej(88, 18)', 100) and Check.equal("odstej(20, 20)", 400))
 
 (
     Check.equal('sestej(81, 81)', 25 ) and 

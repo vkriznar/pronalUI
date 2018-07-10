@@ -14,9 +14,9 @@ class CheckEqual:
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
         self.part_id = part_id
+        # we use strip, because the user can input only white space and we don't want to save that
         self.description = description.strip()
-        self.precode = precode.strip() # če uporabnik v okno na vmesniku za prekodo ne napiše ničesar ali napiše le presledek,
-        # verejtno ne želimo, da se na datoteko izpišejo črtkane črte in pod njimi prazen prostor (ker je prekoda le presledek) ?
+        self.precode = precode.strip() 
         self.solution = solution.strip()
         if isinstance(tests, str):
             tests = ProblemPart.parse_tests(tests)
@@ -26,30 +26,37 @@ class ProblemPart:
 
 
     def __repr__(self):
-        lines = []
-        lines.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))                        # beginning of part header
-        lines.append("# "+self.description.replace("\n", "\n# ")+"\n")                      # description
-        if len(self.precode)>0: lines.append("# "+"-"*77+"\n")                              # optional beginning of template (preverimo ali je prekoda le prazen prostor)
-        if len(self.precode)>0: lines.append("# "+self.precode.replace("\n", "\n# ")+"\n")  # precode (solution tamplate) (preverimo ali je prekoda le prazen prostor)
-        lines.append("# "+"="*77+"\n")                                                      # boarder between description and precode
-        lines.append(self.solution+"\n\n")                                                  # solution
+        string_list = []
+        string_list.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))                        # beginning of part header
+        string_list.append("# "+self.description.replace("\n", "\n# ")+"\n")                      # description
+        # we don't want precode section if there is no precode
+        if len(self.precode)>0:
+            string_list.append("# "+"-"*77+"\n")                                                  # optional beginning of template
+        if len(self.precode)>0:
+            string_list.append("# "+self.precode.replace("\n", "\n# ")+"\n")                      # precode (solution tamplate)  
+        string_list.append("# "+"="*77+"\n")                                                      # boarder between description and precode
+        string_list.append(self.solution+"\n\n")                                                  # solution
 
         ## TODO remove this in future
         if self.tests is None:
-            return "".join(lines)
+            return "".join(string_list)
         
-        lines.append("Check.part()\n")                                      # beginning of validation
+        string_list.append("Check.part()\n")                                                      # beginning of validation
 
-        for test_equal_connected_with_and in self.tests["check_equal"]:
-            for test_equal in test_equal_connected_with_and:
-                if test_equal_connected_with_and.index(test_equal)==len(test_equal_connected_with_and)-1:
-                    lines.append(str(test_equal) + "\n")
-                else:
-                    lines.append(str(test_equal) + " and \\ \n")
+        def add_check_equal_tests_to_string_list(string_list, check_equal_tests):
+            for test_equal_connected_with_and in check_equal_tests:
+                for test_equal in test_equal_connected_with_and:
+                    if test_equal_connected_with_and.index(test_equal)==len(test_equal_connected_with_and)-1:
+                        string_list.append(str(test_equal) + "\n")
+                    else:
+                        string_list.append(str(test_equal) + " and \\ \n")
+                        
 
-        lines.append(self.tests["other"])
+        add_check_equal_tests_to_string_list(string_list, self.tests["check_equal"])
+        
+        string_list.append(self.tests["other"])
 
-        return "".join(lines)
+        return "".join(string_list)
 
     @staticmethod
     def parse_tests(validation):
@@ -76,8 +83,6 @@ class ProblemPart:
                 result=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
  
                 return expression, result     
-                
-            lines = validation.split("\n")
             
 
             def check_parentheses(line):
@@ -139,7 +144,9 @@ class ProblemPart:
                     else:
                         lines2.append(line)
                 return lines2
-                    
+
+            
+            lines = validation.split("\n")
             other_lines = []
             check_equals = []
 

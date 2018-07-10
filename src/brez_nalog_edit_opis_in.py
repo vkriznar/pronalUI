@@ -6,6 +6,9 @@ Check.initialize(problem['parts'])
 
 # =============================================================================
 # Brez naslova
+#
+# opis
+# še opis
 # # =====================================================================@000000=
 # # To je predloga za novo podnalogo. Če želite ustvariti novo podnalogo,
 # # pobrišite komentarje ter vsebino zamenjajte s svojo.
@@ -289,7 +292,7 @@ def extract_problem(filename):
         'solution': match.group('solution').strip(),
         'template': strip_hashes(match.group('template')),
         'validation': match.group('validation').strip(),
-        'problem': 5847
+        'problem': 5848
     } for match in part_regex.finditer(source)]
     problem_match = re.search(
         r'^\s*# =+\s*\n'                         # beginning of header
@@ -301,7 +304,7 @@ def extract_problem(filename):
         'title': problem_match.group('title').strip(),
         'description': strip_hashes(problem_match.group('description')),
         'parts': parts,
-        'id': 5847,
+        'id': 5848,
         'problem_set': 1409
     }
 

@@ -1,17 +1,14 @@
 with open(__file__, encoding='utf-8') as f:
     source = f.read()
-exec(source[source.find("# =L=I=B=""R=A=R=Y=@="):])
+exec(source[source.find("# =L=I=B="
+                        "R=A=R=Y=@="):])
 problem = extract_problem(__file__)
 Check.initialize(problem['parts'])
 
 # =============================================================================
 # Biopython
 #
-# Oglej si naslednji spletni strani in sledi navodilom v nadaljevanju:
 # 
-# http://biopython.org/
-# 
-# https://www.ncbi.nlm.nih.gov/sra
 # =====================================================================@015026=
 # Iz spletne strani `http://biopython.org/` si inštaliraj modul Biopython.
 # 

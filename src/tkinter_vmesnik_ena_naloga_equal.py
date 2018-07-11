@@ -30,12 +30,12 @@ def okno_naloga(file_name):
         check_equal_testi=problem_part.tests['check_equal']
         print(check_equal_testi)
 
-        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_result1),
-                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_result2),
-                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_result3),
-                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_result4),
-                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_result5),
-                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_result6)]
+        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_output1),
+                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_output2),
+                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_output3),
+                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_output4),
+                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_output5),
+                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_output6)]
         
         equal_ki_ne_grejo_v_okna=[]
         equal_st_okna=0
@@ -56,7 +56,7 @@ def okno_naloga(file_name):
                     for test in check_equal_testi[equal_test]:
                         okna_check_equal[equal_st_okna][0].insert("end", equal_st_testa)
                         okna_check_equal[equal_st_okna][1].insert("end", test.expression[3:-3] if test.expression[0]==test.expression[1] else test.expression[1:-1])
-                        okna_check_equal[equal_st_okna][2].insert("end", test.result)
+                        okna_check_equal[equal_st_okna][2].insert("end", test.output)
                         equal_st_okna+=1
                     
             else: # nimamo povezave z and
@@ -66,9 +66,11 @@ def okno_naloga(file_name):
                 else:
                     okna_check_equal[equal_st_okna][0].insert("end", equal_st_testa)
                     okna_check_equal[equal_st_okna][1].insert("end", test.expression[3:-3] if test.expression[0]==test.expression[1] else test.expression[1:-1])
-                    okna_check_equal[equal_st_okna][2].insert("end", test.result)
+                    okna_check_equal[equal_st_okna][2].insert("end", test.output)
                     equal_st_okna+=1
-        
+                    
+        text_testi_ostali.insert("end", "\n".join([" and \ \n".join([str(i) for i in sez]) for sez in problem_part.tests['check_secret']]))
+        text_testi_ostali.insert("end", "\n")
         text_testi_ostali.insert("end", problem_part.tests['other'])
         
     
@@ -80,44 +82,46 @@ def okno_naloga(file_name):
         solution=text_resitev.get("1.0", 'end')
 
         tests = ProblemPart.parse_tests(text_testi_ostali.get("1.0", 'end'))
-        #print("OSTALI:", tests)
+        print("OSTALI:", tests)
 
-        # teste v okni za check.equal je potrebno dodati k ostalim check.equal testom
-        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_result1),
-                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_result2),
-                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_result3),
-                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_result4),
-                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_result5),
-                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_result6)]
         
-        okna_check_equal.reverse()
+        okna_check_equal=[(text_testi_check_equal_st1, text_testi_check_equal_expression1, text_testi_check_equal_output1),
+                          (text_testi_check_equal_st2, text_testi_check_equal_expression2, text_testi_check_equal_output2),
+                          (text_testi_check_equal_st3, text_testi_check_equal_expression3, text_testi_check_equal_output3),
+                          (text_testi_check_equal_st4, text_testi_check_equal_expression4, text_testi_check_equal_output4),
+                          (text_testi_check_equal_st5, text_testi_check_equal_expression5, text_testi_check_equal_output5),
+                          (text_testi_check_equal_st6, text_testi_check_equal_expression6, text_testi_check_equal_output6)]
+
+        # teste v oknih za check.equal je potrebno dodati k ostalim check.equal testom
+        okna_check_equal.reverse() # da jih dodam v pravem vrstnem redu (najprej tistega s prvega okna, nato z drugega itd..
         inside_and_connection=False
-        
         for equal_st_okna in range(1, len(okna_check_equal)+1):
             expression="'{0}'".format(okna_check_equal[equal_st_okna-1][1].get("1.0", 'end').strip())
-            result=okna_check_equal[equal_st_okna-1][2].get("1.0", 'end').strip()
-            #print(expression, result)
+            output=okna_check_equal[equal_st_okna-1][2].get("1.0", 'end').strip()
+            #print(expression, output)
             if expression=="''": continue
 
             if equal_st_okna==len(okna_check_equal) and inside_and_connection==False:
-                tests['check_equal'].insert(0, [CheckEqual(expression, result)])
+                # ne dodam jih na konec ampak na začetek seznama, saj želim,
+                # da so check.equal testi zapisani v za to namenjenih okencih na seznamu pred tistimi zapisanimi v oknu za ostale teste
+                tests['check_equal'].insert(0, [CheckEqual(expression, output)]) 
                 
             elif equal_st_okna==len(okna_check_equal) and inside_and_connection==True:
-                check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                check_equals_connected_with_and.insert(0, CheckEqual(expression, output))
                 tests['check_equal'].insert(0, check_equals_connected_with_and)
             else:
 
                 if inside_and_connection==False and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')==okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
                     inside_and_connection=True
-                    check_equals_connected_with_and=[CheckEqual(expression, result)]
+                    check_equals_connected_with_and=[CheckEqual(expression, output)]
                 elif inside_and_connection==True and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')==okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
-                    check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                    check_equals_connected_with_and.insert(0, CheckEqual(expression, output))
                 elif inside_and_connection==True and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')!=okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
                     inside_and_connection=False
-                    check_equals_connected_with_and.insert(0, CheckEqual(expression, result))
+                    check_equals_connected_with_and.insert(0, CheckEqual(expression, output))
                     tests['check_equal'].insert(0, check_equals_connected_with_and)
                 elif inside_and_connection==False and okna_check_equal[equal_st_okna-1][0].get("1.0", 'end')!=okna_check_equal[equal_st_okna][0].get("1.0", 'end'):
-                    tests['check_equal'].insert(0, [CheckEqual(expression, result)])
+                    tests['check_equal'].insert(0, [CheckEqual(expression, output)])
                 
    
         #print("VSI:", tests)
@@ -158,8 +162,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression1 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression1.grid(row=9, column=1, sticky="w")
 
-    text_testi_check_equal_result1 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result1.grid(row=9, column=2, sticky="w")
+    text_testi_check_equal_output1 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output1.grid(row=9, column=2, sticky="w")
 
     # okno za check equal 2
     text_testi_check_equal_st2 = Text(root, width=4, height=2, bg='white', bd=5, relief=SUNKEN)
@@ -168,8 +172,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression2 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression2.grid(row=10, column=1, sticky="w")
 
-    text_testi_check_equal_result2 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result2.grid(row=10, column=2, sticky="w")
+    text_testi_check_equal_output2 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output2.grid(row=10, column=2, sticky="w")
 
     # okno za check equal 3
     text_testi_check_equal_st3 = Text(root, width=4, height=2, bg='white', bd=5, relief=SUNKEN)
@@ -178,8 +182,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression3 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression3.grid(row=11, column=1, sticky="w")
 
-    text_testi_check_equal_result3 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result3.grid(row=11, column=2, sticky="w")
+    text_testi_check_equal_output3 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output3.grid(row=11, column=2, sticky="w")
 
     # okno za check equal 4
     text_testi_check_equal_st4 = Text(root, width=4, height=2, bg='white', bd=5, relief=SUNKEN)
@@ -188,8 +192,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression4 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression4.grid(row=12, column=1, sticky="w")
 
-    text_testi_check_equal_result4 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result4.grid(row=12, column=2, sticky="w")
+    text_testi_check_equal_output4 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output4.grid(row=12, column=2, sticky="w")
 
     # okno za check equal 5
     text_testi_check_equal_st5 = Text(root, width=4, height=2, bg='white', bd=5, relief=SUNKEN)
@@ -198,8 +202,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression5 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression5.grid(row=13, column=1, sticky="w")
 
-    text_testi_check_equal_result5 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result5.grid(row=13, column=2, sticky="w")
+    text_testi_check_equal_output5 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output5.grid(row=13, column=2, sticky="w")
 
     # okno za check equal 6
     text_testi_check_equal_st6 = Text(root, width=4, height=2, bg='white', bd=5, relief=SUNKEN)
@@ -208,8 +212,8 @@ def okno_naloga(file_name):
     text_testi_check_equal_expression6 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
     text_testi_check_equal_expression6.grid(row=14, column=1, sticky="w")
 
-    text_testi_check_equal_result6 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
-    text_testi_check_equal_result6.grid(row=14, column=2, sticky="w")
+    text_testi_check_equal_output6 = Text(root, width=29, height=2, bg='white', bd=5, relief=SUNKEN)
+    text_testi_check_equal_output6.grid(row=14, column=2, sticky="w")
 
     # napis in okno za preostale teste
     Label(root, text="Ostali testi", font='Helvetica 12').grid(row=8, column=3, columnspan=3, sticky="w")
@@ -228,5 +232,5 @@ def okno_naloga(file_name):
     
     root.mainloop()
 if __name__ == "__main__":
-    file_name="podnaloga"
+    file_name="../edit_files/podnaloga"
     okno_naloga(file_name)

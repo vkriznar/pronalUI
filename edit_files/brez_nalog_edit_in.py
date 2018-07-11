@@ -5,144 +5,34 @@ problem = extract_problem(__file__)
 Check.initialize(problem['parts'])
 
 # =============================================================================
-# Biopython
-#
-# Oglej si naslednji spletni strani in sledi navodilom v nadaljevanju:
-# 
-# http://biopython.org/
-# 
-# https://www.ncbi.nlm.nih.gov/sra
-# =====================================================================@015026=
-# Iz spletne strani `http://biopython.org/` si inštaliraj modul Biopython.
-# 
-# Nato izvedi spodnjo kodo (pritisni F5), ki ti prikaže pomoč:
-# 
-#     import Bio
-#     print(help(Bio))
-# -----------------------------------------------------------------------------
-# # Ta stavek nalozi modul Bio:
-# import Bio
-# # Ta stavek ti izpise pomoc za ta modul:
-# print(help(Bio))
-# =============================================================================
-import Bio
-print(help(Bio))
-
-Check.part()
-(   Check.equal('odstej(8, 8)', 25 ) and 
-    Check.equal('odstej(88, 18)', 100) and 
-    Check.equal("odstej(20, 20)", 400)
-)
-
-(
-    Check.equal('sestej(81, 81)', 25 ) and 
-    Check.equal('sestej(88, 18)', 100) and 
-    Check.equal("sestej(20, 20)", 400)
-)
-
-Check.equal('zmnozi((2, 88), 2)', 4) and \
-Check.equal('zmnozi(3, 3)', 9)
-Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
-Check.equal('zmnozi(5, 5)', 25 )
-Check.equal('zmnozi(int("10"), 10)', int('100'))
-
-Check.equal("zmnozi(int('10'), 10)", 100)
-Check.equal("zmnozi(int('''10'''), int('10'))", int('100'))
-
-Check.equal('''zmnozi(int('10'), int("10"))''', 100)
-
-Check.equal("zmnozi(20, 20)", 400) and \
-Check.equal("zmnozi('20', 20)", 400) and \
-Check.equal('x', 50 // 6)
-
-
-print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)
-print('Zato bo vsaka rešitev označena kot pravilna. ')
-print('\nZagotovo si oglej tudi uradno rešitvo (žarnica)')
-print('in jo primerjaj s svojo.')
-print('\n' + '*' * 50)
-
-
-# =====================================================================@015027=
-# Na spletni strani `https://www.ncbi.nlm.nih.gov/guide/howto/dwn-genome/`
-# poišči genski zapis z oznako KT232076.1 in v obliki niza povej za
-# katero vrsto bakterije gre.
-# 
-#     # Resitev bo oblike:
-#     "Enterobacteria *** lambda"
-#     # kjer tri zvezdice zamenjaj za ustrezno ime.
-# =============================================================================
-"Enterobacteria phage lambda"
-
-Check.part()
-resitev = eval(Check.current_part['solution'])
-if not isinstance(resitev, str):
-    Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')
-
-if "Enterobacteria phage lambda" not in resitev:
-    Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
-
-
-# =====================================================================@015028=
-# Uporabi kodo:
-# 
-#     from Bio import Entrez
-#     from Bio import SeqIO
-#     Entrez.email = "tvoj.email@student.uni-lj.si"
-#     handle = Entrez.efetch(db="nucleotide", id="KT232076.1", rettype="gb")
-#     podatki = SeqIO.read(handle, "genbank")
-#     sekvenca = podatki.seq
-#     x = len(podatki.seq)
-# -----------------------------------------------------------------------------
-# from Bio import Entrez
-# from Bio import SeqIO
-# 
-# Entrez.email = "tvoj.email@student.uni-lj.si"
-# handle = Entrez.efetch(db="nucleotide", id="KT232076.1", rettype="gb")
-# podatki = SeqIO.read(handle, "genbank")
-# sekvenca = podatki.seq
-# x = len(podatki.seq)
-# # V spremenljivki x je shranjena dolzina Enterobacterie.
-# # V spremenljivki sekvenca pa imas niz, ki predstavlja
-# # genski zapis te bakterije.
-# # Vse kar ta naloga zahteva je da vpises svoj email namesto
-# # tvoj.email@student.uni-lj.si in poženeš kodo z F5.
-# #
-# # Sedaj lahko na realnih podatkih preiskusis funkcije iz prejsne naloge.
-# =============================================================================
-x = 49205
-
-Check.part()
-Check.equal('x', 49205)
-
-
+# Brez naslova
 # # =====================================================================@000000=
-# # This is a template for a new problem part. To create a new part, uncomment
-# # the template and fill in your content.
+# # To je predloga za novo podnalogo. Če želite ustvariti novo podnalogo,
+# # pobrišite komentarje ter vsebino zamenjajte s svojo.
 # #
-# # Define a function `multiply(x, y)` that returns the product of `x` and `y`.
-# # For example:
+# # Sestavite funkcijo `zmnozi(x, y)`, ki vrne produkt števil `x` in `y`.
+# # Na primer:
 # #
-# #     >>> multiply(3, 7)
+# #     >>> zmnozi(3, 7)
 # #     21
-# #     >>> multiply(6, 7)
+# #     >>> zmnozi(6, 7)
 # #     42
 # # =============================================================================
 #
-# def multiply(x, y):
+# def zmnozi(x, y):
 #     return x * y
 #
 # Check.part()
 #
-# Check.equal('multiply(3, 7)', 21)
-# Check.equal('multiply(6, 7)', 42)
-# Check.equal('multiply(10, 10)', 100)
-# Check.secret(multiply(100, 100))
-# Check.secret(multiply(500, 123))
+# Check.equal('zmnozi(3, 7)', 21)
+# Check.equal('zmnozi(6, 7)', 42)
+# Check.equal('zmnozi(10, 10)', 100)
+# Check.secret(zmnozi(100, 100))
+# Check.secret(zmnozi(500, 123))
 
 
 # ===========================================================================@=
-# Do not change this line or anything below it.
+# Ne spreminjajte te vrstice ali česarkoli pod njo.
 # =============================================================================
 
 
@@ -399,7 +289,7 @@ def extract_problem(filename):
         'solution': match.group('solution').strip(),
         'template': strip_hashes(match.group('template')),
         'validation': match.group('validation').strip(),
-        'problem': 5618
+        'problem': 5847
     } for match in part_regex.finditer(source)]
     problem_match = re.search(
         r'^\s*# =+\s*\n'                         # beginning of header
@@ -411,8 +301,8 @@ def extract_problem(filename):
         'title': problem_match.group('title').strip(),
         'description': strip_hashes(problem_match.group('description')),
         'parts': parts,
-        'id': 5618,
-        'problem_set': 1380
+        'id': 5847,
+        'problem_set': 1409
     }
 
 def _validate_current_file():
@@ -444,29 +334,29 @@ def _validate_current_file():
 
     Check.summarize()
     if all(part['valid'] for part in problem['parts']):
-        print('The problem is correctly formulated.')
-        if input('Should I save it on the server [yes/NO]') == 'yes':
-            print('Saving problem to the server...', end="")
+        print('Naloga je pravilno sestavljena.')
+        if input('Ali naj jo shranim na strežnik [da/NE]') == 'da':
+            print('Shranjujem nalogo na strežnik...', end="")
             try:
                 url = 'https://www.projekt-tomo.si/api/problems/submit/'
-                token = 'Token 19a8b1042389a925da13551cc632fc7cc402a3d8'
+                token = 'Token 5e3e4f392b1d4a0678cc3bff8aa5ed986de0c2af'
                 response = submit_problem(problem, url, token)
                 if 'update' in response:
-                    print('Updating file... ', end="")
+                    print('Posodabljam datoteko... ', end="")
                     backup_filename = backup(__file__)
                     with open(__file__, 'w', encoding='utf-8') as f:
                         f.write(response['update'])
-                    print('Previous file has been renamed to {0}.'.format(backup_filename))
-                    print('If the file did not refresh in your editor, close and reopen it.')
+                    print('Stara datoteka je bila preimenovana v {0}.'.format(backup_filename))
+                    print('Če se datoteka v urejevalniku ni osvežila, jo zaprite ter ponovno odprite.')
             except urllib.error.URLError as response:
                 message = json.loads(response.read().decode('utf-8'))
-                print('\nAN ERROR OCCURED WHEN TRYING TO SAVE THE PROBLEM!')
+                print('\nPRI SHRANJEVANJU JE PRIŠLO DO NAPAKE!')
                 if message:
                     print('  ' + '\n  '.join(message.splitlines()))
-                print('Please, try again.')
+                print('Prosimo, poskusite znova.')
             else:
-                print('Problem saved.')
+                print('Naloga je shranjena.')
         else:
-            print('Problem was not saved.')
+            print('Naloga ni bila shranjena.')
     else:
-        print('The problem is not correctly formulated.')
+        print('Naloga ni pravilno sestavljena.')

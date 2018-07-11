@@ -6,6 +6,9 @@
 # C extensions
 *.so
 
+# *_in.py
+*_out.py
+
 # Distribution / packaging
 .Python
 build/

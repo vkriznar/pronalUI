@@ -1,18 +1,15 @@
 with open(__file__, encoding='utf-8') as f:
     source = f.read()
-exec(source[source.find("# =L=I=B=""R=A=R=Y=@="):])
+exec(source[source.find("# =L=I=B="
+                        "R=A=R=Y=@="):])
 problem = extract_problem(__file__)
 Check.initialize(problem['parts'])
 
 # =============================================================================
 # Biopython
-# 
-# 
-# Oglej si naslednji spletni strani in sledi navodilom v nadaljevanju:
-# 
-# http://biopython.org/
-# 
-# https://www.ncbi.nlm.nih.gov/sra
+#
+# opis sklopa
+# Biopython
 # =====================================================================@015026=
 # Iz spletne strani `http://biopython.org/` si inštaliraj modul Biopython.
 # 
@@ -30,11 +27,43 @@ import Bio
 print(help(Bio))
 
 Check.part()
+(   Check.equal('odstej(8, 8)', 25 ) and Check.equal('odstej(88, 18)', 100) and Check.equal("odstej(20, 20)", 400))
+
+(
+    Check.equal('sestej(81, 81)', 25 ) and 
+    Check.equal('sestej(88, 18)', 100) and 
+    Check.equal("sestej(20, 20)", 400)
+)
+
+Check.equal('zmnozi((2, 88), 2)', 4) and \
+Check.equal('zmnozi(3, 3)', 9)
+Check.equal('zmnozi(4, 4)', 16, clean=clean, env=env)
+Check.equal('zmnozi(5, 5)', 25 )
+Check.equal('zmnozi(int("10"), 10)', int('100'))
+
+Check.equal("zmnozi(int('10'), 10)", 100)
+Check.equal("zmnozi(int('''10'''), int('10'))", int('100'))
+
+Check.equal('''zmnozi(int('10'), int("10"))''', 100)
+
+Check.equal("zmnozi(20, 20)", 400) and \
+Check.equal("zmnozi('20', 20)", 400) and \
+Check.equal('x', 50 // 6)
+
+Check.secret(zmnozi(100, 100))
+Check.secret(zmnozi(500, 123))
+
+Check.secret(zmnozi(11, 11)) and \
+Check.secret(zmnozi(33, 33))
+
+
 print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)
 print('Zato bo vsaka rešitev označena kot pravilna. ')
 print('\nZagotovo si oglej tudi uradno rešitvo (žarnica)')
 print('in jo primerjaj s svojo.')
 print('\n' + '*' * 50)
+
+
 # =====================================================================@015027=
 # Na spletni strani `https://www.ncbi.nlm.nih.gov/guide/howto/dwn-genome/`
 # poišči genski zapis z oznako KT232076.1 in v obliki niza povej za
@@ -43,10 +72,6 @@ print('\n' + '*' * 50)
 #     # Resitev bo oblike:
 #     "Enterobacteria *** lambda"
 #     # kjer tri zvezdice zamenjaj za ustrezno ime.
-# -----------------------------------------------------------------------------
-# # Resitev bo oblike:
-# "Enterobacteria *** lambda"
-# # kjer tri zvezdice zamenjaj za ustrezno ime.
 # =============================================================================
 "Enterobacteria phage lambda"
 
@@ -57,6 +82,8 @@ if not isinstance(resitev, str):
 
 if "Enterobacteria phage lambda" not in resitev:
     Check.error('Napisati morate pravilen niz. Namig resitev je: "Enterobacteria phage lambda"')
+
+
 # =====================================================================@015028=
 # Uporabi kodo:
 # 

@@ -90,17 +90,22 @@ class Problem:
         return "\n".join(blocks)
 
 
-    def write_on_file(self, file):
-        with open(file, "w", encoding="utf-8") as f:
+    def write_on_file(self, file_name):
+        with open(file_name, "w", encoding="utf-8") as f:
             f.write(str(self))
+
+    @staticmethod
+    def load_file(file_name):
+        with open(file_name, "r", encoding="utf-8") as f:
+            file_string = f.read()
+
+        return Problem.parse(file_string)
+        
 
 
 if __name__ == "__main__":
-    file_name =   "../edit_files/naloga" #"brez_nalog_edit" 
-    with open(file_name + "_in.py", "r", encoding="utf-8") as f:
-        file_string = f.read()
-    
-    problem = Problem.parse(file_string)
+    file_name =   "../edit_files/naloga"
+    problem = Problem.load_file(file_name + "_in.py")
     # print(problem.parts)
     problem.write_on_file(file_name + "_out.py")
 

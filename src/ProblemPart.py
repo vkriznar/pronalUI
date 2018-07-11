@@ -45,6 +45,8 @@ def make_one_line_tuples(lines):
 
 class CheckEqual:
     def __init__(self, expression, output):
+        # TODO remove string tags in expresion
+        # TODO when expresion is writen to file we should write it with triple " (""")
         self.expression = expression
         self.output = output
 
@@ -285,8 +287,12 @@ class ProblemPart:
         with open(file, "w", encoding="utf-8") as f:
             f.write(str(self))
 
+    @staticmethod
+    def load_file(file_name):
+        with open(file_name, "r", encoding="utf-8") as f:
+            file_string = f.read()
 
-
+        return ProblemPart.parse(file_string)
 
 
 

@@ -22,6 +22,12 @@ input[type=text], input[type=password], input[type=number] {
     box-sizing: border-box;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 button {
     background-color: #262626;
     color: white;
@@ -275,4 +281,6 @@ select {
 	margin-left:auto;
 	margin-right: auto;
 }
+
+
 

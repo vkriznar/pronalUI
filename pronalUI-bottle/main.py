@@ -2,7 +2,7 @@ from bottle import *
 import webbrowser
 
 static_directory = "./static"
-tmp=[]
+tmp = [[], []]
 
 
 
@@ -39,13 +39,16 @@ def index_post():
 
 @get("/index/testi/")
 def index_testi():
-    return template("index.html", adress=adress, description=description, code=code, napaka=None, rows=tmp, testi=True)
+    return template("index.html", adress=adress, description=description,
+                    code=code, napaka=None, rows=tmp, testi=True)
 
 @post("/index/testi/")
 def index_testi_post():
     "Če test nima določenega atributa vrne None namest praznega niza"
-    rezultat = request.forms.rezultat if request.forms.rezultat != "" else "None"
-    tmp.append([len(tmp)+1, request.forms.tipTesta, request.forms.niz, rezultat])
+    if request.forms.tipTesta == "chkeql":
+        tmp[0].append([request.forms.stevilka, request.forms.niz, request.forms.rezultat])
+    elif request.forms.tipTesta == "chksct":
+        tmp[1].append([request.forms.stevilka, request.forms.niz1, request.forms.niz2])
     redirect("/index/testi/")
 
 run(host='localhost', port=8080, debug=True)

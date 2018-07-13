@@ -22,106 +22,17 @@
 		<input type="button" value="bold" onClick="formatText('b');"/> 
 		<input type="button" value="italic" onClick="formatText('i');"/> 
 		<input type="button" value="underline" onClick="formatText('u');"/>
-		<input type="button" value="equation" onClick="formatText('m')"/>
+		<input type="button" value="latex" onClick="formatText('$')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
-		<label for="koda"><b>Koda</b></label>
-		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
-		<button type="submit" id="naprej" style="display: block;">Naprej na dodajanje testov</button>
-		<h5>
-			%if napaka is not None:
-					{{napaka}}
-			%end
-		</h5>
 	</div>
 </form>
-<br>
-<div class="container" id="testi" style="display:none; margin: auto">
-	<div class="testi">
-		<div id="eql" style="display: none;">
-			<label for="testi"><b>Dodani testi - Check equal</b></label>
-			<br><br>
-			<table class="table-fill">
-			<thead>
-				<tr>
-					<th class="text-left"># Testa</th>
-					<th class="text-left">Niz s klicem funkcije</th>
-					<th class="text-left">Rezultat niza</th>
-				</tr>
-			</thead>
-			<tbody class="table-hover">
-				<tbody>  
-					%if rows is not None:
-					% if rows[0] is not None:
-					% for row in rows[0]:
-					<tr>
-						%for col in row:
-							<td class="text-center">{{col}}</td>
-						%end
-					</tr>
-					%end
-					%end
-					%end
-				</tbody>
-			</tbody>
-			</table>
-			<br>
-		</div>
-		<div id="sct" style="display: none;">
-			<label for="testi"><b>Dodani testi - Check secret</b></label>
-			<br><br>
-			<table class="table-fill">
-			<thead>
-				<tr>
-					<th class="text-left"># Testa</th>
-					<th class="text-left">Prvi argument testa</th>
-					<th class="text-left">Drugi argument testa</th>
-				</tr>
-			</thead>
-			<tbody class="table-hover">
-				<tbody> 
-					%if rows is not None:
-					% if rows[1] is not None:
-					% for row in rows[1]:
-					<tr>
-						%for col in row:
-							<td class="text-center">{{col}}</td>
-						%end
-					</tr>
-					%end
-					%end
-					%end
-				</tbody>
-			</tbody>
-			</table>
-			<br>
-		</div>
-		<div class="dodajanje">
-			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
-			<select id="testSelect1" name="tipTesta1" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
-				<option selected value='chkeql'>Check equal</option>
-				<option value='test2'>Check secret</option>
-			</select>
-			<br><br>
-			<form action="." role="form" method="post" class="form1" id="form1" style="display: inline-block;">
-				<input type="hidden" name="tipTesta" value="chkeql">
-				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
-				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:500px;" required>
-				<input type="number" placeholder="Rezultat" name="rezultat" style="float:left; width:240px;" required>
-				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
-			</form>
-			<form action="." role="form" method="post" class="form1" id="form2" style="height: 53px; display: none;">
-				<input type="hidden" name="tipTesta" value="chksct">
-				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
-				<input type="text" placeholder="Prvi argument secret testa" name="niz1" style="float:left; width:370px;" required>
-				<input type="text" placeholder="Drugi argument secret testa" name="niz2" style="float:left; width:370px;">
-				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
-			</form>
-		</div>
-	</div>
+<div class="container" style="margin: auto; width: 965px; overflow: hidden; padding: 0;">
+	<a class="link" href="podnaloga/" target="_blank" onclick="document.getElementById('form').submit();"><button id="naprej" style="display: block; margin: auto;">Nova podnaloga</button></a>
 </div>
+
 
 <script>
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
@@ -156,7 +67,12 @@ function formatText(x) {
 	var textAreaSubstring = textAreaValue.substring(textArea.selectionStart, textArea.selectionEnd);
 	var textAreaBefore = textAreaValue.substring(0, textArea.selectionStart);
 	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
-	textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
+	if (x != "$"){
+		textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
+	}
+	else {
+		textArea.value = textAreaBefore + x + textAreaSubstring + x + textAreaAfter;
+	}
 }
 //koda, ki prikaze uporabniku kako zgleda njegov opis
 function opis_preview() {
@@ -165,33 +81,11 @@ function opis_preview() {
 	var textView = document.getElementById("opis_preview");
 	textView.innerHTML = replacedTextArea
 }
-//ko gre uporabnik naprej
-%if testi:
-	var testi = document.getElementById("testi");
-	testi.style.display = "block";
-	document.getElementById("naprej").style.display = "none";
-	$('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
-%end
 
-function tiptesta(test) {
-	if(test.value == "chkeql") {
-		document.getElementById("form1").style.display = "inline-block";
-		document.getElementById("form2").style.display = "none";
-	}
-	else if(test.value == "test2") {
-		document.getElementById("form1").style.display = "none";
-		document.getElementById("form2").style.display = "inline-block";
-	}
-}
-
-%if rows is not None:
-	%if rows[0]:
-		document.getElementById("eql").style.display = "block";
-	%end
-	%if rows[1]:
-		document.getElementById("sct").style.display = "block";
-	%end
-%end
+//Da se uporabniku spet pokaze predogled opisa
+$(document).ready(function() {
+	opis_preview();
+});
 </script>
 
 	

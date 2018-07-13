@@ -42,6 +42,8 @@ button:hover {
     opacity: 0.8;
 }
 
+.levo button, button .desno {width: 50%;}
+
 .form1 {
 	margin-top: 15px;
 	border: 0px; 
@@ -90,9 +92,7 @@ button:hover {
 
 #opis_preview {
 	height:200px;
-	max-height: 200px;
 	line-height: 70%;
-	overflow-y: auto;
 }
 
 
@@ -246,7 +246,7 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-.submit button{
+.submit a{
 	float:right; 
 	width:100px; 
 	margin-top: 8px;
@@ -259,12 +259,8 @@ input[type=text], input[type=password] {
     width: 100%;
 }
 
-.submit button:hover {
+.submit a:hover {
     opacity: 0.8;
-}
-
-.link {
-	text-decoration: none;
 }
 
 .form {

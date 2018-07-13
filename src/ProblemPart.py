@@ -45,12 +45,19 @@ def make_one_line_tuples(lines):
 
 class CheckEqual:
     def __init__(self, expression, output):
+        # TODO remove string tags in expresion
+        # TODO when expresion is writen to file we should write it with triple " (""")
         self.expression = expression
         self.output = output
 
     def __repr__(self):
         return "Check.equal({0}, {1})".format(self.expression, self.output)
-        
+
+# TODO check secret should have only one parameter
+# TODO as with check equal all other parameters can be saved in same string
+# TODO because there sholud be only one fild in editor window
+# TODO CheckEqual (4 args) -> (2 args; input, out);   out; res, clean, env
+# TODO CheckSecret (3 args) -> (1 args; input)      input; exp, hint, clean
 class CheckSecret:
     def __init__(self, expression, other):
         self.expression = expression
@@ -280,8 +287,12 @@ class ProblemPart:
         with open(file, "w", encoding="utf-8") as f:
             f.write(str(self))
 
+    @staticmethod
+    def load_file(file_name):
+        with open(file_name, "r", encoding="utf-8") as f:
+            file_string = f.read()
 
-
+        return ProblemPart.parse(file_string)
 
 
 

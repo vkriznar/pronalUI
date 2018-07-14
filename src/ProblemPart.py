@@ -33,7 +33,7 @@ def make_one_line_tuples(lines):
             
         elif inside_tuple:
             # if we are inside tuple, we append curent line on lines_inside_tuple and we check if tuple ends in this line
-            lines_inside_tuple.append(line)
+            lines_inside_tuple.append(line.lstrip())
             
             if not check_parentheses(line):
                 # if number of parantheses in this line doesn't match, this means tuple has ended
@@ -201,6 +201,10 @@ class ProblemPart:
                 return check_equals_connected_with_and, check_secrets_connected_with_and
             
             validation = re.sub(r"and\s*\\\s*", r"and ", validation)
+            ## below line ADDED
+            ## we do the same for or as we do for and, so we can then, all lines that contains or, just append to other_lines
+            validation = re.sub(r"or\s*\\\s*", r"or ", validation)
+            
             lines = validation.split("\n")
             
             other_lines = []
@@ -209,8 +213,14 @@ class ProblemPart:
             
             for line in make_one_line_tuples(lines):
                 line = line.strip()
+
+                ## below 2 lines ADDED
+                ## we check if "or" is in line, and if it is, we just append the whole line on other_lines
+                ## in this case: equal and eqal or equal, we dont parse these equal tests, we just append all on other_lines
+                if "or" in line:
+                    other_lines.append(line)
                 
-                if line.startswith("Check.equal") or line.startswith("Check.secret"):
+                elif line.startswith("Check.equal") or line.startswith("Check.secret"):
                     check_equals_with_and, check_secrets_with_and = decompose_and(line)
                     check_equals.append(check_equals_with_and)
                     check_secrets.append(check_secrets_with_and)
@@ -268,6 +278,7 @@ class ProblemPart:
 
         print("\nTESTI: ")
         for key in tests:
+            print(key.upper())
             if not isinstance(tests[key], list):
                 print(tests[key])
                 continue

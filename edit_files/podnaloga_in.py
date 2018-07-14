@@ -55,6 +55,17 @@ Check.secret(zmnozi(33, 33))
     
 )
 
+(
+    Check.secret(odstej(1, 1)) or
+    Check.secret(odstej(2, 2)) and
+    Check.secret(odstej(3, 3))
+    
+)
+
+Check.equal("odstej(1, 1)", 1 )  or \
+Check.equal('odstej(2, 2)', 2 ) and \
+Check.equal('odstej(3, 3)', 3 )
+
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
     Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')

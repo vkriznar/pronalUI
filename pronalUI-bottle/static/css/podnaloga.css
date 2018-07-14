@@ -11,6 +11,7 @@ html {overflow-x: hidden; margin-bottom: 100px;}
 
 form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
 
+
 label {font-size: 19px;}
 
 input[type=text], input[type=password], input[type=number] {
@@ -77,7 +78,7 @@ button:hover {
 }
 
 
-#opis, #opis_preview, #koda, #prekoda {
+#opis, #opis_preview, #koda, #prekoda, #other, #other_preview {
 	white-space: pre-wrap;
 	width: 100%;
 	max-width: 100%;
@@ -88,11 +89,16 @@ button:hover {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+	font-size: 15px;
 }
 
-#opis_preview {
-	height:200px;
+#other {width: 88%; max-width: 88%; min-width: 88%;}
+
+#opis_preview, #other_preview {
+	height:150px;
+	max-height: 200px;
 	line-height: 70%;
+	overflow-y: auto;
 }
 
 
@@ -266,6 +272,8 @@ input[type=text], input[type=password] {
 .form {
 	margin-top: 15px;
 }
+
+.p {border: 3px solid #f1f1f1; padding-left: 10px; padding-right: 10px; max-height: 250px; overflow-y: auto; overflow-x: auto; font-size: 17px;}
 
 select {
 	width: 150px;

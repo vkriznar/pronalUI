@@ -98,11 +98,26 @@
 			</table>
 			<br>
 		</div>
+		<div id="oth" style="display: none;">
+			<label for="testi"><b>Dodani testi - Other</b></label>
+			<br><br>
+			<div class="p">
+			%if rows is not None:
+			% if rows[2] is not None:
+			% for row in rows[2]:
+				<p>{{!row}}</p>
+			%end
+			%end
+			%end
+			</div>
+			<br>
+		</div>
 		<div class="dodajanje">
 			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
-			<select id="testSelect1" name="tipTesta1" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
+			<select id="testSelect" name="tipTesta" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
 				<option selected value='chkeql'>Check equal</option>
-				<option value='test2'>Check secret</option>
+				<option value='chksct'>Check secret</option>
+				<option value='other'>Other tests</option>
 			</select>
 			<br><br>
 			<form action="." role="form" method="post" class="form1" id="form1" style="display: inline-block;">
@@ -117,6 +132,11 @@
 				<input type="text" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
 				<input type="text" placeholder="Prvi argument secret testa" name="niz1" style="float:left; width:370px;" required>
 				<input type="text" placeholder="Drugi argument secret testa" name="niz2" style="float:left; width:370px;">
+				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
+			</form>
+			<form action="." role="form" method="post" class="form1" id="form3" style="height: 53px; width: 100%; display: none;">
+				<input type="hidden" name="tipTesta" value="other">
+				<textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste" required></textarea>
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
 		</div>
@@ -154,7 +174,7 @@ $(document).delegate('#opis', 'keydown', function(e) {
 	}
   }
 });
-$(document).delegate('#koda, #prekoda', 'keydown', function(e) {
+$(document).delegate('#koda, #prekoda, #other', 'keydown', function(e) {
   var keyCode = e.keyCode || e.which;
     var start = this.selectionStart;
     var end = this.selectionEnd;
@@ -186,10 +206,12 @@ function formatText(x) {
 //koda, ki prikaze uporabniku kako zgleda njegov opis
 function opis_preview() {
     var textArea = document.getElementById('opis');
-	var replacedTextArea = textArea.value.replace(" ", "&nbsp")
+	var replacedTextArea = textArea.value.replace(" ", "&nbsp");
 	var textView = document.getElementById("opis_preview");
-	textView.innerHTML = replacedTextArea
+	textView.innerHTML = replacedTextArea;
 }
+
+
 //ko gre uporabnik naprej
 %if testi:
 	var testi = document.getElementById("testi");
@@ -199,13 +221,20 @@ function opis_preview() {
 %end
 
 function tiptesta(test) {
-	if(test.value == "chkeql") {
+	if(test.value == "chkeql" || test == "chkeql") {
 		document.getElementById("form1").style.display = "inline-block";
 		document.getElementById("form2").style.display = "none";
+		document.getElementById("form3").style.display = "none";
 	}
-	else if(test.value == "test2") {
+	else if(test.value == "chksct" || test == "chksct") {
 		document.getElementById("form1").style.display = "none";
 		document.getElementById("form2").style.display = "inline-block";
+		document.getElementById("form3").style.display = "none";
+	}
+	else if(test.value == "other" || test == "other") {
+		document.getElementById("form1").style.display = "none";
+		document.getElementById("form2").style.display = "none";
+		document.getElementById("form3").style.display = "inline-block";
 	}
 }
 
@@ -216,12 +245,31 @@ function tiptesta(test) {
 	%if rows[1]:
 		document.getElementById("sct").style.display = "block";
 	%end
+	%if rows[2]:
+		document.getElementById("oth").style.display = "block";
+	%end
 %end
 
 $(document).ready(function() {
 	opis_preview();
+	%if active_test == "chkeql":
+		var element = document.getElementById("testSelect");
+		element.value = "chkeql";
+		tiptesta("chkeql");
+	%end
+	%if active_test == "chksct": 
+		var element = document.getElementById("testSelect");
+		element.value = "chksct";
+		tiptesta("chksct");
+	%end
+	%if active_test == "other":
+		var element = document.getElementById("testSelect");
+		element.value = "other";
+		tiptesta("other");
+	%end
 });
 </script>
+
 
 	
 

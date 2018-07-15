@@ -66,6 +66,10 @@ Check.equal("odstej(1, 1)", 1 )  or \
 Check.equal('odstej(2, 2)', 2 ) and \
 Check.equal('odstej(3, 3)', 3 )
 
+for i in range(1, 10):
+    Check.secret(zmnozi(i, i+1))
+    
+
 resitev = eval(Check.current_part['solution'])
 if not isinstance(resitev, str):
     Check.error('Rešitev mora biti niz. Nizi se pisejo takole "TUKAJ JE BESEDILO"')

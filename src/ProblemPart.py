@@ -212,7 +212,10 @@ class ProblemPart:
             check_secrets = []
             
             for line in make_one_line_tuples(lines):
-                line = line.strip()
+                line = line.rstrip() # we shouldn't strip (lstrip) because then tests like:
+                # for i in range(i, i+1):
+                #    check.secret(zmnozi(i, i+1))
+                # gets separated - first line goes to other lines, and second line is parsed to check_secret
 
                 ## below 2 lines ADDED
                 ## we check if "or" is in line, and if it is, we just append the whole line on other_lines

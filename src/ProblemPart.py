@@ -47,11 +47,15 @@ class CheckEqual:
     def __init__(self, expression, output):
         # TODO remove string tags in expresion
         # TODO when expresion is writen to file we should write it with triple " (""")
+        # TODO split output on solution and clean, env
         self.expression = expression
         self.output = output
 
     def __repr__(self):
         return "Check.equal({0}, {1})".format(self.expression, self.output)
+
+    def example(self):
+        return self.expresion + "\n>>> " + self.output
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string
@@ -278,24 +282,30 @@ class ProblemPart:
         solution = match.group('solution').strip()
         validation = match.group('validation').strip()
         tests = ProblemPart.parse_tests(validation)
-
-        print("\nTESTI: ")
-        for key in tests:
-            print(key.upper())
-            if not isinstance(tests[key], list):
-                print(tests[key])
-                continue
-            
-            for z in tests[key]:
-                print(z)
-
-                
-        # print("\nTESTI: ", tests)
-        # TODO validation (check part), problem_id
         
         return ProblemPart(part_id, description, precode, solution, tests)
 
-    
+
+    def code_to_description(self, code, line_num):
+        string_list = self.description.split("\n")
+        insert_text = ("\n" + 4*" ").join(code.split("\n"))
+        if line_num < 0:
+            string_list.append(line_num, insert_text)
+        else:
+            string_list.insert(line_num, insert_text)
+
+        self.description = "".join(string_list)
+
+    def precode_to_description(self, line_num=-1):
+        self.code_to_description("\n" + self.precode + "\n", line_num)
+
+    def check_equal_to_description(test, line_num=-1):
+        code = "\n" + test.example() + "\n"
+        self.code_to_description(code, line_num)
+
+    def check_equals_to_description(tests, line_num=-1):
+        code = "\n" + "\n".join([z.example() for z in tests]) + "\n"
+        self.code_to_description(code, line_num)
 
     def write_on_file(self, file):
         with open(file, "w", encoding="utf-8") as f:
@@ -355,6 +365,18 @@ if __name__ == "__main__":
         return problem_part_string.split("Check.part()")[0].strip()
     
     problem_part = parse_test(problem_part_string)
+
+    tests = problem_part.tests
+    print("\nTESTI: ")
+    for key in tests:
+        print(key.upper())
+        if not isinstance(tests[key], list):
+            print(tests[key])
+            continue
+        
+        for z in tests[key]:
+            print(z)
+    
     # print(str(problem_part))
     assert instructions_string(problem_part_string) == instructions_string(str(problem_part))
     

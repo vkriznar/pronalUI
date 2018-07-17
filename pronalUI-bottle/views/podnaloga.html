@@ -2,7 +2,7 @@
 
 <html lang="slo">
 <head>
-	<title>Program z Tomo</title>
+	<title>{{title}}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/podnaloga.css">
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
@@ -14,7 +14,7 @@
 
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
-		<label for="opis"><b>Opis naloge</b></label>
+		<label for="opis"><b>Opis</b></label>
 		<br>
 		<body onLoad="onload();">
 		<input type="button" value="bold" onClick="formatText('b');"/> 
@@ -23,11 +23,11 @@
 		<input type="button" value="latex" onClick="formatText('$')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
-		<label for="predogled"><b>Predogled opisa naloge</b></label>
+		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
 		<label for="prekoda"><b>Pre-koda</b></label>
-		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{precode}}</textarea>
-		<label for="koda"><b>Koda</b></label>
+		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
+		<label for="koda"><b>Rešitev</b></label>
 		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
 		<button type="submit" id="naprej" style="display: block;">Naprej na dodajanje testov</button>
 		<h5>

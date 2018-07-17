@@ -2,7 +2,7 @@
 
 <html lang="slo">
 <head>
-	<title>Program z Tomo</title>
+	<title>Naloga</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/index.css">
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
@@ -24,7 +24,7 @@
 		<input type="button" value="underline" onClick="formatText('u');"/>
 		<input type="button" value="latex" onClick="formatText('$')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
-		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
+		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
 	</div>

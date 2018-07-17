@@ -25,17 +25,15 @@ def index():
 def index_post():
     naslov = request.forms.naslov
     opis = request.forms.opis
-    if all([naslov, opis]):
+    if naslov:
         sklop.append([naslov, opis])
         return template("index.html", napaka=None, adress=naslov, description=opis)
-    else:
-        return template("index.html", napaka="Vsa polja morajo biti izpolnjena")
 
 @get("/index/podnaloga/")
 def podnaloga():
     global active_test
     active_test = "chkeql"
-    return template("podnaloga.html", napaka=None, description="", code="", precode="", rows=None, testi=False, active_test=active_test)
+    return template("podnaloga.html", napaka=None, description="", code="", precode="", rows=None, testi=False, active_test=active_test, title="Podnaloga")
 
 @post("/index/podnaloga/")
 def podnaloga_post():
@@ -53,7 +51,7 @@ def podnaloga_post():
 def podnaloga_testi():
     print(sklop[-1][3][2])
     return template("podnaloga.html", description=sklop[-1][0], precode=sklop[-1][1],
-                    code=sklop[-1][2], napaka=None, rows=sklop[-1][3], testi=True, active_test=active_test)
+                    code=sklop[-1][2], napaka=None, rows=sklop[-1][3], testi=True, active_test=active_test, title="Podnaloga")
 
 @post("/index/podnaloga/testi/")
 def podnaloga_testi_post():

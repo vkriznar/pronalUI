@@ -2,15 +2,20 @@ from bottle import *
 import webbrowser
 from Problem import Problem
 from ProblemPart import ProblemPart, CheckEqual, CheckSecret
+import time
 
 static_directory = "./static"
 active_test = "chkeql"
-problem  = None
-part_num = 1
+file_name = "../edit_files/naloga" + "_in.py"
+problem = Problem.load_file(file_name)
+
 
 
 webbrowser.open('http://localhost:8080/index/')
-
+for i in range(len(problem.parts)):
+    time.sleep(0.05)
+    webbrowser.open('http://localhost:8080/index/podnaloga{}/'.format(i+1))
+    
 @route("/static/<filename:path>")
 def static(filename):
     return static_file(filename, root=static_directory)
@@ -22,8 +27,6 @@ def blank():
 @get("/index/")
 def index():
     global problem
-    file_name = "../edit_files/naloga" + "_in.py"
-    problem = Problem.load_file(file_name)
     adress = problem.title
     description = problem.description
     
@@ -37,10 +40,10 @@ def index_post():
         sklop.append([naslov, opis])
         return template("index.html", napaka=None, adress=naslov, description=opis)
 
-@get("/index/podnaloga/")
-def podnaloga():
+@get("/index/podnaloga<part_num>/")
+def podnaloga(part_num):
     global problem
-    global part_num
+    part_num = int(part_num)
     global active_test
     active_test = "chkeql"
 
@@ -66,76 +69,53 @@ def podnaloga():
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
                     precode=precode, rows=tests_data, testi=True,
-                    active_test=active_test, title="Podnaloga")
+                    active_test=active_test, title="Podnaloga {}".format(part_num))
 
-@post("/index/podnaloga/")
-def podnaloga_post():
+@post("/index/podnaloga<part_num>/")
+def podnaloga_post(part_num):
     global problem
-    global part_num
-    ##problem_part = problem.parts[part_num]
-    problem_part = problem.parts[0]
+    part_num = int(part_num)
+    print("ej")
+    problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
     
     opis = request.forms.opis
     koda = request.forms.koda
     prekoda = request.forms.prekoda
-
-    print("problem.parts")
-    print(problem.parts)
-    print("""problem.parts[part_num]""")
-    print(problem.parts[part_num])
-    print("""tests["check_equal"]""")
-    print(tests["check_equal"])
     
     global active_test
     if request.forms.tipTesta == "chkeql":
-        test_num = int(request.forms.stevilka)
+        print("type(request.forms.stevilka)")
+        print(type(request.forms.stevilka))
+        print(request.forms.stevilka)
+        # in python format (0 starts)
+        test_num = int(request.forms.stevilka) - 1
         check_equal_test = CheckEqual(request.forms.niz, request.forms.rezultat)
         if test_num == len(tests["check_equal"]):
             tests["check_equal"].append([check_equal_test])
         elif test_num > len(tests["check_equal"]):
             return HTTPResponse("Uspelo ti ni!") 
         else:
-            tests["check_equal"][test_num - 1].append(check_equal_test)
+            tests["check_equal"][test_num].append(check_equal_test)
         active_test = "chkeql"
         
     elif request.forms.tipTesta == "chksct":
-        test_num = int(request.forms.stevilka)
+        # in python format (0 starts)
+        test_num = int(request.forms.stevilka) - 1
         check_secret_test = CheckSecret(request.forms.niz1, request.forms.niz2)
-        if test_num == len(tests["check_secret"]):
+        if test_num == len(tests["check_secret"]) + 1:
             tests["check_secret"].append([check_secret_test])
         elif test_num > len(tests["check_secret"]):
             return HTTPResponse("Uspelo ti ni!")
         else:
-            tests["check_secret"][test_num - 1].append(check_secret_test)
+            tests["check_secret"][test_num].append(check_secret_test)
             
         active_test = "chksct"
     else:
         tests["other"] += zamenjaj(request.forms.other)
         active_test = "other"
-    redirect("/index/podnaloga/")
+    redirect("/index/podnaloga{}/".format(part_num))
 
-
-
-@get("/index/podnaloga/testi/")
-def podnaloga_testi():
-    return template("podnaloga.html", description=sklop[-1][0], precode=sklop[-1][1],
-                    code=sklop[-1][2], napaka=None, rows=sklop[-1][3], testi=True, active_test=active_test, title="Podnaloga")
-
-@post("/index/podnaloga/testi/")
-def podnaloga_testi_post():
-    "Če test nima določenega atributa vrne None namest praznega niza"
-    global active_test
-    if request.forms.tipTesta == "chkeql":
-        sklop[-1][3][0].append([request.forms.stevilka, request.forms.niz, request.forms.rezultat])
-        active_test = "chkeql"
-    elif request.forms.tipTesta == "chksct":
-        sklop[-1][3][1].append([request.forms.stevilka, request.forms.niz1, request.forms.niz2])
-        active_test = "chksct"
-    else:
-        sklop[-1][3][2][0] += zamenjaj(request.forms.other)
-        active_test = "other"
-    redirect("/index/podnaloga/testi/")
 
 @get("/pretvori/")
 def pretvori():

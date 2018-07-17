@@ -48,14 +48,15 @@ class CheckEqual:
         # TODO remove string tags in expresion
         # TODO when expresion is writen to file we should write it with triple " (""")
         # TODO split output on solution and clean, env
+        expression = expression.replace('"""',"'''")
         self.expression = expression
         self.output = output
 
     def __repr__(self):
-        return "Check.equal({0}, {1})".format(self.expression, self.output)
+        return 'Check.equal("""{0}""", {1})'.format(self.expression, self.output)
 
     def example(self):
-        return self.expresion + "\n>>> " + self.output + "\n"
+        return self.expression + "\n>>> " + self.output + "\n"
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string
@@ -147,13 +148,15 @@ class ProblemPart:
                 
                 
                 if not is_triple_quotation_mark(check_equal_string):
-                    expression=re.match(r"({0}(.*?)[^{0}]{0})[^{0}]".format(quotation_mark_type_expression), check_equal_string).group(1)
+                    expression=re.match(r"({0}((.*?)[^{0}]){0})[^{0}]".format(quotation_mark_type_expression), check_equal_string).group(1)
+                    output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
+                    expression=expression[1:-1]
                     
                 else:
                     expression=re.match(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type_expression), check_equal_string).group(0)
-                    
-                output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
- 
+                    output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
+                    expression=expression[3:-3]
+
                 return CheckEqual(expression, output)
 
             def is_triple_quotation_mark(string):

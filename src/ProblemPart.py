@@ -55,7 +55,7 @@ class CheckEqual:
         return "Check.equal({0}, {1})".format(self.expression, self.output)
 
     def example(self):
-        return self.expresion + "\n>>> " + self.output
+        return self.expresion + "\n>>> " + self.output + "\n"
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string

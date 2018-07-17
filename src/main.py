@@ -6,8 +6,8 @@ import time
 
 static_directory = "./static"
 active_test = "chkeql"
-file_name = "../edit_files/naloga" + "_in.py"
-problem = Problem.load_file(file_name)
+file_name = "../edit_files/naloga"
+problem = Problem.load_file(file_name + "_in.py")
 
 
 
@@ -71,9 +71,18 @@ def podnaloga(part_num):
                     precode=precode, rows=tests_data, testi=True,
                     active_test=active_test, title="Podnaloga {}".format(part_num))
 
+
+@get("/index/podnaloga/")
+def podnaloga_post_def():
+    global problem
+    part_num = len(problem.parts)
+    problem.new_problem_part()
+    redirect("/index/podnaloga{}/".format(part_num + 1))
+
 @post("/index/podnaloga<part_num>/")
 def podnaloga_post(part_num):
     global problem
+    
     part_num = int(part_num)
     print("ej")
     problem_part = problem.parts[part_num-1]
@@ -119,9 +128,8 @@ def podnaloga_post(part_num):
 
 @get("/pretvori/")
 def pretvori():
-    "Tukej se bo zej v ozadju poklicalo in vsi bomo srecni"
-    for array in sklop:
-        print(array)
+    #"Tukej se bo zej v ozadju poklicalo in vsi bomo srecni"
+    problem.write_on_file(file_name + "_out.py")
     return HTTPResponse("Uspelo ti je!")
 
 def zamenjaj(string):

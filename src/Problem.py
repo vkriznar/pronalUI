@@ -100,6 +100,10 @@ class Problem:
             file_string = f.read()
 
         return Problem.parse(file_string)
+
+    def new_problem_part(self):
+        self.parts.append(ProblemPart.load_file("parameters/default_part.py"))
+        return self.parts[-1]
         
 
 

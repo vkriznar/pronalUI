@@ -251,7 +251,7 @@ class ProblemPart:
             return check_equals, check_secrets, other_lines
         
         check_equals, check_secrets, other_lines = classify_tests(validation)
-        print(check_equals, check_secrets)
+        #print(check_equals, check_secrets)
         tests = {"check_equal" : check_equals, "other": "\n".join(other_lines), "check_secret" : check_secrets}
 
         return tests

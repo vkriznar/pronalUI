@@ -33,12 +33,11 @@ def index():
     return template("index.html", napaka=None, adress=adress, description=description, code="")
 
 @post("/index/")
-def index_post(): 
-    naslov = request.forms.naslov
-    opis = request.forms.opis
-    if naslov:
-        sklop.append([naslov, opis])
-        return template("index.html", napaka=None, adress=naslov, description=opis)
+def index_post():
+    if request.forms.naslov:
+        problem.title = request.forms.naslov
+        problem.description = request.forms.opis
+        return template("index.html", napaka=None, adress=problem.title, description=problem.description)
 
 @get("/index/podnaloga<part_num>/")
 def podnaloga(part_num):
@@ -84,7 +83,6 @@ def podnaloga_post(part_num):
     global problem
     
     part_num = int(part_num)
-    print("ej")
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
     
@@ -94,9 +92,6 @@ def podnaloga_post(part_num):
     
     global active_test
     if request.forms.tipTesta == "chkeql":
-        print("type(request.forms.stevilka)")
-        print(type(request.forms.stevilka))
-        print(request.forms.stevilka)
         # in python format (0 starts)
         test_num = int(request.forms.stevilka) - 1
         check_equal_test = CheckEqual(request.forms.niz, request.forms.rezultat)

@@ -97,7 +97,6 @@ button:hover {
 #opis_preview, #other_preview {
 	height:150px;
 	max-height: 200px;
-	line-height: 70%;
 	overflow-y: auto;
 }
 

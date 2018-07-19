@@ -7,15 +7,8 @@ import time
 static_directory = "./static"
 active_test = "chkeql"
 testi = False
-file_name = "../edit_files/naloga"
-problem = Problem.load_file(file_name + "_in.py")
-
-
 
 webbrowser.open('http://localhost:8080/index/')
-for i in range(len(problem.parts)):
-    time.sleep(0.05)
-    webbrowser.open('http://localhost:8080/index/podnaloga{}/'.format(i+1))
     
 @route("/static/<filename:path>")
 def static(filename):
@@ -25,24 +18,59 @@ def static(filename):
 def blank():
     redirect('/index/')
 
+@post('/upload')
+def upload():
+    global file_name
+    file = request.files.get('file')
+    # only allow upload of text files
+    if file.content_type != "text/plain":
+        return HTTPResponse("Uspelo ti ni!")
+    file_name = file.filename
+    "Z file.file dostopamo do nase datoteke, npr."
+    for line in file.file:
+        "moramo dekodirati, ker je zapisana v bitih"
+        print(line.decode().rstrip('\n'))
+    "redirect na obstojeco, ki je zaenkrat tako, da ne uposteva uploadanga fila, ker je treba spremeniti Problem.py"
+    return redirect("/index/obstojeca")
+
 @get("/index/")
 def index():
+    return template("index.html")
+
+"Zacetna stran kjer uporabnik izbire, ali bo ustvaril novo datoteko ali bo vnesel ze obstojeco datoteko za urejanje"
+@get("/index/<izbira>")
+def nova_naloga(izbira):
+    global problem
+    global file_name
+    if izbira == "nova":
+        #tukaj se ustvari nov Problem ki ima prazne atribute
+        redirect("/index/naloga/")
+    elif izbira == "obstojeca":
+        file_name = "../edit_files/naloga"
+        problem = Problem.load_file(file_name + "_in.py")
+        for i in range(len(problem.parts)):
+            time.sleep(0.05)
+            webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
+        redirect("/index/naloga/")
+
+@get("/index/naloga/")
+def naloga():
     global problem
     adress = problem.title
     description = problem.description
     
-    return template("index.html", napaka=None, adress=adress, description=description, code="")
+    return template("naloga.html", napaka=None, adress=adress, description=description, code="")
 
-@post("/index/")
-def index_post():
+@post("/index/naloga/")
+def naloga_post():
     if request.forms.naslov:
         problem.title = request.forms.naslov
         problem.description = request.forms.opis
-        return template("index.html", napaka=None, adress=problem.title, description=problem.description)
+        return template("naloga.html", napaka=None, adress=problem.title, description=problem.description)
     else:
         return HTTPResponse("Uspelo ti ni!")
 
-@get("/index/podnaloga<part_num>/")
+@get("/index/naloga/podnaloga<part_num>/")
 def podnaloga(part_num):
     global problem
     part_num = int(part_num)
@@ -71,14 +99,14 @@ def podnaloga(part_num):
                     active_test=active_test, title="Podnaloga {}".format(part_num))
 
 
-@get("/index/podnaloga/")
-def podnaloga_post_def():
+@get("/index/naloga/podnaloga/")
+def podnaloga_get_def():
     global problem
     part_num = len(problem.parts)
     problem.new_problem_part()
-    redirect("/index/podnaloga{}/".format(part_num + 1))
+    redirect("/index/naloga/podnaloga{}/".format(part_num + 1))
 
-@post("/index/podnaloga<part_num>/")
+@post("/index/naloga/podnaloga<part_num>/")
 def podnaloga_post(part_num):
     global problem
     global testi
@@ -121,12 +149,11 @@ def podnaloga_post(part_num):
             active_test = "chksct"
         else:
             tests["other"] += (request.forms.other)
-    redirect("/index/podnaloga{}/".format(part_num))
+    redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 
 @get("/pretvori/")
 def pretvori():
-    #"Tukej se bo zej v ozadju poklicalo in vsi bomo srecni"
     problem.write_on_file(file_name + "_out.py")
     return HTTPResponse("Uspelo ti je!")
 

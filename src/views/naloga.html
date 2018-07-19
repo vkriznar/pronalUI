@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="slo">
+<head>
+	<title>Naloga</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/naloga.css">
+	<meta name="author" content="Vid Križnar">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
+</head>
+
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<form action="." class="form" id="form" method="post" style="width:960px">
+	<div class="container">
+		<label for="naslov"><b>Naslov</b></label>
+		<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
+		<label for="opis"><b>Opis</b></label>
+		<br>
+		<body onLoad="onload();">
+		<input type="button" value="bold" onClick="formatText('b');"/> 
+		<input type="button" value="italic" onClick="formatText('i');"/> 
+		<input type="button" value="underline" onClick="formatText('u');"/>
+		<input type="button" value="latex" onClick="formatText('$')"/>
+		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
+		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
+		<label for="predogled"><b>Predogled opisa</b></label>
+		<div id="opis_preview"></div>
+	</div>
+</form>
+<div class="container" style="margin: auto; width: 965px; overflow: hidden; padding: 0;">
+	<a class="link" href="podnaloga/" target="_blank" id="redirect"><button id="naprej" style="display: block; margin: auto;">Nova podnaloga</button></a>
+</div>
+
+
+<script>
+// jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
+$(document).delegate('#koda, #opis', 'keydown', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode == 9 || keyCode == 13) {
+    var start = this.selectionStart;
+    var end = this.selectionEnd;
+	// dodaj znak tab(/t) textarea-ju 
+	if (keyCode == 9){
+	    e.preventDefault();
+		$(this).val($(this).val().substring(0, start)
+					+ "    "
+					+ $(this).val().substring(end));
+		// postavi caret nazaj na prvotno mest
+		this.selectionStart =
+		this.selectionEnd = start + 4;
+	}
+	else {
+	$(this).val($(this).val().substring(0, start)
+					+ "<br>"
+					+ $(this).val().substring(end));
+	this.selectionStart =
+	this.selectionEnd = start + 4;
+	}
+  }
+});
+// js koda, za underlying, bold, italic, ter LaTex enačbe
+function formatText(x) {
+	var textArea = document.getElementById('opis');
+	var textAreaValue = textArea.value;
+	var textAreaSubstring = textAreaValue.substring(textArea.selectionStart, textArea.selectionEnd);
+	var textAreaBefore = textAreaValue.substring(0, textArea.selectionStart);
+	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
+	if (x != "$"){
+		textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
+	}
+	else {
+		textArea.value = textAreaBefore + x + textAreaSubstring + x + textAreaAfter;
+	}
+}
+//koda, ki prikaze uporabniku kako zgleda njegov opis
+function opis_preview() {
+    var textArea = document.getElementById('opis');
+	var replacedTextArea = textArea.value.replace(" ", "&nbsp")
+	var textView = document.getElementById("opis_preview");
+	textView.innerHTML = replacedTextArea
+}
+
+//Da se uporabniku spet pokaze predogled opisa
+$(document).ready(function() {
+	opis_preview();
+});
+
+
+document.getElementById("redirect").addEventListener("click", function(event){
+	if(document.getElementById("naslov").value) {
+		document.getElementById("form").submit();
+	}
+	else {
+		alert("Naslov ne sme biti prazen!");
+		event.preventDefault();
+	}
+});
+</script>
+
+	
+
+
+
+</body>
+</html>

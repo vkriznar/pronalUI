@@ -11,7 +11,6 @@ html {overflow-x: hidden; margin-bottom: 100px;}
 
 form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
 
-
 label {font-size: 19px;}
 
 input[type=text], input[type=password], input[type=number] {
@@ -42,8 +41,6 @@ button {
 button:hover {
     opacity: 0.8;
 }
-
-.levo button, button .desno {width: 50%;}
 
 .form1 {
 	margin-top: 15px;
@@ -78,7 +75,7 @@ button:hover {
 }
 
 
-#opis, #opis_preview, #koda, #prekoda, #other, #other_preview {
+#opis, #opis_preview, #koda, #prekoda {
 	white-space: pre-wrap;
 	width: 100%;
 	max-width: 100%;
@@ -89,13 +86,10 @@ button:hover {
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-	font-size: 15px;
 }
 
-#other {width: 88%; max-width: 88%; min-width: 88%;}
-
-#opis_preview, #other_preview {
-	height:150px;
+#opis_preview {
+	height:200px;
 	max-height: 200px;
 	overflow-y: auto;
 }
@@ -115,6 +109,7 @@ div.table-title {
    font-weight: 400;
    font-style:normal;
    font-family: "Roboto", helvetica, arial, sans-serif;
+   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
    text-transform:uppercase;
 }
 
@@ -142,6 +137,7 @@ th {
   font-weight: 100;
   padding:8px;
   text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   vertical-align:middle;
 }
 
@@ -160,6 +156,7 @@ tr {
   color:#666B85;
   font-size:16px;
   font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
 }
  
 tr:hover td {
@@ -199,6 +196,7 @@ td {
   vertical-align:middle;
   font-weight:300;
   font-size:18px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #C1C3D1;
 }
 
@@ -247,7 +245,7 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-.submit a{
+.submit button{
 	float:right; 
 	width:100px; 
 	margin-top: 8px;
@@ -260,15 +258,17 @@ input[type=text], input[type=password] {
     width: 100%;
 }
 
-.submit a:hover {
+.submit button:hover {
     opacity: 0.8;
+}
+
+.link {
+	text-decoration: none;
 }
 
 .form {
 	margin-top: 15px;
 }
-
-.p {border: 3px solid #f1f1f1; padding-left: 10px; padding-right: 10px; max-height: 250px; overflow-y: auto; overflow-x: auto; font-size: 17px;}
 
 select {
 	width: 150px;

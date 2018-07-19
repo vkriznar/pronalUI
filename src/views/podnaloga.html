@@ -7,7 +7,7 @@
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
 
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -38,7 +38,7 @@
 	</div>
 </form>
 <br>
-<div class="container" id="testi" style="display:none; margin: auto; overflow: hidden;">
+<div class="container" id="testi" style="display:block; margin: auto; overflow: hidden;">
 	<div class="testi">
 		<div id="eql" style="display: none;">
 			<label for="testi"><b>Dodani testi - Check equal</b></label>
@@ -98,7 +98,7 @@
 			</table>
 			<br>
 		</div>
-		<div id="oth" style="display: none;">
+<!-- 		<div id="oth" style="display: none;">
 			<label for="testi"><b>Dodani testi - Other</b></label>
 			<br><br>
 			<div class="p">
@@ -111,13 +111,12 @@
 			%end
 			</div>
 			<br>
-		</div>
+		</div> -->
 		<div class="dodajanje">
 			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
 			<select id="testSelect" name="tipTesta" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
 				<option selected value='chkeql'>Check equal</option>
 				<option value='chksct'>Check secret</option>
-				<option value='other'>Other tests</option>
 			</select>
 			<br><br>
 			<form action="." role="form" method="post" class="form1" id="form1" style="display: inline-block;">
@@ -134,12 +133,15 @@
 				<input type="text" placeholder="Drugi argument secret testa" name="niz2" style="float:left; width:370px;">
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
-			<form action="." role="form" method="post" class="form1" id="form3" style="height: 53px; width: 100%; display: none;">
-				<input type="hidden" name="tipTesta" value="other">
-				<textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste" required></textarea>
-				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
-			</form>
 		</div>
+		<br>
+		<label for="other"><b id="other_label" style="width: 50%;">Dodaj preostale teste</b></label>
+		<form action="." role="form" method="post" class="form1" id="form3" style="height: 53px; width: 100%; display: inline-block;">
+			<input type="hidden" name="tipTesta" value="other">
+			<textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste" required>{{rows[2][0]}}</textarea>
+			<button type="submit" class="submit" id="dodaj_f3" style="float:right; display:block; width:100px; margin-top: 8px;">Dodaj</button>
+			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:none; width:100px; margin-top: 8px;">Posodobi</button>
+		</form>
 	</div>
 	<br>
 	<div>
@@ -214,9 +216,7 @@ function opis_preview() {
 
 //ko gre uporabnik naprej
 %if testi:
-	var testi = document.getElementById("testi");
-	testi.style.display = "block";
-	document.getElementById("naprej").style.display = "none";
+	<!-- document.getElementById("naprej").style.display = "none"; -->
 	$('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
 %end
 
@@ -224,17 +224,10 @@ function tiptesta(test) {
 	if(test.value == "chkeql" || test == "chkeql") {
 		document.getElementById("form1").style.display = "inline-block";
 		document.getElementById("form2").style.display = "none";
-		document.getElementById("form3").style.display = "none";
 	}
 	else if(test.value == "chksct" || test == "chksct") {
 		document.getElementById("form1").style.display = "none";
 		document.getElementById("form2").style.display = "inline-block";
-		document.getElementById("form3").style.display = "none";
-	}
-	else if(test.value == "other" || test == "other") {
-		document.getElementById("form1").style.display = "none";
-		document.getElementById("form2").style.display = "none";
-		document.getElementById("form3").style.display = "inline-block";
 	}
 }
 
@@ -245,8 +238,9 @@ function tiptesta(test) {
 	%if rows[1]:
 		document.getElementById("sct").style.display = "block";
 	%end
-	%if rows[2]:
-		document.getElementById("oth").style.display = "block";
+	%if rows[2][0]:
+		document.getElementById("dodaj_f3").style.display = "none";
+		document.getElementById("posodobi_f3").style.display = "block";		
 	%end
 %end
 
@@ -262,12 +256,10 @@ $(document).ready(function() {
 		element.value = "chksct";
 		tiptesta("chksct");
 	%end
-	%if active_test == "other":
-		var element = document.getElementById("testSelect");
-		element.value = "other";
-		tiptesta("other");
-	%end
 });
+
+
+
 </script>
 
 

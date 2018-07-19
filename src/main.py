@@ -6,6 +6,7 @@ import time
 
 static_directory = "./static"
 active_test = "chkeql"
+testi = False
 file_name = "../edit_files/naloga"
 problem = Problem.load_file(file_name + "_in.py")
 
@@ -38,6 +39,8 @@ def index_post():
         problem.title = request.forms.naslov
         problem.description = request.forms.opis
         return template("index.html", napaka=None, adress=problem.title, description=problem.description)
+    else:
+        return HTTPResponse("Uspelo ti ni!")
 
 @get("/index/podnaloga<part_num>/")
 def podnaloga(part_num):
@@ -49,7 +52,7 @@ def podnaloga(part_num):
     problem_part = problem.parts[part_num-1]
     
     description = problem_part.description
-    solution =  problem_part.solution
+    solution = problem_part.solution
     precode = problem_part.precode
     tests = problem_part.tests
 
@@ -62,12 +65,12 @@ def podnaloga(part_num):
                    
     tests_equal = [[str(i+1), z.expression, z.output] for i in range(len(tests_equal)) for z in tests_equal[i]]
     tests_secret = [[str(i+1), z.expression, z.other] for i in range(len(tests_secret))for z in tests_secret[i]]
-    test_other = [zamenjaj(test_other)]
+    test_other = [test_other]
     tests_data = [tests_equal, tests_secret, test_other]
     
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
-                    precode=precode, rows=tests_data, testi=True,
+                    precode=precode, rows=tests_data, testi=testi,
                     active_test=active_test, title="Podnaloga {}".format(part_num))
 
 
@@ -116,8 +119,7 @@ def podnaloga_post(part_num):
             
         active_test = "chksct"
     else:
-        tests["other"] += zamenjaj(request.forms.other)
-        active_test = "other"
+        tests["other"] += (request.forms.other)
     redirect("/index/podnaloga{}/".format(part_num))
 
 
@@ -127,7 +129,7 @@ def pretvori():
     problem.write_on_file(file_name + "_out.py")
     return HTTPResponse("Uspelo ti je!")
 
-def zamenjaj(string):
+"""def zamenjaj(string):
     chars = list(string)
     for i in range(0, len(chars)):
         if chars[i] == "\n":
@@ -136,7 +138,7 @@ def zamenjaj(string):
             chars[i] = "&nbsp"
         if chars[i] == "\r":
             chars[i] = ""
-    return "".join(chars)
+    return "".join(chars)"""
 
 
 run(host='localhost', port=8080, debug=True)

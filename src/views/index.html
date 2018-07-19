@@ -7,6 +7,7 @@
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
 
 
 <body>
@@ -15,7 +16,7 @@
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
 		<label for="naslov"><b>Naslov</b></label>
-		<input type="text" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus required>
+		<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
 		<label for="opis"><b>Opis</b></label>
 		<br>
 		<body onLoad="onload();">
@@ -30,7 +31,7 @@
 	</div>
 </form>
 <div class="container" style="margin: auto; width: 965px; overflow: hidden; padding: 0;">
-	<a class="link" href="podnaloga/" target="_blank" onclick="document.getElementById('form').submit();"><button id="naprej" style="display: block; margin: auto;">Nova podnaloga</button></a>
+	<a class="link" href="podnaloga/" target="_blank" id="redirect"><button id="naprej" style="display: block; margin: auto;">Nova podnaloga</button></a>
 </div>
 
 
@@ -85,6 +86,26 @@ function opis_preview() {
 //Da se uporabniku spet pokaze predogled opisa
 $(document).ready(function() {
 	opis_preview();
+});
+
+function submit_form(event) {
+	if (document.getElementById("naslov").value) {
+		document.getElementById("form").submit();
+	}
+	else {
+		alert("Naslov ne sme biti prazen!");
+		event.preventDefault();
+	}
+}
+
+document.getElementById("redirect").addEventListener("click", function(event){
+	if(document.getElementById("naslov").value) {
+		document.getElementById("form").submit();
+	}
+	else {
+		alert("Naslov ne sme biti prazen!");
+		event.preventDefault();
+	}
 });
 </script>
 

@@ -88,15 +88,6 @@ $(document).ready(function() {
 	opis_preview();
 });
 
-function submit_form(event) {
-	if (document.getElementById("naslov").value) {
-		document.getElementById("form").submit();
-	}
-	else {
-		alert("Naslov ne sme biti prazen!");
-		event.preventDefault();
-	}
-}
 
 document.getElementById("redirect").addEventListener("click", function(event){
 	if(document.getElementById("naslov").value) {

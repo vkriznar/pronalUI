@@ -29,7 +29,7 @@
 		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
 		<label for="koda"><b>Rešitev</b></label>
 		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
-		<button type="submit" id="naprej" style="display: block;">Naprej na dodajanje testov</button>
+		<button type="submit" id="naprej" style="display: block;">Shrani zgornje vrednosti</button>
 		<h5>
 			%if napaka is not None:
 					{{napaka}}
@@ -98,20 +98,6 @@
 			</table>
 			<br>
 		</div>
-<!-- 		<div id="oth" style="display: none;">
-			<label for="testi"><b>Dodani testi - Other</b></label>
-			<br><br>
-			<div class="p">
-			%if rows is not None:
-			% if rows[2] is not None:
-			% for row in rows[2]:
-				<p>{{!row}}</p>
-			%end
-			%end
-			%end
-			</div>
-			<br>
-		</div> -->
 		<div class="dodajanje">
 			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
 			<select id="testSelect" name="tipTesta" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
@@ -119,14 +105,14 @@
 				<option value='chksct'>Check secret</option>
 			</select>
 			<br><br>
-			<form action="." role="form" method="post" class="form1" id="form1" style="display: inline-block;">
+			<form action="." role="form" method="post" class="form1" id="chkeql" style="display: inline-block;">
 				<input type="hidden" name="tipTesta" value="chkeql">
 				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
 				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:500px;" required>
 				<input type="text" placeholder="Rezultat" name="rezultat" style="float:left; width:240px;" required>
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
-			<form action="." role="form" method="post" class="form1" id="form2" style="height: 53px; display: none;">
+			<form action="." role="form" method="post" class="form1" id="chksct" style="height: 53px; display: none;">
 				<input type="hidden" name="tipTesta" value="chksct">
 				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
 				<input type="text" placeholder="Prvi argument secret testa" name="niz1" style="float:left; width:370px;" required>
@@ -216,18 +202,17 @@ function opis_preview() {
 
 //ko gre uporabnik naprej
 %if testi:
-	<!-- document.getElementById("naprej").style.display = "none"; -->
-	$('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+	$('html,body').animate({scrollTop: $("#test").offset().top - 20}, 600);
 %end
 
 function tiptesta(test) {
 	if(test.value == "chkeql" || test == "chkeql") {
-		document.getElementById("form1").style.display = "inline-block";
-		document.getElementById("form2").style.display = "none";
+		document.getElementById("chkeql").style.display = "inline-block";
+		document.getElementById("chksct").style.display = "none";
 	}
 	else if(test.value == "chksct" || test == "chksct") {
-		document.getElementById("form1").style.display = "none";
-		document.getElementById("form2").style.display = "inline-block";
+		document.getElementById("chkeql").style.display = "none";
+		document.getElementById("chksct").style.display = "inline-block";
 	}
 }
 
@@ -257,9 +242,6 @@ $(document).ready(function() {
 		tiptesta("chksct");
 	%end
 });
-
-
-
 </script>
 
 

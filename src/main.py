@@ -60,9 +60,6 @@ def podnaloga(part_num):
     tests_secret = tests["check_secret"]
     test_other = tests["other"]
 
-    
-
-                   
     tests_equal = [[str(i+1), z.expression, z.output] for i in range(len(tests_equal)) for z in tests_equal[i]]
     tests_secret = [[str(i+1), z.expression, z.other] for i in range(len(tests_secret))for z in tests_secret[i]]
     test_other = [test_other]
@@ -84,42 +81,46 @@ def podnaloga_post_def():
 @post("/index/podnaloga<part_num>/")
 def podnaloga_post(part_num):
     global problem
-    
+    global testi
+    testi = False
     part_num = int(part_num)
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
-    
-    opis = request.forms.opis
-    koda = request.forms.koda
-    prekoda = request.forms.prekoda
-    
-    global active_test
-    if request.forms.tipTesta == "chkeql":
-        # in python format (0 starts)
-        test_num = int(request.forms.stevilka) - 1
-        check_equal_test = CheckEqual(request.forms.niz, request.forms.rezultat)
-        if test_num == len(tests["check_equal"]):
-            tests["check_equal"].append([check_equal_test])
-        elif test_num > len(tests["check_equal"]):
-            return HTTPResponse("Uspelo ti ni!") 
-        else:
-            tests["check_equal"][test_num].append(check_equal_test)
-        active_test = "chkeql"
-        
-    elif request.forms.tipTesta == "chksct":
-        # in python format (0 starts)
-        test_num = int(request.forms.stevilka) - 1
-        check_secret_test = CheckSecret(request.forms.niz1, request.forms.niz2)
-        if test_num == len(tests["check_secret"]) + 1:
-            tests["check_secret"].append([check_secret_test])
-        elif test_num > len(tests["check_secret"]):
-            return HTTPResponse("Uspelo ti ni!")
-        else:
-            tests["check_secret"][test_num].append(check_secret_test)
-            
-        active_test = "chksct"
+
+    if request.forms.opis:
+        problem_part.description = request.forms.opis
+        problem_part.solution = request.forms.koda
+        problem_part.precode = request.forms.prekoda
+
     else:
-        tests["other"] += (request.forms.other)
+        global active_test
+        testi = True
+        if request.forms.tipTesta == "chkeql":
+            # in python format (0 starts)
+            test_num = int(request.forms.stevilka) - 1
+            check_equal_test = CheckEqual(request.forms.niz, request.forms.rezultat)
+            if test_num == len(tests["check_equal"]):
+                tests["check_equal"].append([check_equal_test])
+            elif test_num > len(tests["check_equal"]):
+                return HTTPResponse("Uspelo ti ni!")
+            else:
+                tests["check_equal"][test_num].append(check_equal_test)
+            active_test = "chkeql"
+
+        elif request.forms.tipTesta == "chksct":
+            # in python format (0 starts)
+            test_num = int(request.forms.stevilka) - 1
+            check_secret_test = CheckSecret(request.forms.niz1, request.forms.niz2)
+            if test_num == len(tests["check_secret"]) + 1:
+                tests["check_secret"].append([check_secret_test])
+            elif test_num > len(tests["check_secret"]):
+                return HTTPResponse("Uspelo ti ni!")
+            else:
+                tests["check_secret"][test_num].append(check_secret_test)
+
+            active_test = "chksct"
+        else:
+            tests["other"] += (request.forms.other)
     redirect("/index/podnaloga{}/".format(part_num))
 
 

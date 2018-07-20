@@ -21,7 +21,7 @@ input[type="file"]::-webkit-file-upload-button{
 	display: block; 
 }
 
-.nova, .obstojeca {
+/* .nova, */ .obstojeca {
 	background-color: rgba(242, 242, 242, 0.40);
 	width: 400px;
 	border: 3px solid #f1f1f1;
@@ -33,10 +33,10 @@ input[type="file"]::-webkit-file-upload-button{
 	
 }
 
-.nova:hover, .obstojeca:hover {opacity: 0.9; box-shadow: 0px 12px 24px 0px rgba(0,0,0,0.6);}
+/* .nova:hover,  */.obstojeca:hover {opacity: 0.9; box-shadow: 0px 12px 24px 0px rgba(0,0,0,0.6);}
 
-.nova {float: left;	padding-top: 194px; height: 306px;}
-.obstojeca {float: right; padding-top: 170px; height: 330px;}
+/* .nova {float: left;	padding-top: 194px; height: 306px;} */
+.obstojeca {padding-top: 170px; height: 330px;}
 
 label {
 	font-size: 19px; 
@@ -45,7 +45,7 @@ label {
 	margin-right: auto;
 }
 
-.nova p, .obstojeca p {
+/* .nova p,  */.obstojeca p {
 	color: black; 
 	text-transform: uppercase; 
 	text-decoration: none; 

@@ -13,23 +13,28 @@
 <body>
 
 <div class="container">
-	<a href="nova" style="text-decoration: none; cursor: pointer;">
+	<!-- <a href="nova" style="text-decoration: none; cursor: pointer;">
 		<div class="nova">
 			<p>Ustvari novo nalogo</p>
 		</div>
-	</a>
-	<div class="obstojeca" onclick="document.getElementById('upload').style.display = 'block';">
+	</a> -->
+	<div class="obstojeca" onclick="document.getElementById('file').click();">
 		<p>Uredi obstoječo nalogo</p>
 		<div id="upload" style="display:none;">
 			<br><br>
-			<form method="post" action="/upload" enctype="multipart/form-data">
-				<input type="file" name="file" style="margin-left: 15px; display: inline-block;">
-				<input type="submit" value="Submit" style="float: right; margin-right: 15px; height: 33px; font-size: 15px; display: inline-block;">
+			<form method="post" id="form" action="/upload" enctype="multipart/form-data" style="visability: hidden;">
+				<input type="file" name="file" id="file" style="margin-left: 15px; display: inline-block;">
 			</form>
 		</div>
 	</div>
 </div>
 
+
+<script>
+document.getElementById("file").onchange = function() {
+    document.getElementById("form").submit();
+}
+</script>
 
 </body>
 </html>

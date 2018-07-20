@@ -29,9 +29,9 @@ def upload():
     file_name = file.filename
     
     "Z file.file dostopamo do nase datoteke, npr."
-    for line in file.file:
-        "moramo dekodirati, ker je zapisana v bitih"
-        print(line.decode().rstrip('\n'))
+##    for line in file.file:
+##        "moramo dekodirati, ker je zapisana v bitih"
+##        # print(line.decode().rstrip('\n'))
     "redirect na obstojeco, ki je zaenkrat tako, da ne uposteva uploadanga fila, ker je treba spremeniti Problem.py"
     return redirect("/index/obstojeca")
 
@@ -87,32 +87,48 @@ def podnaloga(part_num):
     solution = problem_part.solution
     precode = problem_part.precode
     tests = problem_part.tests
-
-    tests_equal = tests["check_equal"]
-    tests_secret = tests["check_secret"]
-    test_other = tests["other"]
-
-    tests_equal = [[str(i+1), z.expression, z.output] for i in range(len(tests_equal)) for z in tests_equal[i]]
-    tests_secret = [[str(i+1), z.expression, z.other] for i in range(len(tests_secret))for z in tests_secret[i]]
-    test_other = [test_other]
-    tests_data = [tests_equal, tests_secret, test_other]
     
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
-                    precode=precode, rows=tests_data, testi=testi,
+                    precode=precode, tests=tests, testi=testi,
                     active_test=active_test, title="Podnaloga {}".format(part_num))
 
-@get("/index/naloga/podnaloga<part_num>/<test>-delete<vrstica>/")
-def delete_from_table(part_num, test, vrstica):
+@get("/index/naloga/podnaloga<part_num>/prekoda/")
+def podnaloga(part_num):
+    global problem
     part_num = int(part_num)
+    global active_test
+    active_test = "chkeql"
+
+    problem_part = problem.parts[part_num-1]
+    
+    description = problem_part.description
+    solution = problem_part.solution
+    precode = problem_part.precode
+    tests = problem_part.test
+    
+    redirect("/index/naloga/podnaloga{}/".format(part_num))
+
+@get("/index/naloga/podnaloga<part_num>/<test_type>-<edit><group_id><i>/")
+def delete_from_table(part_num, test_type, edit, group_id, i):
+    part_num = int(part_num)
+    group_id = int(group_id)
+    i = int(i)
+
     global problem
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
-    if test == "chkeql":
-        print(tests["check_equal"], vrstica)
-        tests["check_equal"].remove(ast.literal_eval(vrstica))
-    elif test == "chksct":
-        tests["check_secret"].remove(ast.literal_eval(vrstica))
+    
+    if test_type == "chkeql":
+        test = tests["check_equal"][group_id][i]
+    elif test_type == "chksct":
+        test = tests["check_secret"][group_id][i]
+        
+    if edit == "delete":
+        problem_part.remove_test(test)
+    elif edit == "move":
+        problem_part.description += "\n\n    >>> " + test.expression + "\n    " + test.output
+    
     testi = True
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 
@@ -138,6 +154,9 @@ def podnaloga_post(part_num):
         problem_part.solution = request.forms.koda
         problem_part.precode = request.forms.prekoda
 
+    if request.forms.prekoda_gor:
+        problem_part.precode_to_description()
+    
     else:
         global active_test
         testi = True

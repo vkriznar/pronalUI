@@ -140,6 +140,8 @@ class ProblemPart:
         elif isinstance(test, CheckSecret):
             ProbelPart.remove_test_type(test, self.tests["check_secret"])
         else:
+            print(type(test))
+            print(test)
             print("Can not remove this test type.")
         
         
@@ -315,21 +317,21 @@ class ProblemPart:
         string_list = self.description.split("\n")
         insert_text = ("\n" + 4*" ").join(code.split("\n"))
         if line_num < 0:
-            string_list.append(line_num, insert_text)
+            string_list.append(insert_text)
         else:
             string_list.insert(line_num, insert_text)
 
         self.description = "".join(string_list)
 
     def precode_to_description(self, line_num=-1):
-        self.code_to_description("\n" + self.precode + "\n", line_num)
+        self.code_to_description("\n\n" + self.precode + "\n\n", line_num)
 
     def check_equal_to_description(test, line_num=-1):
         code = "\n" + test.example() + "\n"
         self.code_to_description(code, line_num)
 
     def check_equals_to_description(tests, line_num=-1):
-        code = "\n" + "\n".join([z.example() for z in tests]) + "\n"
+        code = "\n\n" + "\n".join([z.example() for z in tests]) + "\n\n"
         self.code_to_description(code, line_num)
 
     def write_on_file(self, file):

@@ -17,6 +17,7 @@
 		<label for="opis"><b>Opis</b></label>
 		<br>
 		<body onLoad="onload();">
+        <input type="hidden" name="prekoda_gor" id="hidden" value="False">
 		<input type="button" value="bold" onClick="formatText('b');"/> 
 		<input type="button" value="italic" onClick="formatText('i');"/> 
 		<input type="button" value="underline" onClick="formatText('u');"/>
@@ -26,6 +27,7 @@
 		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
 		<label for="prekoda"><b>Pre-koda</b></label>
+        <input type="button" id="prekoda_gor_gumb" value="Pošlji v opis" style="float: right;"/>
 		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
 		<label for="koda"><b>Rešitev</b></label>
 		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
@@ -54,22 +56,24 @@
 			</thead>
 			<tbody class="table-hover">
 				<tbody>  
-					%if rows is not None:
-					% if rows[0] is not None:
-					% for row in rows[0]:
+					%if "check_equal" in tests:
+                    %    for group_id in range(len(tests["check_equal"])):
+                    %        for i in range(len(tests["check_equal"][group_id])):
+                    %            test = tests["check_equal"][group_id][i] 
 					<tr>
-						%for col in row:
-							<td class="text-center">{{col}}</td>
-						%end
+                        <td class="text-center">{{group_id + 1}}</td>
+                        <td class="text-center">{{test.expression}}</td>
+                        <td class="text-center">{{test.output}}</td>
+
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
-                                <a href="chkeql-delete{{row}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
+                                <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
                             <div id="greenBox" style="display: inline-block;">
-                                 <a href="chkeql-edit{{row}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
+                                 <a href="chkeql-edit{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
                             </div>
                             <div id="orangeBox" style="display: inline-block;">
-                                 <a href="chkeql-move{{row}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
+                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
                             </div>
                         </td>
 					</tr>
@@ -95,22 +99,24 @@
 			</thead>
 			<tbody class="table-hover">
 				<tbody> 
-					%if rows is not None:
-					% if rows[1] is not None:
-					% for row in rows[1]:
+					%if "check_secret" in tests:
+                    %    for group_id in range(len(tests["check_secret"])):
+                    %        for i in range(len(tests["check_secret"][group_id])):
+                    %            test = tests["check_secret"][group_id][i]
 					<tr>
-						%for col in row:
-							<td class="text-center">{{col}}</td>
-						%end
+                        <td class="text-center">{{group_id + 1}}</td>
+                        <td class="text-center">{{test.expression}}</td>
+                        <td class="text-center">{{test.other}}</td>
+
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
-                                <a href="chksct-delete{{row}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
+                                <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
                             <div id="greenBox" style="display: inline-block;">
-                                 <a href="chksct-edit{{row}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
+                                 <a href="chksct-edit{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
                             </div>
                             <div id="orangeBox" style="display: inline-block;">
-                                 <a href="chksct-move{{row}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
+                                 <a href="chksct-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
                             </div>
                         </td>
 					</tr>
@@ -148,7 +154,7 @@
 		<label for="other"><b id="other_label" style="width: 50%;">Dodaj preostale teste</b></label>
 		<form action="." role="form" method="post" class="form1" id="form3" style="height: 53px; width: 100%; display: inline-block;">
 			<input type="hidden" name="tipTesta" value="other">
-			<textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste" required>{{rows[2][0]}}</textarea>
+			<textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste" required>{{tests["other"]}}</textarea>
 			<button type="submit" class="submit" id="dodaj_f3" style="float:right; display:block; width:100px; margin-top: 8px;">Dodaj</button>
 			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:none; width:100px; margin-top: 8px;">Posodobi</button>
 		</form>
@@ -216,6 +222,33 @@ function opis_preview() {
 	textView.innerHTML = replacedTextArea;
 }
 
+function prekoda_gor() {
+    alert("tuki");
+    if(document.getElementById("opis").value) {
+        alert("opis");
+        document.getElementById("hidden").value = "True";
+		document.getElementById("form").submit();
+        document.getElementById("hidden").value = "False";
+    }
+}
+
+document.getElementById("prekoda_gor_gumb").addEventListener("click", function(event){
+    if(document.getElementById("opis").value) {
+        document.getElementById("hidden").value = "True";
+		document.getElementById("form").submit();
+        document.getElementById("hidden").value = "False";
+    }
+});
+
+document.getElementById("redirect").addEventListener("click", function(event){
+	if(document.getElementById("naslov").value) {
+		document.getElementById("form").submit();
+	}
+	else {
+		alert("Naslov ne sme biti prazen!");
+		event.preventDefault();
+	}
+});
 
 //ko gre uporabnik naprej
 %if testi:
@@ -233,14 +266,14 @@ function tiptesta(test) {
 	}
 }
 
-%if rows is not None:
-	%if rows[0]:
+%if tests is not None:
+	%if tests["check_equal"]:
 		document.getElementById("eql").style.display = "block";
 	%end
-	%if rows[1]:
+	%if tests["check_secret"]:
 		document.getElementById("sct").style.display = "block";
 	%end
-	%if rows[2][0]:
+	%if tests["other"]:
 		document.getElementById("dodaj_f3").style.display = "none";
 		document.getElementById("posodobi_f3").style.display = "block";		
 	%end

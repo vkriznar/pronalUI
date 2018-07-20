@@ -51,7 +51,7 @@
 					<th class="text-center"># Testa</th>
 					<th class="text-center">Niz s klicem funkcije</th>
 					<th class="text-center">Rezultat niza</th>
-                    <th class="text-center">Uredi</th>
+                    <th class="text-center">Urejanje</th>
 				</tr>
 			</thead>
 			<tbody class="table-hover">
@@ -68,9 +68,6 @@
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
                                 <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
-                            </div>
-                            <div id="greenBox" style="display: inline-block;">
-                                 <a href="chkeql-edit{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
                             </div>
                             <div id="orangeBox" style="display: inline-block;">
                                  <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
@@ -94,7 +91,7 @@
 					<th class="text-center"># Testa</th>
 					<th class="text-center">Prvi argument testa</th>
 					<th class="text-center">Drugi argument testa</th>
-                    <th class="text-center">Uredi</th>
+                    <th class="text-center">Urejanje</th>
 				</tr>
 			</thead>
 			<tbody class="table-hover">
@@ -111,12 +108,6 @@
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
                                 <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
-                            </div>
-                            <div id="greenBox" style="display: inline-block;">
-                                 <a href="chksct-edit{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
-                            </div>
-                            <div id="orangeBox" style="display: inline-block;">
-                                 <a href="chksct-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
                             </div>
                         </td>
 					</tr>
@@ -222,15 +213,6 @@ function opis_preview() {
 	textView.innerHTML = replacedTextArea;
 }
 
-function prekoda_gor() {
-    alert("tuki");
-    if(document.getElementById("opis").value) {
-        alert("opis");
-        document.getElementById("hidden").value = "True";
-		document.getElementById("form").submit();
-        document.getElementById("hidden").value = "False";
-    }
-}
 
 document.getElementById("prekoda_gor_gumb").addEventListener("click", function(event){
     if(document.getElementById("opis").value) {
@@ -240,15 +222,6 @@ document.getElementById("prekoda_gor_gumb").addEventListener("click", function(e
     }
 });
 
-document.getElementById("redirect").addEventListener("click", function(event){
-	if(document.getElementById("naslov").value) {
-		document.getElementById("form").submit();
-	}
-	else {
-		alert("Naslov ne sme biti prazen!");
-		event.preventDefault();
-	}
-});
 
 //ko gre uporabnik naprej
 %if testi:

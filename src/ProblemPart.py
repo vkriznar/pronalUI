@@ -138,7 +138,7 @@ class ProblemPart:
         if isinstance(test, CheckEqual):
             ProblemPart.remove_test_type(test, self.tests["check_equal"])
         elif isinstance(test, CheckSecret):
-            ProbelPart.remove_test_type(test, self.tests["check_secret"])
+            ProblemPart.remove_test_type(test, self.tests["check_secret"])
         else:
             print(type(test))
             print(test)
@@ -341,11 +341,11 @@ class ProblemPart:
     def precode_to_description(self, line_num=-1):
         self.code_to_description("\n\n" + self.precode + "\n\n", line_num)
 
-    def check_equal_to_description(test, line_num=-1):
+    def check_equal_to_description(self, test, line_num=-1):
         code = "\n" + test.example() + "\n"
         self.code_to_description(code, line_num)
 
-    def check_equals_to_description(tests, line_num=-1):
+    def check_equals_to_description(self, tests, line_num=-1):
         code = "\n\n" + "\n".join([z.example() for z in tests]) + "\n\n"
         self.code_to_description(code, line_num)
 

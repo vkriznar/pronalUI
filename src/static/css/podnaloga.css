@@ -235,6 +235,20 @@ td.text-right {
   text-align: right;
 }
 
+#redBox, #greenBox, #orangeBox {
+    color: #fff;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#redBox {background-color: red;}
+#greenBox {background-color: green;}
+#orangeBox {background-color: orange;}
 
 .add {font-size:18px; font-family: Georgia;}
 

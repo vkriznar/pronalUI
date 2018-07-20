@@ -120,6 +120,9 @@ class Problem:
 if __name__ == "__main__":
     file_name =   "../edit_files/naloga"
     problem = Problem.load_file(file_name + "_in.py")
+    test = problem.parts[0].tests["check_equal"][9][0]
+    print(test)
+    problem.parts[0].remove_test(test)
     # print(problem.parts)
     problem.write_on_file(file_name + "_out.py")
 

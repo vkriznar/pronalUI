@@ -131,13 +131,14 @@ class ProblemPart:
                 else:
                     test_type.remove(test_group)
 
-                # return
+                # cause we already find it
+                return
         
     def remove_test(self, test):
         if isinstance(test, CheckEqual):
-            remove_test_type(test, self.tests["check_equal"])
+            ProblemPart.remove_test_type(test, self.tests["check_equal"])
         elif isinstance(test, CheckSecret):
-            remove_test_type(test, self.tests["check_secret"])
+            ProbelPart.remove_test_type(test, self.tests["check_secret"])
         else:
             print("Can not remove this test type.")
         

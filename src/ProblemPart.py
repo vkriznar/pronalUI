@@ -228,29 +228,40 @@ class ProblemPart:
                         check_secrets_connected_with_and.append(classify_check_secret(check_string))
                 
                 return check_equals_connected_with_and, check_secrets_connected_with_and
+
+
+##            def split_validation(validation):
+##                def ok_line(line):
+##                    for z in ["(", ")", "Check.equal", "Check.secret"]:
+##                        if z in lines:
+##                            return True
+##
+##                    return False
+##                
+##                lines = validation.split("\n")
+##                for i in range(len(lines)):
+##                    line = lines[i].strip()
+##                    if line != "" and not ok_line(line):
+##                        return "\n".join(lines[:i]), lines[i:]
+##                    
+##                
+##            validation, other_lines2 = split_validation(validation)
             
             validation = re.sub(r"and\s*\\\s*", r"and ", validation)
-            ## below line ADDED
-            ## we do the same for or as we do for and, so we can then, all lines that contains or, just append to other_lines
-            validation = re.sub(r"or\s*\\\s*", r"or ", validation)
             
             lines = validation.split("\n")
             
-            other_lines = []
             check_equals = []
             check_secrets = []
-            
-            for line in make_one_line_tuples(lines):
-                line = line.rstrip() # we shouldn't strip (lstrip) because then tests like:
-                # for i in range(i, i+1):
-                #    check.secret(zmnozi(i, i+1))
-                # gets separated - first line goes to other lines, and second line is parsed to check_secret
+            other_lines = []
 
-                ## below 2 lines ADDED
-                ## we check if "or" is in line, and if it is, we just append the whole line on other_lines
-                ## in this case: equal and eqal or equal, we dont parse these equal tests, we just append all on other_lines
-                if "or" in line:
-                    other_lines.append(line)
+            new_lines = make_one_line_tuples(lines)
+            for i in range(len(new_lines)):
+                line = new_lines[i].strip()
+                if " or " in line:
+                    ## we check if "or" is in line if it is we add remanig lines to other_lines
+                    other_lines.extend(new_lines[i:])
+                    break
                 
                 elif line.startswith("Check.equal") or line.startswith("Check.secret"):
                     check_equals_with_and, check_secrets_with_and = decompose_and(line)
@@ -265,8 +276,12 @@ class ProblemPart:
                     check_secrets.append(check_secrets_with_and)
                     
                 else:
-                    if line!="": other_lines.append(line)
+                    ## if line is empty we still check for secret and equal tests
+                    if line != "":
+                        other_lines.extend(new_lines[i:])
+                        break
 
+            # other_lines.extend(other_lines2)
             check_equals = [z for z in check_equals if len(z) > 0]
             check_secrets = [z for z in check_secrets if len(z) > 0]
             

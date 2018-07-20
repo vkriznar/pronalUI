@@ -23,9 +23,10 @@ def upload():
     global file_name
     file = request.files.get('file')
     # only allow upload of text files
-    if file.content_type != "text/plain":
-        return HTTPResponse("Uspelo ti ni!")
+    # if file.content_type != "text/plain":
+    #    return HTTPResponse("Uspelo ti ni!")
     file_name = file.filename
+    
     "Z file.file dostopamo do nase datoteke, npr."
     for line in file.file:
         "moramo dekodirati, ker je zapisana v bitih"
@@ -37,12 +38,14 @@ def upload():
 def index():
     return template("index.html")
 
+## tole spodi ni ok !!
 "Zacetna stran kjer uporabnik izbire, ali bo ustvaril novo datoteko ali bo vnesel ze obstojeco datoteko za urejanje"
 @get("/index/<izbira>")
 def nova_naloga(izbira):
     global problem
     global file_name
     if izbira == "nova":
+        
         #tukaj se ustvari nov Problem ki ima prazne atribute
         redirect("/index/naloga/")
     elif izbira == "obstojeca":
@@ -139,7 +142,7 @@ def podnaloga_post(part_num):
             # in python format (0 starts)
             test_num = int(request.forms.stevilka) - 1
             check_secret_test = CheckSecret(request.forms.niz1, request.forms.niz2)
-            if test_num == len(tests["check_secret"]) + 1:
+            if test_num == len(tests["check_secret"]):
                 tests["check_secret"].append([check_secret_test])
             elif test_num > len(tests["check_secret"]):
                 return HTTPResponse("Uspelo ti ni!")

@@ -95,7 +95,6 @@ class ProblemPart:
         # we don't want precode section if there is no precode
         if len(self.precode)>0:
             string_list.append("# "+"-"*77+"\n")                                                  # optional beginning of template
-        if len(self.precode)>0:
             string_list.append("# "+self.precode.replace("\n", "\n# ")+"\n")                      # precode (solution tamplate)  
         string_list.append("# "+"="*77+"\n")                                                      # boarder between description and precode
         string_list.append(self.solution+"\n\n")                                                  # solution
@@ -121,6 +120,28 @@ class ProblemPart:
         string_list.append(self.tests["other"])
 
         return "".join(string_list)
+
+
+    @staticmethod
+    def remove_test_type(test, test_type):
+        for test_group in test_type:
+            if test in test_group:
+                if len(test_group) > 1:
+                    test_group.remove(test)
+                else:
+                    test_type.remove(test_group)
+
+                # return
+        
+    def remove_test(self, test):
+        if isinstance(test, CheckEqual):
+            remove_test_type(test, self.tests["check_equal"])
+        elif isinstance(test, CheckSecret):
+            remove_test_type(test, self.tests["check_secret"])
+        else:
+            print("Can not remove this test type.")
+        
+        
 
     @staticmethod
     def parse_tests(validation):

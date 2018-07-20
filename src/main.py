@@ -3,6 +3,7 @@ import webbrowser
 from Problem import Problem
 from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
+import ast
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -101,13 +102,27 @@ def podnaloga(part_num):
                     precode=precode, rows=tests_data, testi=testi,
                     active_test=active_test, title="Podnaloga {}".format(part_num))
 
+@get("/index/naloga/podnaloga<part_num>/<test>-delete<vrstica>/")
+def delete_from_table(part_num, test, vrstica):
+    part_num = int(part_num)
+    global problem
+    problem_part = problem.parts[part_num-1]
+    tests = problem_part.tests
+    if test == "chkeql":
+        print(tests["check_equal"], vrstica)
+        tests["check_equal"].remove(ast.literal_eval(vrstica))
+    elif test == "chksct":
+        tests["check_secret"].remove(ast.literal_eval(vrstica))
+    testi = True
+    redirect("/index/naloga/podnaloga{}/".format(part_num))
+
 
 @get("/index/naloga/podnaloga/")
 def podnaloga_get_def():
     global problem
     part_num = len(problem.parts)
     problem.new_problem_part()
-    redirect("/index/naloga/podnaloga{}/".format(part_num + 1))
+    redirect("/index/naloga/podnaloga{}/".format(part_num +1 ))
 
 @post("/index/naloga/podnaloga<part_num>/")
 def podnaloga_post(part_num):

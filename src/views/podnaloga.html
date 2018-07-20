@@ -46,9 +46,10 @@
 			<table class="table-fill">
 			<thead>
 				<tr>
-					<th class="text-left"># Testa</th>
-					<th class="text-left">Niz s klicem funkcije</th>
-					<th class="text-left">Rezultat niza</th>
+					<th class="text-center"># Testa</th>
+					<th class="text-center">Niz s klicem funkcije</th>
+					<th class="text-center">Rezultat niza</th>
+                    <th class="text-center">Uredi</th>
 				</tr>
 			</thead>
 			<tbody class="table-hover">
@@ -60,6 +61,17 @@
 						%for col in row:
 							<td class="text-center">{{col}}</td>
 						%end
+                        <td class="text-center">
+                            <div id="redBox" style="display: inline-block;">
+                                <a href="chkeql-delete{{row}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
+                            </div>
+                            <div id="greenBox" style="display: inline-block;">
+                                 <a href="chkeql-edit{{row}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
+                            </div>
+                            <div id="orangeBox" style="display: inline-block;">
+                                 <a href="chkeql-move{{row}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
+                            </div>
+                        </td>
 					</tr>
 					%end
 					%end
@@ -75,9 +87,10 @@
 			<table class="table-fill">
 			<thead>
 				<tr>
-					<th class="text-left"># Testa</th>
-					<th class="text-left">Prvi argument testa</th>
-					<th class="text-left">Drugi argument testa</th>
+					<th class="text-center"># Testa</th>
+					<th class="text-center">Prvi argument testa</th>
+					<th class="text-center">Drugi argument testa</th>
+                    <th class="text-center">Uredi</th>
 				</tr>
 			</thead>
 			<tbody class="table-hover">
@@ -89,6 +102,17 @@
 						%for col in row:
 							<td class="text-center">{{col}}</td>
 						%end
+                        <td class="text-center">
+                            <div id="redBox" style="display: inline-block;">
+                                <a href="chksct-delete{{row}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
+                            </div>
+                            <div id="greenBox" style="display: inline-block;">
+                                 <a href="chksct-edit{{row}}/" style="text-decoration:none; color: inherit;"><span id="e">e</span></a>
+                            </div>
+                            <div id="orangeBox" style="display: inline-block;">
+                                 <a href="chksct-move{{row}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8679;</span></a>
+                            </div>
+                        </td>
 					</tr>
 					%end
 					%end
@@ -152,13 +176,6 @@ $(document).delegate('#opis', 'keydown', function(e) {
 		// postavi caret nazaj na prvotno mest
 		this.selectionStart =
 		this.selectionEnd = start + 4;
-	}
-	else {
-	$(this).val($(this).val().substring(0, start)
-					+ "<br>"
-					+ $(this).val().substring(end));
-	this.selectionStart =
-	this.selectionEnd = start + 4;
 	}
   }
 });

@@ -94,6 +94,7 @@ class Problem:
         with open(file_name, "w", encoding="utf-8") as f:
             f.write(str(self))
 
+
     @staticmethod
     def load_file(file_name):
         with open(file_name, "r", encoding="utf-8") as f:
@@ -101,15 +102,27 @@ class Problem:
 
         return Problem.parse(file_string)
 
+
     def new_problem_part(self):
         self.parts.append(ProblemPart.load_file("parameters/default_part.py"))
         return self.parts[-1]
+
+
+    def remove_problem_part(self, problem_part):
+        if problem_part in self.parts:
+            self.parts.remove(problem_part)
+        else:
+            print("[ERROR] in remove_problem_part.")
+        
         
 
 
 if __name__ == "__main__":
     file_name =   "../edit_files/naloga"
     problem = Problem.load_file(file_name + "_in.py")
+    test = problem.parts[0].tests["check_equal"][9][0]
+    print(test)
+    problem.parts[0].remove_test(test)
     # print(problem.parts)
     problem.write_on_file(file_name + "_out.py")
 

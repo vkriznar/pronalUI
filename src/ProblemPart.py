@@ -348,7 +348,7 @@ class ProblemPart:
         self.description = "".join(string_list)
 
     def precode_to_description(self, line_num=-1):
-        self.code_to_description("\n\n" + self.precode + "\n\n", line_num)
+        self.code_to_description("\n\n" + self.precode, line_num)
 
     def check_equal_to_description(self, test, line_num=-1):
         code = "\n" + test.example() + "\n"

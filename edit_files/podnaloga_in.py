@@ -27,10 +27,10 @@ Check.equal("odstej(4, 4)", 16 ) and \
 Check.equal('odstej(4, 4)', 18 ) and \
 Check.equal('odstej(4, 4)', 20 )
 
-Check.secret(zmnozi(100, 100))
-Check.secret(zmnozi(500, 123))
+Check.secret(zmnozi(100, 100), """lala""")
+Check.secret(zmnozi(500, 123), '''lalalallaa''')
 
-Check.secret(zmnozi(11, 11)) and \
+Check.secret(zmnozi(11, 11), 'sporočilo: """neko sporočilo"""') and \
 Check.secret(zmnozi(33, 33))
                  
 

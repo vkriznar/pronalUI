@@ -66,13 +66,15 @@ class CheckEqual:
 class CheckSecret:
     def __init__(self, expression, other):
         self.expression = expression
+        if other is not None: other = other.replace('"""', "'''")
         self.other = other
 
     def __repr__(self):
         if self.other == None:
-            return "Check.secret({0})".format(self.expression)  
-            
-        return "Check.secret({0}, {1})".format(self.expression, self.other)  
+            return "Check.secret({0})".format(self.expression)
+        
+        if self.other is None: return 'Check.secret({0}, {1})'.format(self.expression, self.other)
+        else: return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)  
     
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
@@ -196,19 +198,18 @@ class ProblemPart:
                 quotation_mark_type=check_secret_string[-1]
                 if quotation_mark_type == "'" or quotation_mark_type == '"':
                     # check if there is hint argument
-                    if not is_triple_quotation_mark(check_secret_string):
+                    if not is_triple_quotation_mark(check_secret_string[::-1]):
                         # check if matches on reversed string
-                        hint_msg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1])           
+                        hint_msg=re.match(r"({0}(.*?)[^{0}]{0})[^{0}]".format(quotation_mark_type), check_secret_string[::-1]).group(1)[::-1]           
                     else:
-                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
+                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1]).group(0)[::-1]
 
-                    if hint_msg!=None:
-                        hint_msg=hint_msg.group(0)[::-1]
-                        # remaining string is expression
-                        expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
+                    expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
+
+                    if not is_triple_quotation_mark(check_secret_string[::-1]):
+                        hint_msg=hint_msg[1:-1]
                     else:
-                        # if there is no hint msg all string represents the expression
-                        expression=check_secret_string
+                        hint_msg=hint_msg[3:-3]
 
 
                 else:

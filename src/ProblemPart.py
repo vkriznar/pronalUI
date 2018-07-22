@@ -56,7 +56,7 @@ class CheckEqual:
         return 'Check.equal("""{0}""", {1})'.format(self.expression, self.output)
 
     def example(self):
-        return self.expression + "\n>>> " + self.output + "\n"
+        return "\n"+" "*4+">>> " + self.expression + "\n"+" "*4 + self.output
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string
@@ -66,13 +66,15 @@ class CheckEqual:
 class CheckSecret:
     def __init__(self, expression, other):
         self.expression = expression
+        if other is not None: other = other.replace('"""', "'''")
         self.other = other
 
     def __repr__(self):
         if self.other == None:
-            return "Check.secret({0})".format(self.expression)  
-            
-        return "Check.secret({0}, {1})".format(self.expression, self.other)  
+            return "Check.secret({0})".format(self.expression)
+        
+        if self.other is None: return 'Check.secret({0}, {1})'.format(self.expression, self.other)
+        else: return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)  
     
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
@@ -180,7 +182,7 @@ class ProblemPart:
                     expression=re.match(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type_expression), check_equal_string).group(0)
                     output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
                     expression=expression[3:-3]
-
+                    
                 return CheckEqual(expression, output)
 
             def is_triple_quotation_mark(string):
@@ -196,19 +198,19 @@ class ProblemPart:
                 quotation_mark_type=check_secret_string[-1]
                 if quotation_mark_type == "'" or quotation_mark_type == '"':
                     # check if there is hint argument
-                    if not is_triple_quotation_mark(check_secret_string):
+                    if not is_triple_quotation_mark(check_secret_string[::-1]):
                         # check if matches on reversed string
-                        hint_msg=re.match(r"({0}(.*?)[^{0}]{0})".format(quotation_mark_type), check_secret_string[::-1])           
+                        hint_msg=re.match(r"({0}(.*?)[^{0}]{0})[^{0}]".format(quotation_mark_type), check_secret_string[::-1]).group(1)[::-1]           
                     else:
-                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1])
+                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1]).group(0)[::-1]
 
-                    if hint_msg!=None:
-                        hint_msg=hint_msg.group(0)[::-1]
-                        # remaining string is expression
-                        expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
+                    expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
+
+                    if not is_triple_quotation_mark(check_secret_string[::-1]):
+                        hint_msg=hint_msg[1:-1]
                     else:
-                        # if there is no hint msg all string represents the expression
-                        expression=check_secret_string
+                        hint_msg=hint_msg[3:-3]
+
 
                 else:
                     expression=check_secret_string
@@ -232,22 +234,29 @@ class ProblemPart:
                 return check_equals_connected_with_and, check_secrets_connected_with_and
 
 
-##            def split_validation(validation):
-##                def ok_line(line):
-##                    for z in ["(", ")", "Check.equal", "Check.secret"]:
-##                        if z in lines:
-##                            return True
-##
-##                    return False
-##                
-##                lines = validation.split("\n")
-##                for i in range(len(lines)):
-##                    line = lines[i].strip()
-##                    if line != "" and not ok_line(line):
-##                        return "\n".join(lines[:i]), lines[i:]
-##                    
-##                
-##            validation, other_lines2 = split_validation(validation)
+            def split_validation(validation):
+                """ INPUT: whole validation part
+                    OUTPUT: validation part with ok tests (equal and secret tests connected with whatever) and
+                            other lines (which starts where tests are not ok anymore)
+                """
+                def ok_line(line):
+                    if line=="" or line.startswith(("(", ")", "Check.equal", "Check.secret")):
+                        return True
+                    return False
+                
+                lines = validation.split("\n")
+                for i in range(len(lines)):
+                    line = lines[i].strip()
+                    if not ok_line(line):
+                        # print("validation: \n", "\n".join(lines[:i]))
+                        # print("other: \n", lines[i:])
+                        return "\n".join(lines[:i]), lines[i:]
+                    
+                ## at this point we return empty list for other lines, because all lines are ok
+                return "\n".join(lines), [] 
+                    
+                
+            validation, bottom_other_lines = split_validation(validation)
             
             validation = re.sub(r"and\s*\\\s*", r"and ", validation)
             
@@ -258,10 +267,11 @@ class ProblemPart:
             other_lines = []
 
             new_lines = make_one_line_tuples(lines)
+            
             for i in range(len(new_lines)):
                 line = new_lines[i].strip()
                 if " or " in line:
-                    ## we check if "or" is in line if it is we add remanig lines to other_lines
+                    ## we check if "or" is in line, if it is we add remanig lines to other_lines
                     other_lines.extend(new_lines[i:])
                     break
                 
@@ -283,14 +293,13 @@ class ProblemPart:
                         other_lines.extend(new_lines[i:])
                         break
 
-            # other_lines.extend(other_lines2)
+            other_lines.extend(bottom_other_lines)
             check_equals = [z for z in check_equals if len(z) > 0]
             check_secrets = [z for z in check_secrets if len(z) > 0]
             
             return check_equals, check_secrets, other_lines
         
         check_equals, check_secrets, other_lines = classify_tests(validation)
-        #print(check_equals, check_secrets)
         tests = {"check_equal" : check_equals, "other": "\n".join(other_lines), "check_secret" : check_secrets}
 
         return tests

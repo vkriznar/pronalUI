@@ -14,8 +14,11 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="129" column="93" selection-start-line="129" selection-start-column="93" selection-end-line="129" selection-end-column="93" />
+            <state relative-caret-position="723">
+              <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -23,7 +26,7 @@
       <file leaf-file-name="ProblemPart.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProblemPart.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
+            <state relative-caret-position="522">
               <caret line="347" column="42" selection-start-line="347" selection-start-column="42" selection-end-line="347" selection-end-column="42" />
             </state>
           </provider>
@@ -32,7 +35,7 @@
       <file leaf-file-name="Problem.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Problem.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2006">
+            <state relative-caret-position="522">
               <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
             </state>
           </provider>
@@ -51,13 +54,14 @@
     <findStrings>
       <find>print</find>
       <find>zamenjaj</find>
+      <find>ast</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/ProblemPart.py" />
+        <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
@@ -72,7 +76,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -89,6 +92,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -259,6 +263,30 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2108">
+          <caret line="129" column="93" selection-start-line="129" selection-start-column="93" selection-end-line="129" selection-end-column="93" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProblemPart.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5899">
+          <caret line="347" column="42" selection-start-line="347" selection-start-column="42" selection-end-line="347" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Problem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2006">
+          <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="867">
@@ -513,24 +541,27 @@
     <entry file="file://$PROJECT_DIR$/../edit_files/naloga_in.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Problem.py">
+    <entry file="file://$PROJECT_DIR$/ProblemPart.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2006">
-          <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
+        <state relative-caret-position="522">
+          <caret line="347" column="42" selection-start-line="347" selection-start-column="42" selection-end-line="347" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProblemPart.py">
+    <entry file="file://$PROJECT_DIR$/Problem.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="347" column="42" selection-start-line="347" selection-start-column="42" selection-end-line="347" selection-end-column="42" />
+        <state relative-caret-position="522">
+          <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="129" column="93" selection-start-line="129" selection-start-column="93" selection-end-line="129" selection-end-column="93" />
+        <state relative-caret-position="723">
+          <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -45,6 +45,8 @@ button:hover {
 
 .levo button, button .desno {width: 50%;}
 
+.table-changes {border: 0; float: right; margin-bottom: 15px;}
+
 .form1 {
 	margin-top: 15px;
 	border: 0px; 

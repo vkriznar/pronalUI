@@ -44,6 +44,10 @@
 	<div class="testi">
 		<div id="eql" style="display: none;">
 			<label for="testi"><b>Dodani testi - Check equal</b></label>
+			<form action="." id="table_edit" role="form" method="post" class="table-changes" style="display: inline-block;">
+				<input type="hidden" name="changes" id="table-variable" value="">
+				<button type="submit" style="width:160px; margin-top: 0;">Shrani spremembe</button>
+			</form>
 			<br><br>
 			<table class="table-fill">
 			<thead>
@@ -61,9 +65,9 @@
                     %        for i in range(len(tests["check_equal"][group_id])):
                     %            test = tests["check_equal"][group_id][i] 
 					<tr>
-                        <td class="text-center">{{group_id + 1}}</td>
-                        <td class="text-center">{{test.expression}}</td>
-                        <td class="text-center">{{test.output}}</td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{test.expression}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{test.output}}</div></td>
 
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
@@ -83,7 +87,11 @@
 			<br>
 		</div>
 		<div id="sct" style="display: none;">
+			<br>
 			<label for="testi"><b>Dodani testi - Check secret</b></label>
+			<div class="table-changes" style="display: inline-block;">
+				<button type="submit" form="table_edit" style="width:160px; margin-top: 0;">Shrani spremembe</button>
+			</div>
 			<br><br>
 			<table class="table-fill">
 			<thead>
@@ -101,9 +109,9 @@
                     %        for i in range(len(tests["check_secret"][group_id])):
                     %            test = tests["check_secret"][group_id][i]
 					<tr>
-                        <td class="text-center">{{group_id + 1}}</td>
-                        <td class="text-center">{{test.expression}}</td>
-                        <td class="text-center">{{test.other}}</td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{test.expression}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{test.other}}</div></td>
 
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
@@ -265,6 +273,38 @@ $(document).ready(function() {
 		tiptesta("chksct");
 	%end
 });
+
+/* function sctSaveChanges() {
+	alert("tole");
+	var editables_s = document.getElementByID("editable-sct");
+	alert(editables_s);
+}
+
+function eqlSaveChanges() {
+	var editables_e = document.getElementsByClass("editable-eql");
+	alert(editables_e);
+} */
+
+var changes = [];
+
+var contents_e = $('.editable-eql').html();
+$('.editable-eql').blur(function() {
+    if (contents_e!=$(this).html()){
+		changes.push(["eql", $(this)[0].parentNode.parentNode.rowIndex, $(this)[0].parentNode.cellIndex, $(this).html()]);
+		document.getElementById("table-variable").value = changes.toString();		
+        contents_e = $(this).html();
+    }
+});
+
+var contents_s = $('.editable-sct').html();
+$('.editable-sct').blur(function() {
+    if (contents_s!=$(this).html()){
+		changes.push(["sct", $(this)[0].parentNode.parentNode.rowIndex, $(this)[0].parentNode.cellIndex, $(this).html()]);
+		document.getElementById("table-variable").value = changes.toString();		
+        contents_s = $(this).html();
+    }
+});
+
 </script>
 
 

@@ -3,7 +3,7 @@ import webbrowser
 from Problem import Problem
 from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
-import ast
+import re
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -91,7 +91,7 @@ def podnaloga(part_num):
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
                     precode=precode, tests=tests, testi=testi,
-                    active_test=active_test, title="Podnaloga {}".format(part_num))
+                    active_test=active_test, changes=None, title="Podnaloga {}".format(part_num))
 
 @get("/index/naloga/podnaloga<part_num>/prekoda/")
 def podnaloga(part_num):
@@ -144,6 +144,7 @@ def podnaloga_get_def():
 def podnaloga_post(part_num):
     global problem
     global testi
+    changes = []
     testi = False
     part_num = int(part_num)
     problem_part = problem.parts[part_num-1]
@@ -156,7 +157,8 @@ def podnaloga_post(part_num):
 
     if request.forms.prekoda_gor:
         problem_part.precode_to_description()
-    
+
+
     else:
         global active_test
         testi = True
@@ -186,6 +188,15 @@ def podnaloga_post(part_num):
             active_test = "chksct"
         else:
             tests["other"] += (request.forms.other)
+
+
+    if request.forms.changes:
+        array = re.split(r',\s*(?![^()]*\))', request.forms.changes)
+        for i in range (0, len(array)//4):
+            changes.append([array[0+i*4], int(array[1+i*4])-1, int(array[2+i*4]), array[3+i*4]])
+        print(changes)
+        testi = True
+
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 
@@ -194,16 +205,6 @@ def pretvori():
     problem.write_on_file(file_name + "_out.py")
     return HTTPResponse("Uspelo ti je!")
 
-"""def zamenjaj(string):
-    chars = list(string)
-    for i in range(0, len(chars)):
-        if chars[i] == "\n":
-            chars[i] = "<br>"
-        if chars[i] == " ":
-            chars[i] = "&nbsp"
-        if chars[i] == "\r":
-            chars[i] = ""
-    return "".join(chars)"""
 
 
 run(host='localhost', port=8080, debug=True)

@@ -35,7 +35,7 @@ Check.secret(zmnozi(33, 33))
                  
 
 (   Check.equal('''odstej(8, 8)''', 25 ) and
-    Check.equal("odstej(int('88'), 18)", 100) and 
+    Check.equal('odstej(int("""88"""), 18)', 100) and 
     Check.equal("odstej(20, 20)", 400) and
     Check.equal("odstej(20, 20)", 400)
     
@@ -49,11 +49,9 @@ Check.secret(zmnozi(33, 33))
     
 )
 
-(   Check.secret(odstej(8, 8)) and
-    Check.secret(odstej(6, 6)) and
-    Check.secret(odstej(1, 1))
-    
-)
+Check.equal("odstej(1, 1)", 1 ) and \
+Check.equal('odstej(2, 2)', 2 ) or \
+Check.equal('odstej(3, 3)', 3 )
 
 (
     Check.secret(odstej(1, 1)) or
@@ -62,9 +60,15 @@ Check.secret(zmnozi(33, 33))
     
 )
 
-Check.equal("odstej(1, 1)", 1 )  or \
-Check.equal('odstej(2, 2)', 2 ) and \
-Check.equal('odstej(3, 3)', 3 )
+(   Check.secret(odstej(8, 8)) and
+    Check.secret(odstej(6, 6)) and
+    Check.secret(odstej(1, 1))
+    
+)
+
+
+
+
 
 for i in range(1, 10):
     Check.secret(zmnozi(i, i+1))

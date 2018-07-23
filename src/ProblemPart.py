@@ -64,17 +64,16 @@ class CheckEqual:
 # TODO CheckEqual (4 args) -> (2 args; input, out);   out; res, clean, env
 # TODO CheckSecret (3 args) -> (1 args; input)      input; exp, hint, clean
 class CheckSecret:
-    def __init__(self, expression, other):
+    def __init__(self, expression, other=""):
         self.expression = expression
-        if other is not None: other = other.replace('"""', "'''")
+        other = other.replace('"""', "'''")
         self.other = other
 
     def __repr__(self):
-        if self.other == None:
+        if len(self.other) > 0:
+            return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)
+        else:
             return "Check.secret({0})".format(self.expression)
-        
-        if self.other is None: return 'Check.secret({0}, {1})'.format(self.expression, self.other)
-        else: return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)  
     
 class ProblemPart:
     def __init__(self, part_id, description, precode, solution, tests):
@@ -214,7 +213,7 @@ class ProblemPart:
 
                 else:
                     expression=check_secret_string
-                    hint_msg=None
+                    hint_msg=""
                     
                 return CheckSecret(expression, hint_msg)
 

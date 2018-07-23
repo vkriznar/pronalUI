@@ -74,6 +74,16 @@ def naloga_post():
     else:
         return HTTPResponse("Uspelo ti ni!")
 
+
+@get("/index/naloga/podnaloga_izbrisi<part_num>/")
+def podnaloga_izbrisi(part_num):
+    global problem
+    part_num = int(part_num)
+    del problem.parts[part_num-1]
+
+    return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
+
+
 @get("/index/naloga/podnaloga<part_num>/")
 def podnaloga(part_num):
     global problem
@@ -91,23 +101,29 @@ def podnaloga(part_num):
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
                     precode=precode, tests=tests, testi=testi,
-                    active_test=active_test, changes=None, title="Podnaloga {}".format(part_num))
+                    active_test=active_test, changes=None, title="Podnaloga {}".format(part_num), part_num=part_num)
 
-@get("/index/naloga/podnaloga<part_num>/prekoda/")
-def podnaloga(part_num):
-    global problem
-    part_num = int(part_num)
-    global active_test
-    active_test = "chkeql"
 
-    problem_part = problem.parts[part_num-1]
-    
-    description = problem_part.description
-    solution = problem_part.solution
-    precode = problem_part.precode
-    tests = problem_part.test
-    
-    redirect("/index/naloga/podnaloga{}/".format(part_num))
+
+
+
+
+
+##@get("/index/naloga/podnaloga<part_num>/prekoda/")
+##def podnaloga(part_num):
+##    global problem
+##    part_num = int(part_num)
+##    global active_test
+##    active_test = "chkeql"
+##
+##    problem_part = problem.parts[part_num-1]
+##    
+##    description = problem_part.description
+##    solution = problem_part.solution
+##    precode = problem_part.precode
+##    tests = problem_part.test
+##    
+##    redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 @get("/index/naloga/podnaloga<part_num>/<test_type>-<edit><group_id><i>/")
 def delete_from_table(part_num, test_type, edit, group_id, i):
@@ -178,6 +194,9 @@ def podnaloga_post(part_num):
             # in python format (0 starts)
             test_num = int(request.forms.stevilka) - 1
             check_secret_test = CheckSecret(request.forms.niz1, request.forms.niz2)
+
+            
+            
             if test_num == len(tests["check_secret"]):
                 tests["check_secret"].append([check_secret_test])
             elif test_num > len(tests["check_secret"]):
@@ -203,6 +222,7 @@ def podnaloga_post(part_num):
 @get("/pretvori/")
 def pretvori():
     problem.write_on_file(file_name + "_out.py")
+    print(problem)
     return HTTPResponse("Uspelo ti je!")
 
 

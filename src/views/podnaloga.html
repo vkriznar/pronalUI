@@ -22,6 +22,7 @@
 		<input type="button" value="italic" onClick="formatText('i');"/> 
 		<input type="button" value="underline" onClick="formatText('u');"/>
 		<input type="button" value="latex" onClick="formatText('$')"/>
+        <input type="button" value="program" onClick="formatText('`')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
@@ -53,8 +54,8 @@
 			<thead>
 				<tr>
 					<th class="text-center"># Testa</th>
-					<th class="text-center">Niz s klicem funkcije</th>
-					<th class="text-center">Rezultat niza</th>
+					<th class="text-center">Izraz</th>
+					<th class="text-center">Rezultat</th>
                     <th class="text-center">Urejanje</th>
 				</tr>
 			</thead>
@@ -97,8 +98,8 @@
 			<thead>
 				<tr>
 					<th class="text-center"># Testa</th>
-					<th class="text-center">Prvi argument testa</th>
-					<th class="text-center">Drugi argument testa</th>
+					<th class="text-center">Izraz</th>
+					<th class="text-center">Sporočilo</th>
                     <th class="text-center">Urejanje</th>
 				</tr>
 			</thead>
@@ -136,16 +137,16 @@
 			<br><br>
 			<form action="." role="form" method="post" class="form1" id="chkeql" style="display: inline-block;">
 				<input type="hidden" name="tipTesta" value="chkeql">
-				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
-				<input type="text" placeholder="Niz s klicem funkcije" name="niz" style="float:left; width:500px;" required>
+				<input type="number" value={{len(tests["check_equal"]) + 1 }} name="stevilka" style="float:left; width:100px;" required>
+				<input type="text" placeholder="Izraz" name="niz" style="float:left; width:500px;" required>
 				<input type="text" placeholder="Rezultat" name="rezultat" style="float:left; width:240px;" required>
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
 			<form action="." role="form" method="post" class="form1" id="chksct" style="height: 53px; display: none;">
 				<input type="hidden" name="tipTesta" value="chksct">
-				<input type="number" placeholder="# testa" name="stevilka" style="float:left; width:100px;" required>
-				<input type="text" placeholder="Prvi argument secret testa" name="niz1" style="float:left; width:370px;" required>
-				<input type="text" placeholder="Drugi argument secret testa" name="niz2" style="float:left; width:370px;">
+				<input type="number" value={{len(tests["check_secret"]) + 1 }} name="stevilka" style="float:left; width:100px;" required>
+				<input type="text" placeholder="Izraz" name="niz1" style="float:left; width:370px;" required>
+				<input type="text" placeholder="Sporočilo" name="niz2" style="float:left; width:370px;">
 				<button type="submit" class="submit" style="float:right; width:100px; margin-top: 8px;">Dodaj</button>
 			</form>
 		</div>
@@ -160,8 +161,12 @@
 	</div>
 	<br>
 	<div>
-		<a class="link" href="/index/naloga/podnaloga/" target="_blank" ><button id="naprej" style="display: inline-block; margin: auto; width: 49.8%; float: left;">Nova podnaloga</button></a>
-		<a class="link" href="/pretvori/"><button id="naprej" style="display: inline-block; margin: auto; width: 49.8%; float: right;">Oddaj sklop</button></a>
+         <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/">
+        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Izbriši podnalogo</button></a>
+		<a class="link" href="/index/naloga/podnaloga/" target="_blank" >
+        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Nova podnaloga</button></a>
+		<a class="link" href="/pretvori/">
+        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Oddaj nalogo</button></a>
 	</div>
 </div>
 
@@ -206,7 +211,7 @@ function formatText(x) {
 	var textAreaSubstring = textAreaValue.substring(textArea.selectionStart, textArea.selectionEnd);
 	var textAreaBefore = textAreaValue.substring(0, textArea.selectionStart);
 	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
-	if (x != "$"){
+	if (x != "$" && x != "`"){
 		textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
 	}
 	else {

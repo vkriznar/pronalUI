@@ -23,10 +23,12 @@ def blank():
 def upload():
     global file_name
     file = request.files.get('file')
+    print(file)
     # only allow upload of text files
     # if file.content_type != "text/plain":
     #    return HTTPResponse("Uspelo ti ni!")
     file_name = file.filename
+    print(file_name)
     
     "Z file.file dostopamo do nase datoteke, npr."
 ##    for line in file.file:
@@ -50,8 +52,8 @@ def nova_naloga(izbira):
         #tukaj se ustvari nov Problem ki ima prazne atribute
         redirect("/index/naloga/")
     elif izbira == "obstojeca":
-        file_name = "../edit_files/naloga"
-        problem = Problem.load_file(file_name + "_in.py")
+        file_name = "../edit_files/"+file_name
+        problem = Problem.load_file(file_name)
         for i in range(len(problem.parts)):
             time.sleep(0.05)
             webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
@@ -210,10 +212,21 @@ def podnaloga_post(part_num):
 
 
     if request.forms.changes:
+        print(request.forms.changes)
         array = re.split(r',\s*(?![^()]*\))', request.forms.changes)
+        print(array)
+
+        
+        
         for i in range (0, len(array)//4):
             changes.append([array[0+i*4], int(array[1+i*4])-1, int(array[2+i*4]), array[3+i*4]])
-        print(changes)
+            print(array[0+i*4])
+            print(int(array[1+i*4])-1)
+            print(int(array[2+i*4])-1)
+            print(array[3+i*4])
+            
+            print(changes)
+            
         testi = True
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))
@@ -221,7 +234,7 @@ def podnaloga_post(part_num):
 
 @get("/pretvori/")
 def pretvori():
-    problem.write_on_file(file_name + "_out.py")
+    problem.write_on_file(file_name[:-6] + "_out.py")
     print(problem)
     return HTTPResponse("Uspelo ti je!")
 

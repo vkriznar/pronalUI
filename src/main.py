@@ -153,6 +153,7 @@ def delete_from_table(part_num, test_type, edit, group_id, i):
     i = int(i)
 
     global problem
+    global testi
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
     

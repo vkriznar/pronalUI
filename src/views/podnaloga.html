@@ -71,15 +71,21 @@
                         <td class="text-center"><div contenteditable="true" class="editable-eql">{{test.output}}</div></td>
 
                         <td class="text-center">
-                            <div id="redBox" style="display: inline-block;">
-                                <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
-                            </div>
-                            <div id="orangeBox" style="display: inline-block;">
-                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up" style="position: relative; bottom: 3px;">&#8593;</span></a>
-                            </div>
-                            <div style="display: inline-block;">
-                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;"><span id="s">&#128190;</span></a>
-                            </div>
+							<a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+								<div id="redBox" style="display: inline-block;">
+								   <span id="x">&times;</span>
+								</div>
+							</a>
+							<a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+								<div id="orangeBox" style="display: inline-block;">
+									 <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
+								</div>
+							</a>
+							<a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;">
+								<div style="display: inline-block;">
+									 <span id="s">&#128190;</span>
+								</div>
+							</a>
                         </td>
 					</tr>
 					%end

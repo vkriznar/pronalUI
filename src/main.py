@@ -8,6 +8,8 @@ import re
 static_directory = "./static"
 active_test = "chkeql"
 testi = False
+je_bila_izbrisana = False
+podnaloge_za_osvezit = []
 
 webbrowser.open('http://localhost:8080/index/')
     
@@ -80,8 +82,13 @@ def naloga_post():
 @get("/index/naloga/podnaloga_izbrisi<part_num>/")
 def podnaloga_izbrisi(part_num):
     global problem
+    global je_bila_izbrisana
+    global naloge_za_osvezit
+    global podnaloge_za_osvezit
     part_num = int(part_num)
     del problem.parts[part_num-1]
+    je_bila_izbrisana = True
+    podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
 
     return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
 
@@ -91,15 +98,27 @@ def podnaloga(part_num):
     global problem
     part_num = int(part_num)
     global active_test
+    global je_bila_izbrisana
+    global podnaloge_za_osvezit
     active_test = "chkeql"
 
-    problem_part = problem.parts[part_num-1]
+    if part_num > len(problem.parts):
+        problem_part = problem.parts[part_num - 2]
+    else:
+        problem_part = problem.parts[part_num-1]
     
     description = problem_part.description
     solution = problem_part.solution
     precode = problem_part.precode
     tests = problem_part.tests
-    
+
+    if je_bila_izbrisana:
+        if part_num in podnaloge_za_osvezit:
+            podnaloge_za_osvezit.remove(part_num)
+            if not podnaloge_za_osvezit:
+                je_bila_izbrisana = False
+            redirect("/index/naloga/podnaloga{}/".format(part_num-1))
+
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
                     precode=precode, tests=tests, testi=testi,

@@ -75,10 +75,10 @@
                                 <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
                             <div id="orangeBox" style="display: inline-block;">
-                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up">&#8593;</span></a>
+                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="up" style="position: relative; bottom: 3px;">&#8593;</span></a>
                             </div>
                             <div style="display: inline-block;">
-                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="s">&#128190;</span></a>
+                                 <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;"><span id="s">&#128190;</span></a>
                             </div>
                         </td>
 					</tr>
@@ -164,16 +164,17 @@
 	</div>
 	<br>
 	<div>
-         <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/">
-        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Izbriši podnalogo</button></a>
+        <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/">
+			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Izbriši podnalogo</button></a>
 		<a class="link" href="/index/naloga/podnaloga/" target="_blank" >
-        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Nova podnaloga</button></a>
+			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Nova podnaloga</button></a>
 		<a class="link" href="/pretvori/">
-        <button id="naprej" style="display: inline-block; margin: auto; width: 28%;">Oddaj nalogo</button></a>
+			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Oddaj nalogo</button></a>
 	</div>
 </div>
 
 <script>
+window.onblur= function() {window.onfocus= function () {location.reload(true)}};
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
 $(document).delegate('#opis', 'keydown', function(e) {
   var keyCode = e.keyCode || e.which;

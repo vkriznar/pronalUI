@@ -306,8 +306,8 @@ var changes = [];
 var contents_e = $('.editable-eql').html();
 $('.editable-eql').blur(function() {
     if (contents_e!=$(this).html()){
-		changes.push(["eql", $(this)[0].parentNode.parentNode.rowIndex, $(this)[0].parentNode.cellIndex, $(this).html()]);
-		document.getElementById("table-variable").value = changes.toString();		
+		changes.push("eql" + "::" + $(this)[0].parentNode.parentNode.rowIndex+ "::" +  $(this)[0].parentNode.cellIndex+ "::" +  $(this).html());
+		document.getElementById("table-variable").value = changes.join(":;");		
         contents_e = $(this).html();
     }
 });
@@ -315,8 +315,8 @@ $('.editable-eql').blur(function() {
 var contents_s = $('.editable-sct').html();
 $('.editable-sct').blur(function() {
     if (contents_s!=$(this).html()){
-		changes.push(["sct", $(this)[0].parentNode.parentNode.rowIndex, $(this)[0].parentNode.cellIndex, $(this).html()]);
-		document.getElementById("table-variable").value = changes.toString();		
+		changes.push("sct" + "::" + $(this)[0].parentNode.parentNode.rowIndex+ "::" +  $(this)[0].parentNode.cellIndex+ "::" +  $(this).html());
+		document.getElementById("table-variable").value = changes.join(":;");		
         contents_s = $(this).html();
     }
 });

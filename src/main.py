@@ -232,22 +232,16 @@ def podnaloga_post(part_num):
 
 
     if request.forms.changes:
-        print(request.forms.changes)
-        array = re.split(r',\s*(?![^()]*\))', request.forms.changes)
-        print(array)
-
-        
-        
-        for i in range (0, len(array)//4):
-            changes.append([array[0+i*4], int(array[1+i*4])-1, int(array[2+i*4]), array[3+i*4]])
-            print(array[0+i*4])
-            print(int(array[1+i*4])-1)
-            print(int(array[2+i*4])-1)
-            print(array[3+i*4])
-            
-            print(changes)
-            
+        array = request.forms.changes.split(":;")
         testi = True
+
+    for test in array:
+        changes.append(test.split("::"))
+    print(changes)
+            
+
+            
+
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 

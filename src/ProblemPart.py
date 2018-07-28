@@ -56,7 +56,7 @@ class CheckEqual:
         return 'Check.equal("""{0}""", {1})'.format(self.expression, self.output)
 
     def example(self):
-        return " "*4+">>> " + self.expression + "\n"+" "*4 + self.output
+        return ">>> " + self.expression + "\n" + self.output
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string
@@ -338,7 +338,7 @@ class ProblemPart:
 
     def code_to_description(self, code, line_num):
         string_list = self.description.split("\n")
-        insert_text = "\n" + code.replace(r"\n", r"\n    ")
+        insert_text = "\n    " + code.replace("\n", "\n    ")
         if line_num < 0:
             string_list.append(insert_text)
         else:
@@ -349,6 +349,8 @@ class ProblemPart:
     def precode_to_description(self, line_num=-1):
         self.code_to_description(self.precode, line_num)
 
+# no need for this function use check_equals_to_description
+## TODO remove in future
     def check_equal_to_description(self, test, line_num=-1):
         code = test.example()
         self.code_to_description(code, line_num)

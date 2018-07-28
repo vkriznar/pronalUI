@@ -147,7 +147,7 @@ class TestSecretFrame:
         self.check_button = ttk.Checkbutton(
             self.frame, command=self.flip_chosen,
             variable=self.check_pressed_str,
-	    onvalue='True', offvalue='False')
+	    onvalue="True", offvalue="False")
         self.check_button.grid(row=2, column=2, sticky=STICKY_ALL)
 
         # self.input_str = tk.StringVar()
@@ -155,7 +155,7 @@ class TestSecretFrame:
         self.input_entry = ttk.Entry(self.frame)
         self.input_entry.grid(row=2, column=4, sticky=STICKY_ALL)
 
-        self.input_entry.delete(0,'end') 
+        self.input_entry.delete(0,"end") 
         self.input_entry.insert(0, test.expression)
 
     def flip_chosen(self, event=None):
@@ -259,13 +259,20 @@ class PartMenu:
 
         self.frame = ttk.Frame(self.parent)
         self.frame.grid(row=2, column=2, sticky=STICKY_ALL)
-        self.frame.grid_columnconfigure(0, weight=1)
-        self.frame.grid_rowconfigure(0, weight=1)
+
+        self.precode_frame = ttk.Frame(self.frame)
+        self.precode_frame.grid(row=2, column=0, sticky=STICKY_ALL)
+
+        self.description_precode_button = ttk.Button(self.precode_frame, text="Prc. to description", command=self.precode_to_description)
+        self.description_precode_button.grid(row=2, column=0, sticky=STICKY_ALL)
+
+        self.test_frame = ttk.Frame(self.frame)
+        self.test_frame.grid(row=4, column=0, sticky=STICKY_ALL)
         
-        self.remove_tests_button = ttk.Button(self.frame, text='Remove tests', command=self.remove_tests)
+        self.remove_tests_button = ttk.Button(self.test_frame, text="Remove tests", command=self.remove_tests)
         self.remove_tests_button.grid(row=2, column=0, sticky=STICKY_ALL)
 
-        self.description_tests_button = ttk.Button(self.frame, text='To description', command=self.tests_to_description)
+        self.description_tests_button = ttk.Button(self.test_frame, text="To description", command=self.tests_to_description)
         self.description_tests_button.grid(row=4, column=0, sticky=STICKY_ALL)
 
     def remove_tests(self):
@@ -273,6 +280,9 @@ class PartMenu:
 
     def tests_to_description(self):
         self.partGUI.add_chosen_tests_to_description()
+
+    def precode_to_description(self):
+        self.partGUI.add_precode_to_description()
     
 
 class PartGUI:
@@ -347,7 +357,7 @@ class PartGUI:
 
 
     def update_field(self, field_name, entry):
-        field_data = entry.get('1.0', 'end')
+        field_data = entry.get("1.0", "end")
         if field_name == "part_description":
             self.part.description = field_data
         elif field_name == "part_precode":
@@ -391,6 +401,7 @@ class PartGUI:
         del self.tests_frame
         self.make_tests_frame()
 
+
     def add_chosen_tests_to_description(self, event=None):
         print("bla bla 123")
         chosen_tests = []
@@ -404,7 +415,15 @@ class PartGUI:
         del self.tests_frame
         self.make_tests_frame()
         self.add_context()
-                    
+
+
+    def add_precode_to_description(self, event=None):
+        print("self.part.description", self.part.description)
+        self.part.precode_to_description()
+        print("self.part.description", self.part.description)
+        print("self.part.precode", self.part.precode)
+        self.add_context()
+        
         
         
 
@@ -438,7 +457,7 @@ class ProblemGUI:
             self.desc_entry.insert("1.0", self.problem.description)
 
     def update_field(self, field_name, entry):
-        field_data = entry.get('1.0', 'end')
+        field_data = entry.get("1.0", "end")
         if field_name == "problem_title":
             self.problem.title = field_data
         elif field_name == "problem_description":
@@ -533,7 +552,7 @@ class PrototypeGUI:
         self.redefine_notebook()
         print("Load done.")
 
-    def command_save(self, event=None, file=None):
+    def command_save(self, file=None):
         if file==None:
             file = self.file_name
 
@@ -542,7 +561,7 @@ class PrototypeGUI:
         
         # print("TODO command_save")
 
-    def command_save_as(self, event):
+    def command_save_as(self, event=None):
         file = filedialog.asksaveasfilename()
         self.command_save()
 
@@ -553,6 +572,8 @@ def main():
     root = tk.Tk()
     prototype = PrototypeGUI(root)
     root.mainloop()
+    input("Pres ENTER to save.")
+    prototype.command_save(prototype.file_name.replace("_in", "").strip(".py") + "_out.py")
 
 if __name__ == "__main__":
     main()

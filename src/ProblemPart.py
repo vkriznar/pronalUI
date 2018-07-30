@@ -149,8 +149,7 @@ class ProblemPart:
         if (test_type in self.tests and
             group_id < len(self.tests[test_type]) and
             i < len(self.tests[test_type][group_id])):
-            
-            test = self.tests[test_type][group_id][i]
+                test = self.tests[test_type][group_id][i]
             
         else:
             return False

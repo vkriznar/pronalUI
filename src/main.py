@@ -115,7 +115,7 @@ def podnaloga(part_num):
     solution = problem_part.solution
     precode = problem_part.precode
     tests = problem_part.tests
-    print(part_num, tests)
+    # print(part_num, tests)
 
     # if je_bila_izbrisana:
     if podnaloge_za_osvezit:
@@ -241,35 +241,21 @@ def podnaloga_post(part_num):
 
     if request.forms.changes:
         json_dict = json.loads(request.forms.changes)
+        print(json_dict)
 
         for test_type in json_dict:
             for test_data in json_dict[test_type]:
                 print("spremembe: ", test_data)
-                group_id = test_data["group_id"] - 1
-                # i = test_data["index"] - 1
-                ## TODO fix this
-                i = 0
+                group_id = int(test_data["group_id"]) - 1
+                i = int(test_data["index"]) - 1
                 expression = test_data["expression"]
-                output = test_data["output"]
+                output = test_data["output"] if test_type == "check_equal" else test_data["other"]
                 problem_part.change_test_by_id(test_type, group_id, i, expression, output)
-                print("spremembe2: ", problem_part.tests[test_type][group_id][i])
+                #print("spremembe2: ", problem_part.tests[test_type][group_id][i])
 
 
     redirect("/index/naloga/podnaloga{}/".format(part_num)) # treba je returnat template, ki bo vrnu dano podnalogo s spremenjenimi testi
 
-                
-##        array = request.forms.changes.split(":;")
-##        testi = True
-##
-##        for test in array: # napaka,ker loh arraya nimamo
-##            changes.append(test.split("::"))
-##        print(changes)
-            
-
-            
-
-
-    redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 
 @get("/pretvori/")

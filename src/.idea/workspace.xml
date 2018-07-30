@@ -14,8 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2882">
-              <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
+            <state relative-caret-position="475">
+              <caret line="252" column="90" lean-forward="true" selection-start-line="252" selection-start-column="90" selection-end-line="252" selection-end-column="90" />
             </state>
           </provider>
         </entry>
@@ -32,8 +32,8 @@
       <file leaf-file-name="ProblemPart.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProblemPart.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6358">
-              <caret line="374" column="42" selection-start-line="374" selection-start-column="42" selection-end-line="374" selection-end-column="42" />
+            <state relative-caret-position="1115">
+              <caret line="154" column="24" selection-start-line="154" selection-start-column="24" selection-end-line="154" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -58,16 +58,17 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print</find>
       <find>zamenjaj</find>
       <find>ast</find>
+      <find>print</find>
+      <find>tests</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/ProblemPart.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/ProblemPart.py" />
       </list>
     </option>
   </component>
@@ -572,17 +573,17 @@
     <entry file="file://$PROJECT_DIR$/../edit_files/naloga_in.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/ProblemPart.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6358">
-          <caret line="374" column="42" selection-start-line="374" selection-start-column="42" selection-end-line="374" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Problem.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2006">
           <caret line="119" column="26" selection-start-line="119" selection-start-column="26" selection-end-line="119" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ProblemPart.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1115">
+          <caret line="154" column="24" selection-start-line="154" selection-start-column="24" selection-end-line="154" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -595,8 +596,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2882">
-          <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
+        <state relative-caret-position="475">
+          <caret line="252" column="90" lean-forward="true" selection-start-line="252" selection-start-column="90" selection-end-line="252" selection-end-column="90" />
         </state>
       </provider>
     </entry>

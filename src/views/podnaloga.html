@@ -66,9 +66,9 @@
                     %        for i in range(len(tests["check_equal"][group_id])):
                     %            test = tests["check_equal"][group_id][i] 
 					<tr>
-                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{group_id + 1}}</div></td>
-                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{test.expression}}</div></td>
-                        <td class="text-center"><div contenteditable="true" class="editable-eql">{{test.output}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql" id="group_id">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql" id="expression">{{test.expression}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-eql" id="output">{{test.output}}</div></td>
                         <td class="text-center">
                             
                             <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
@@ -87,7 +87,7 @@
                                 </div>
                             </a>
                             
-                            <div style="display: inline-block;" contenteditable="true" class="editable-eql">{{i + 1}}</div>
+                            <div style="display: inline-block;" contenteditable="true" class="editable-eql" id="i">{{i + 1}}</div>
                         </td>
 					</tr>
 					%end
@@ -121,14 +121,14 @@
                     %        for i in range(len(tests["check_secret"][group_id])):
                     %            test = tests["check_secret"][group_id][i]
 					<tr>
-                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{group_id + 1}}</div></td>
-                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{test.expression}}</div></td>
-                        <td class="text-center"><div contenteditable="true" class="editable-sct">{{test.other}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct" id="group_id_s">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct" id="expression_s">{{test.expression}}</div></td>
+                        <td class="text-center"><div contenteditable="true" class="editable-sct" id="output_s">{{test.other}}</div></td>
                         <td class="text-center">
                             <div id="redBox" style="display: inline-block;">
                                 <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
-                            <div style="display: inline-block;" contenteditable="true" class="editable-sct">{{i + 1}}</div>
+                            <div style="display: inline-block;" contenteditable="true" class="editable-sct" id="i_s">{{i + 1}}</div>
                         </td>
 					</tr>
 					%end
@@ -293,37 +293,19 @@ $(document).ready(function() {
 	%end
 });
 
-/* function sctSaveChanges() {
-	alert("tole");
-	var editables_s = document.getElementByID("editable-sct");
-	alert(editables_s);
-}
-
-function eqlSaveChanges() {
-	var editables_e = document.getElementsByClass("editable-eql");
-	alert(editables_e);
-} */
-
-//var changes = [];
 var changes2 = {"check_equal" : [], "check_secret" : []};
 
 var contents_e = $('.editable-eql').html();
 $('.editable-eql').blur(function() {
     if (contents_e!=$(this).html()){
-
         change = {
-            "group_id" : $(this)[0].parentNode.parentNode.rowIndex,
-            "expression" : $(this)[0].parentNode.cellIndex,
-            "output" : $(this).html(),
-            "index" : $(this)[0].parentNode // tole je treba popravt, ne znava dobit indexa vn (druga številka pr testu na vmesniku)
+            "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id').textContent,
+            "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression').textContent,
+            "output" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output').textContent,
+            "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i').textContent
             };
         changes2.check_equal.push(change);
-        // changes2.stringify();
         document.getElementById("table-variable").value = JSON.stringify(changes2); //changes2;
-
-        
-		//changes.push("eql" + "::" + $(this)[0].parentNode.parentNode.rowIndex+ "::" +  $(this)[0].parentNode.cellIndex+ "::" +  $(this).html());
-        //document.getElementById("table-variable").value = changes.join(":;");		
         contents_e = $(this).html();
     }
 });
@@ -331,20 +313,16 @@ $('.editable-eql').blur(function() {
 var contents_s = $('.editable-sct').html();
 $('.editable-sct').blur(function() {
     if (contents_s!=$(this).html()){
-
+		console.log($(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent)
         change = {
-            "group_id" : $(this)[0].parentNode.parentNode.rowIndex,
-            "expression" : $(this)[0].parentNode.cellIndex,
-            "other" : $(this).html(),
-            "index" : $(this)[0].parentNode // tole je treba popravt, ne znava dobit indexa vn (druga številka pr testu na vmesniku)
+            "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent,
+            "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression_s').textContent,
+            "other" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output_s').textContent,
+            "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i_s').textContent 
             };
         changes2.check_secret.push(change);
         
-        document.getElementById("table-variable").value = JSON.stringify(changes2); //changes2;
-
-        
-		//changes.push("sct" + "::" + $(this)[0].parentNode.parentNode.rowIndex+ "::" +  $(this)[0].parentNode.cellIndex+ "::" +  $(this).html());
-	    //document.getElementById("table-variable").value = changes.join(":;");		
+        document.getElementById("table-variable").value = JSON.stringify(changes2);
         contents_s = $(this).html();
     }
 });

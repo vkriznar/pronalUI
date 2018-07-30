@@ -240,14 +240,6 @@ def podnaloga_post(part_num):
 
 
     if request.forms.changes:
-<<<<<<< HEAD
-        array = request.forms.changes.split(":;")
-        testi = True
-
-    for test in array:
-        changes.append(test.split("::"))
-    print(changes)
-=======
         json_dict = json.loads(request.forms.changes)
 
         for test_type in json_dict:
@@ -276,7 +268,6 @@ def podnaloga_post(part_num):
 
             
 
->>>>>>> 072b1d0d5597a72e8d22f068a57ff53c3aaec12d
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 

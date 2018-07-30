@@ -14,11 +14,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="240" selection-start-line="240" selection-end-line="240" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2882">
+              <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -35,8 +32,8 @@
       <file leaf-file-name="ProblemPart.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ProblemPart.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6035">
-              <caret line="355" column="42" selection-start-line="355" selection-start-column="42" selection-end-line="355" selection-end-column="42" />
+            <state relative-caret-position="6358">
+              <caret line="374" column="42" selection-start-line="374" selection-start-column="42" selection-end-line="374" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -85,7 +82,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -102,6 +98,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -242,6 +239,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -282,9 +280,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3417">
           <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -306,9 +301,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2108">
           <caret line="129" column="93" selection-start-line="129" selection-start-column="93" selection-end-line="129" selection-end-column="93" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -582,8 +574,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ProblemPart.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6035">
-          <caret line="355" column="42" selection-start-line="355" selection-start-column="42" selection-end-line="355" selection-end-column="42" />
+        <state relative-caret-position="6358">
+          <caret line="374" column="42" selection-start-line="374" selection-start-column="42" selection-end-line="374" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -603,11 +595,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="240" selection-start-line="240" selection-end-line="240" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2882">
+          <caret line="271" column="59" lean-forward="true" selection-start-line="271" selection-start-column="59" selection-end-line="271" selection-end-column="59" />
         </state>
       </provider>
     </entry>

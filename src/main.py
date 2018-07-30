@@ -200,8 +200,8 @@ def podnaloga_post(part_num):
         problem_part.description = request.forms.opis
         problem_part.solution = request.forms.koda
         problem_part.precode = request.forms.prekoda
-
-    if request.forms.prekoda_gor:
+    print(request.forms.prekoda_gor)
+    if request.forms.prekoda_gor == "True":     #To ni isto kot boolean==True, ker je True string
         problem_part.precode_to_description()
 
 

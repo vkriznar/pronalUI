@@ -81,12 +81,11 @@
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
-                            <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;">
+                    <!--         <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;">
                                 <div style="display: inline-block;">
                                      <span id="s">&#128190;</span>
                                 </div>
-                            </a>
-                            
+                            </a> -->
                             <div style="display: inline-block;" contenteditable="true" class="editable-eql" id="i">{{i + 1}}</div>
                         </td>
 					</tr>
@@ -243,7 +242,6 @@ document.getElementById("prekoda_gor_gumb").addEventListener("click", function(e
     if(document.getElementById("opis").value) {
         document.getElementById("hidden").value = "True";
 		document.getElementById("form").submit();
-        document.getElementById("hidden").value = "False";
     }
 });
 
@@ -280,7 +278,9 @@ function tiptesta(test) {
 %end
 
 $(document).ready(function() {
+	console.log(document.getElementById("hidden").value);
 	opis_preview();
+	document.getElementById("hidden").value = "False";
 	%if active_test == "chkeql":
 		var element = document.getElementById("testSelect");
 		element.value = "chkeql";

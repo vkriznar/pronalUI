@@ -144,6 +144,22 @@ class ProblemPart:
             print(type(test))
             print(test)
             print("Can not remove this test type.")
+
+    def change_test_by_id(self, test_type, group_id, i, expression, output):
+        if (test_type in self.tests and
+            group_id < len(self.tests[test_type]) and
+            i < len(self.tests[test_type][group_id])):
+            
+            test = self.tests[test_type][group_id][i]
+            
+        else:
+            return False
+
+        test.expression = expression
+        test.output = output
+        return True
+        
+        
         
         
 
@@ -337,14 +353,15 @@ class ProblemPart:
 
 
     def code_to_description(self, code, line_num):
-        string_list = self.description.split("\n")
-        insert_text = "\n    " + code.replace("\n", "\n    ")
-        if line_num < 0:
-            string_list.append(insert_text)
-        else:
-            string_list.insert(line_num, insert_text)
+        if len(code.strip()) > 0:
+            string_list = self.description.split("\n")
+            insert_text = "\n    " + code.replace("\n", "\n    ")
+            if line_num < 0:
+                string_list.append(insert_text)
+            else:
+                string_list.insert(line_num, insert_text)
 
-        self.description = "\n".join(string_list)
+            self.description = "\n".join(string_list)
 
     def precode_to_description(self, line_num=-1):
         self.code_to_description(self.precode, line_num)

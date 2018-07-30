@@ -49,14 +49,14 @@ class CheckEqual:
         # TODO when expresion is writen to file we should write it with triple " (""")
         # TODO split output on solution and clean, env
         expression = expression.replace('"""',"'''")
-        self.expression = expression
-        self.output = output
+        self.expression = expression.strip()
+        self.output = output.strip()
 
     def __repr__(self):
         return 'Check.equal("""{0}""", {1})'.format(self.expression, self.output)
 
     def example(self):
-        return "\n"+" "*4+">>> " + self.expression + "\n"+" "*4 + self.output
+        return ">>> " + self.expression + "\n" + self.output
 
 # TODO check secret should have only one parameter
 # TODO as with check equal all other parameters can be saved in same string
@@ -144,6 +144,22 @@ class ProblemPart:
             print(type(test))
             print(test)
             print("Can not remove this test type.")
+
+    def change_test_by_id(self, test_type, group_id, i, expression, output):
+        if (test_type in self.tests and
+            group_id < len(self.tests[test_type]) and
+            i < len(self.tests[test_type][group_id])):
+            
+            test = self.tests[test_type][group_id][i]
+            
+        else:
+            return False
+
+        test.expression = expression
+        test.output = output
+        return True
+        
+        
         
         
 
@@ -337,24 +353,28 @@ class ProblemPart:
 
 
     def code_to_description(self, code, line_num):
-        string_list = self.description.split("\n")
-        insert_text = ("\n" + 4*" ").join(code.split("\n"))
-        if line_num < 0:
-            string_list.append(insert_text)
-        else:
-            string_list.insert(line_num, insert_text)
+        if len(code.strip()) > 0:
+            string_list = self.description.split("\n")
+            insert_text = "\n    " + code.replace("\n", "\n    ")
+            if line_num < 0:
+                string_list.append(insert_text)
+            else:
+                string_list.insert(line_num, insert_text)
 
-        self.description = "".join(string_list)
+            self.description = "\n".join(string_list)
 
     def precode_to_description(self, line_num=-1):
-        self.code_to_description("\n\n" + self.precode, line_num)
+        self.code_to_description(self.precode, line_num)
 
+# no need for this function use check_equals_to_description
+## TODO remove in future
     def check_equal_to_description(self, test, line_num=-1):
-        code = "\n" + test.example() + "\n"
+        code = test.example()
         self.code_to_description(code, line_num)
 
     def check_equals_to_description(self, tests, line_num=-1):
-        code = "\n\n" + "\n".join([z.example() for z in tests]) + "\n\n"
+        tests = [test for test in tests if isinstance(test, CheckEqual)]
+        code = "\n".join([z.example() for z in tests])
         self.code_to_description(code, line_num)
 
     def write_on_file(self, file):

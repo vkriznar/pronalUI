@@ -97,12 +97,14 @@ class ActionsToWidget:
 class TestEqualFrame:
     def __init__(self, parent, row=2, test=None):
         self.parent = parent
+        self.chosen = False
+        self.test = test
         self.frame = ttk.Frame(self.parent)
         self.frame.grid(row=row, column=0, sticky=STICKY_ALL)
 
         self.check_pressed_str = tk.StringVar()
         self.check_button = ttk.Checkbutton(
-            self.frame, command=lambda x: x,
+            self.frame, command=self.flip_chosen,
             variable=self.check_pressed_str,
 	    onvalue='True', offvalue='False')
         self.check_button.grid(row=2, column=2, sticky=STICKY_ALL)
@@ -123,23 +125,42 @@ class TestEqualFrame:
         self.output_entry.grid(row=2, column=6, sticky=STICKY_ALL)
 
 
+        self.input_entry.delete(0,'end') 
+        self.output_entry.delete(0,'end') 
+        self.input_entry.insert(0, test.expression)
+        self.output_entry.insert(0, test.output)
+
+    def flip_chosen(self, event=None):
+        self.chosen = not self.chosen
+        print("flip_chosen", self.chosen)
+
+
 class TestSecretFrame:
     def __init__(self, parent, row=2, test=None):
         self.parent = parent
+        self.chosen = False
+        self.test = test
         self.frame = ttk.Frame(self.parent)
         self.frame.grid(row=row, column=0, sticky=STICKY_ALL)
 
         self.check_pressed_str = tk.StringVar()
         self.check_button = ttk.Checkbutton(
-            self.frame, command=lambda x: x,
+            self.frame, command=self.flip_chosen,
             variable=self.check_pressed_str,
-	    onvalue='True', offvalue='False')
+	    onvalue="True", offvalue="False")
         self.check_button.grid(row=2, column=2, sticky=STICKY_ALL)
 
         # self.input_str = tk.StringVar()
         # self.input_entry = ttk.Entry(self.frame, textvariable=self.input_str)
         self.input_entry = ttk.Entry(self.frame)
         self.input_entry.grid(row=2, column=4, sticky=STICKY_ALL)
+
+        self.input_entry.delete(0,"end") 
+        self.input_entry.insert(0, test.expression)
+
+    def flip_chosen(self, event=None):
+        self.chosen = not self.chosen
+        print("flip_chosen", self.chosen)
 
 
 class TestGroup:
@@ -155,21 +176,23 @@ class TestGroup:
             
             for i in range(len(group_tests)):
                 test_frame = TestEqualFrame(self.label_frame, 2*i+2, group_tests[i])
+                self.test_frames.append(test_frame)
                 # test_frame.input_entry.set(group_tests[i].expression)
                 # test_frame.output_entry.set(group_tests[i].output)
-                test_frame.input_entry.delete(0,'end') 
-                test_frame.output_entry.delete(0,'end') 
-                test_frame.input_entry.insert(0, group_tests[i].expression)
-                test_frame.output_entry.insert(0, group_tests[i].output)
+                #test_frame.input_entry.delete(0,'end') 
+                #test_frame.output_entry.delete(0,'end') 
+                #test_frame.input_entry.insert(0, group_tests[i].expression)
+                #test_frame.output_entry.insert(0, group_tests[i].output)
 
         if group_type=="secret":
             self.label = ttk.Label(self.label_frame, text="Check.secret(input)")
             self.label.grid(row=0, column=0, sticky=STICKY_ALL)
             for i in range(len(group_tests)):
-                test_frame = TestSecretFrame(self.label_frame, 2*i+2, group_tests[i])
+                test_frame = TestSecretFrame(self.label_frame, 2*i+2, group_tests[i][0])
+                self.test_frames.append(test_frame)
                 # test_frame.input_entry.set(group_tests[i][0].expression)
-                test_frame.input_entry.delete(0,'end')
-                test_frame.input_entry.insert(0, group_tests[i][0].expression)
+                #test_frame.input_entry.delete(0,'end')
+                # test_frame.input_entry.insert(0, group_tests[i][0].expression)
 
         
             
@@ -229,12 +252,44 @@ class TestsGUI:
         self.equal_entry.delete("1.0", "end")
         self.equal_entry.insert("1.0", self.tests_other)
         
+class PartMenu:
+    def __init__(self, partGUI):
+        self.partGUI = partGUI
+        self.parent = self.partGUI.parent
 
+        self.frame = ttk.Frame(self.parent)
+        self.frame.grid(row=2, column=2, sticky=STICKY_ALL)
+
+        self.precode_frame = ttk.Frame(self.frame)
+        self.precode_frame.grid(row=2, column=0, sticky=STICKY_ALL)
+
+        self.description_precode_button = ttk.Button(self.precode_frame, text="Prc. to description", command=self.precode_to_description)
+        self.description_precode_button.grid(row=2, column=0, sticky=STICKY_ALL)
+
+        self.test_frame = ttk.Frame(self.frame)
+        self.test_frame.grid(row=4, column=0, sticky=STICKY_ALL)
+        
+        self.remove_tests_button = ttk.Button(self.test_frame, text="Remove tests", command=self.remove_tests)
+        self.remove_tests_button.grid(row=2, column=0, sticky=STICKY_ALL)
+
+        self.description_tests_button = ttk.Button(self.test_frame, text="To description", command=self.tests_to_description)
+        self.description_tests_button.grid(row=4, column=0, sticky=STICKY_ALL)
+
+    def remove_tests(self):
+        self.partGUI.remove_chosen_tests()
+
+    def tests_to_description(self):
+        self.partGUI.add_chosen_tests_to_description()
+
+    def precode_to_description(self):
+        self.partGUI.add_precode_to_description()
+    
 
 class PartGUI:
     def __init__(self, parent, part=None):
         self.parent = parent
         self.part = part
+        self.part_menu = PartMenu(self)
 
         if self.part == None:
             try:
@@ -246,25 +301,35 @@ class PartGUI:
         self.frame.grid(row=2, column=0, sticky=STICKY_ALL)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_rowconfigure(0, weight=1)
-
-        # self.equal_frent = FrEntGUI(self.frame, "Part title", height=1, row=2)
-        # self.equal_entry = self.equal_frent.entry
-        # self.equal_entry.config(font=TITLE_STYLE)
         
         self.desc_frent = FrEntGUI(self.frame, "Part description", height=6, row=4)
         self.desc_entry = self.desc_frent.entry
         self.desc_entry.config(font=TITLE_STYLE)
+        self.add_update_action(self.desc_entry, "part_description")
         
         self.prec_frent = FrEntGUI(self.frame, "Precode", height=6, row=6)
         self.prec_entry = self.prec_frent.entry
         self.prec_entry.config(font=PROGRAM_STYLE)
+        self.add_update_action(self.prec_entry, "part_precode")
         
         self.solut_frent = FrEntGUI(self.frame, "Solution", height=12, row=8)
         self.solut_entry = self.solut_frent.entry
         self.solut_entry.config(font=PROGRAM_STYLE)
+        self.add_update_action(self.solut_entry, "part_solution")
+
+        self.frame.bind('<Control-Key-r>', self.remove_chosen_tests)
+        self.frame.bind('<Control-Key-R>', self.remove_chosen_tests)
+        self.frame.bind('<Key-r>', self.remove_chosen_tests)
+        self.frame.bind('<Key-R>', self.remove_chosen_tests)
+        self.frame.bind('<Enter>', lambda e: print("ENTER"))
+        self.frame.bind('<Key-a>', lambda e: print("a"))
+        self.frame.bind('<Key-A>', lambda e: print("A"))
 
         self.add_context()
+        self.define_bind_methods()
+        self.make_tests_frame()
 
+    def make_tests_frame(self):
         self.tests_frame = ttk.Frame(self.frame)
         self.tests_frame.grid(row=10, column=0, sticky=STICKY_ALL)
         self.tests_frame.grid_columnconfigure(0, weight=1)    
@@ -291,6 +356,77 @@ class PartGUI:
         return ProblemPart.load_file("parameters/default_part.py")
 
 
+    def update_field(self, field_name, entry):
+        field_data = entry.get("1.0", "end")
+        if field_name == "part_description":
+            self.part.description = field_data
+        elif field_name == "part_precode":
+            self.part.precode = field_data
+        elif field_name == "part_solution":
+            self.part.solution = field_data
+
+        print("update_field", field_name)
+
+
+    def add_update_action(self, entry, field_name):
+        def update_field(event):
+            self.update_field(field_name, entry)
+            
+        entry.bind('<Enter>', update_field)
+        entry.bind('<Leave>', update_field)
+        entry.bind('<Return>', update_field)
+
+    def save_all(self):
+        self.update_field(self.desc_entry, "part_description")
+        self.update_field(self.prec_entry, "part_precode")
+        self.update_field(self.solut_entry, "part_solution")
+
+    def define_bind_methods(self):
+        self.frame.bind('<Control-Key-r>', self.remove_chosen_tests)
+        self.frame.bind('<Control-Key-R>', self.remove_chosen_tests)
+
+    def remove_chosen_tests(self, event=None):
+        print("bla bla 123")
+        for test_group in self.test_gui.test_groups:
+            print("ahhaha")
+            print(type(test_group))
+            print(test_group.test_frames)
+            for test_frame in test_group.test_frames:
+                print("lalalal")
+                if test_frame.chosen:
+                    print("remove", test_frame.test)
+                    self.part.remove_test(test_frame.test)
+
+
+        del self.tests_frame
+        self.make_tests_frame()
+
+
+    def add_chosen_tests_to_description(self, event=None):
+        print("bla bla 123")
+        chosen_tests = []
+        for test_group in self.test_gui.test_groups:
+            for test_frame in test_group.test_frames:
+                if test_frame.chosen:
+                    chosen_tests.append(test_frame.test)
+
+        self.part.check_equals_to_description(chosen_tests)
+
+        del self.tests_frame
+        self.make_tests_frame()
+        self.add_context()
+
+
+    def add_precode_to_description(self, event=None):
+        print("self.part.description", self.part.description)
+        self.part.precode_to_description()
+        print("self.part.description", self.part.description)
+        print("self.part.precode", self.part.precode)
+        self.add_context()
+        
+        
+        
+
 class ProblemGUI:
     def __init__(self, parent, problem):
         self.parent = parent
@@ -303,10 +439,12 @@ class ProblemGUI:
         self.title_frent = FrEntGUI(self.frame, "Problem title", height=1, row=2)
         self.title_entry = self.title_frent.entry
         self.title_entry.config(font=TITLE_STYLE)
+        self.add_update_action(self.title_entry, "problem_title")
         
         self.desc_frent = FrEntGUI(self.frame, "Problem description", height=None, row=4)
         self.desc_entry = self.desc_frent.entry
         self.desc_entry.config(font=TITLE_STYLE)
+        self.add_update_action(self.desc_entry, "problem_description")
 
         self.add_context()
 
@@ -317,6 +455,29 @@ class ProblemGUI:
             
             self.desc_entry.delete("1.0", "end")
             self.desc_entry.insert("1.0", self.problem.description)
+
+    def update_field(self, field_name, entry):
+        field_data = entry.get("1.0", "end")
+        if field_name == "problem_title":
+            self.problem.title = field_data
+        elif field_name == "problem_description":
+            self.problem.description = field_data
+
+        print("update_field", field_name)
+
+    def add_update_action(self, entry, field_name):
+        def update_field(event):
+            self.update_field(field_name, entry)
+            
+        entry.bind('<Enter>', update_field)
+        entry.bind('<Leave>', update_field)
+        entry.bind('<Return>', update_field)
+
+    def save_all(self):
+        self.update_field(self.title_entry, "problem_title")
+        self.update_field(self.desc_entry, "problem_description")
+        for part in problem.parts:
+            part.save_all()
 
 
 class PrototypeGUI:
@@ -391,17 +552,19 @@ class PrototypeGUI:
         self.redefine_notebook()
         print("Load done.")
 
-    def command_save(self, event=None, file=None):
+    def command_save(self, file=None):
         if file==None:
             file = self.file_name
 
-        Problem.write_on_file(file)
+        print("writing on file", file)
+        self.curent_problem.write_on_file(file)
         
         # print("TODO command_save")
 
-    def command_save_as(self, event):
+    def command_save_as(self, event=None):
         file = filedialog.asksaveasfilename()
         self.command_save()
+
             
 
 
@@ -409,6 +572,8 @@ def main():
     root = tk.Tk()
     prototype = PrototypeGUI(root)
     root.mainloop()
+    input("Pres ENTER to save.")
+    prototype.command_save(prototype.file_name.replace("_in", "").strip(".py") + "_out.py")
 
 if __name__ == "__main__":
     main()

@@ -4,6 +4,7 @@ from Problem import Problem
 from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
 import re
+import json
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -87,7 +88,7 @@ def podnaloga_izbrisi(part_num):
     global podnaloge_za_osvezit
     part_num = int(part_num)
     del problem.parts[part_num-1]
-    je_bila_izbrisana = True
+    # je_bila_izbrisana = True
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
 
     return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
@@ -98,12 +99,15 @@ def podnaloga(part_num):
     global problem
     part_num = int(part_num)
     global active_test
-    global je_bila_izbrisana
+    # global je_bila_izbrisana
     global podnaloge_za_osvezit
     active_test = "chkeql"
 
+        
     if part_num > len(problem.parts):
-        problem_part = problem.parts[part_num - 2]
+        # problem_part = problem.parts[part_num - 2] # napaka
+        problem_part = problem.parts[-1]
+        # part_num = 1
     else:
         problem_part = problem.parts[part_num-1]
     
@@ -111,13 +115,17 @@ def podnaloga(part_num):
     solution = problem_part.solution
     precode = problem_part.precode
     tests = problem_part.tests
+    print(part_num, tests)
 
-    if je_bila_izbrisana:
+    # if je_bila_izbrisana:
+    if podnaloge_za_osvezit:
         if part_num in podnaloge_za_osvezit:
             podnaloge_za_osvezit.remove(part_num)
-            if not podnaloge_za_osvezit:
-                je_bila_izbrisana = False
+            # if not podnaloge_za_osvezit:
+            #     je_bila_izbrisana = False
             redirect("/index/naloga/podnaloga{}/".format(part_num-1))
+            
+    podnaloge_za_osvezit = []
 
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
@@ -232,16 +240,43 @@ def podnaloga_post(part_num):
 
 
     if request.forms.changes:
+<<<<<<< HEAD
         array = request.forms.changes.split(":;")
         testi = True
 
     for test in array:
         changes.append(test.split("::"))
     print(changes)
+=======
+        json_dict = json.loads(request.forms.changes)
+
+        for test_type in json_dict:
+            for test_data in json_dict[test_type]:
+                print("spremembe: ", test_data)
+                group_id = test_data["group_id"] - 1
+                # i = test_data["index"] - 1
+                ## TODO fix this
+                i = 0
+                expression = test_data["expression"]
+                output = test_data["output"]
+                problem_part.change_test_by_id(test_type, group_id, i, expression, output)
+                print("spremembe2: ", problem_part.tests[test_type][group_id][i])
+
+
+    redirect("/index/naloga/podnaloga{}/".format(part_num)) # treba je returnat template, ki bo vrnu dano podnalogo s spremenjenimi testi
+
+                
+##        array = request.forms.changes.split(":;")
+##        testi = True
+##
+##        for test in array: # napaka,ker loh arraya nimamo
+##            changes.append(test.split("::"))
+##        print(changes)
             
 
             
 
+>>>>>>> 072b1d0d5597a72e8d22f068a57ff53c3aaec12d
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 

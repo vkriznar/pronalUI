@@ -155,7 +155,10 @@ class ProblemPart:
             return False
 
         test.expression = expression
-        test.output = output
+        if test_type == "check_equal":
+            test.output = output
+        else:
+            test.other = output
         return True
         
         

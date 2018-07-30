@@ -90,6 +90,7 @@ def podnaloga_izbrisi(part_num):
     del problem.parts[part_num-1]
     # je_bila_izbrisana = True
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
+    print(podnaloge_za_osvezit)
 
     return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
 
@@ -124,8 +125,7 @@ def podnaloga(part_num):
             # if not podnaloge_za_osvezit:
             #     je_bila_izbrisana = False
             redirect("/index/naloga/podnaloga{}/".format(part_num-1))
-            
-    podnaloge_za_osvezit = []
+
 
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,

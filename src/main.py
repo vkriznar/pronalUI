@@ -5,6 +5,7 @@ from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
 import re
 import json
+import os
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -56,6 +57,17 @@ def nova_naloga(izbira):
         #tukaj se ustvari nov Problem ki ima prazne atribute
         redirect("/index/naloga/")
     elif izbira == "obstojeca":
+
+        # ah.. to nč ne dela ok
+        #print(os.getcwd())
+        #cur_path = os.path.dirname(__file__)
+        #print(cur_path)
+        #print(os.getcwd())
+        #path = os.path.dirname(file_name)
+        #print(path)
+        #os.chdir(path)
+        #print(os.path.abspath("edit_files/"+file_name))
+
         file_name = "../edit_files/"+file_name
         problem = Problem.load_file(file_name)
         for i in range(len(problem.parts)):

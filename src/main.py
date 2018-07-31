@@ -11,6 +11,7 @@ active_test = "chkeql"
 testi = False
 je_bila_izbrisana = False
 podnaloge_za_osvezit = []
+trenutno_osvezena = None
 
 webbrowser.open('http://localhost:8080/index/')
     
@@ -90,7 +91,6 @@ def podnaloga_izbrisi(part_num):
     del problem.parts[part_num-1]
     # je_bila_izbrisana = True
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
-    print(podnaloge_za_osvezit)
 
     return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
 
@@ -100,7 +100,7 @@ def podnaloga(part_num):
     global problem
     part_num = int(part_num)
     global active_test
-    # global je_bila_izbrisana
+    global trenutno_osvezena
     global podnaloge_za_osvezit
     active_test = "chkeql"
 
@@ -121,10 +121,12 @@ def podnaloga(part_num):
     # if je_bila_izbrisana:
     if podnaloge_za_osvezit:
         if part_num in podnaloge_za_osvezit:
-            podnaloge_za_osvezit.remove(part_num)
-            # if not podnaloge_za_osvezit:
-            #     je_bila_izbrisana = False
-            redirect("/index/naloga/podnaloga{}/".format(part_num-1))
+            if trenutno_osvezena != part_num:
+                podnaloge_za_osvezit.remove(part_num)
+                trenutno_osvezena = part_num-1
+                redirect("/index/naloga/podnaloga{}/".format(part_num-1))
+            else:
+                trenutno_osvezena = None
 
 
     return template("podnaloga.html", napaka=None,

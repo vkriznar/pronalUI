@@ -16,7 +16,6 @@
 	<div class="container">
 		<label for="opis"><b>Opis</b></label>
 		<br>
-		<body onLoad="onload();">
         <input type="hidden" name="prekoda_gor" id="hidden" value="False">
 		<input type="button" value="bold" onClick="formatText('b');"/> 
 		<input type="button" value="italic" onClick="formatText('i');"/> 
@@ -279,7 +278,6 @@ function tiptesta(test) {
 %end
 
 $(document).ready(function() {
-	console.log(document.getElementById("hidden").value);
 	opis_preview();
 	%if active_test == "chkeql":
 		var element = document.getElementById("testSelect");
@@ -313,7 +311,6 @@ $('.editable-eql').blur(function() {
 var contents_s = $('.editable-sct').html();
 $('.editable-sct').blur(function() {
     if (contents_s!=$(this).html()){
-		console.log($(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent)
         change = {
             "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent,
             "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression_s').textContent,
@@ -348,10 +345,11 @@ var vis = (function(){
     }
 })();
 
-var visible = vis();
 
 vis(function(){
-	location.reload(true);
+	if (vis()==true) {
+		location.reload(true);
+	}
 });
 
 

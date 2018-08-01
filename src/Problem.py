@@ -1,5 +1,6 @@
 import re
 from ProblemPart import ProblemPart
+import numpy as np
 
 def strip_hashes(description):
     if description is None:
@@ -113,6 +114,12 @@ class Problem:
             self.parts.remove(problem_part)
         else:
             print("[ERROR] in remove_problem_part.")
+
+
+    
+    def renumbering_parts(self, new_numbers):
+        parts = np.array(self.parts)
+        self.parts = parts[new_numbers].tolist()
         
         
 

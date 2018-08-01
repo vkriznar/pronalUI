@@ -35,8 +35,8 @@ hr.nice_hr {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 	margin: 0;
 	width: 100px;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 420px;
+	margin-right: 420px;
 }
 
 .st_podnaloge {
@@ -59,6 +59,25 @@ button {
 button:hover {
     opacity: 0.8;
 }
+
+.posodobi-button {
+	display: block; 
+	width:170px; 
+	height: 15px;
+	padding: 6px;	
+	float: right;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 3px;
+	text-decoration: none;
+	background-color: #262626;
+    color: #D5DDE5;
+    border: none;
+    cursor: pointer;
+}
+
+.upper-buttons {display: inline-block; height: 23px; position: relative; top: 0; text-align: center;}
+
 
 .levo button, button .desno {width: 50%;}
 

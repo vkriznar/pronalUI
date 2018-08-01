@@ -41,11 +41,19 @@ def upload():
 
 @get('/preostevilci<part_num><num>')
 def preostevilci(part_num, num):
-    global podnaloge_za_osvezit
+    global preostevilcenje
+    part_num = int(part_num)
+    preostevilcenje.append({part_num, int(num)})
+    print(preostevilcenje)
+    """global podnaloge_za_osvezit
+    part_num = int(part_num)
+    num = int(num)
+    prvic = True
+    print(podnaloge_za_osvezit)
     if part_num > num:
         if part_num in podnaloge_za_osvezit:
             podnaloge_za_osvezit.remove(part_num)
-        for i in range(num, part_num):
+        for i in range(num+1, part_num):
             if i in podnaloge_za_osvezit:
                 podnaloge_za_osvezit.remove(i)
             else:
@@ -57,10 +65,19 @@ def preostevilci(part_num, num):
             podnaloge_za_osvezit.remove(num)
             podnaloge_za_osvezit.append(str(num))
         for j in range(part_num+1, num+1):
-            podnaloge_za_osvezit.remove(j)
-            podnaloge_za_osvezit.append(str(j))
-    print(podnaloge_za_osvezit)
-    redirect
+            if j in podnaloge_za_osvezit:
+                if prvic:
+                    podnaloge_za_osvezit.remove(j-1)
+                    prvic = False
+                podnaloge_za_osvezit.remove(j)
+                podnaloge_za_osvezit.append(str(j))
+            else:
+                if not prvic:
+                    podnaloge_za_osvezit.append(str(j))
+                else:
+                    podnaloge_za_osvezit.append(j)
+    print(podnaloge_za_osvezit)"""
+    redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 
 
@@ -152,7 +169,6 @@ def podnaloga(part_num):
     tests = problem_part.tests
     # print(part_num, tests)
 
-    # if je_bila_izbrisana:
     if podnaloge_za_osvezit:
         if part_num in podnaloge_za_osvezit:
             if trenutno_osvezena != part_num:
@@ -161,6 +177,22 @@ def podnaloga(part_num):
                 redirect("/index/naloga/podnaloga{}/".format(part_num-1))
             else:
                 trenutno_osvezena = None
+
+        """if -part_num in podnaloge_za_osvezit:
+            if trenutno_osvezena != part_num:
+                podnaloge_za_osvezit.remove(-part_num)
+                trenutno_osvezena = part_num+1
+                redirect("/index/naloga/podnaloga{}/".format(part_num+1))
+            else:
+                trenutno_osvezena = None
+        if str(part_num) in podnaloge_za_osvezit:
+            if trenutno_osvezena != part_num:
+                podnaloge_za_osvezit.remove(str(part_num))
+                trenutno_osvezena = part_num-2
+                redirect("/index/naloga/podnaloga{}/".format(part_num-2))
+            else:
+                trenutno_osvezena = None"""
+
 
 
     return template("podnaloga.html", napaka=None,

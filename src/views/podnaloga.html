@@ -14,18 +14,20 @@
 
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
+		<a href="/posodobi-naloge" class="posodobi-button">Posodobi številke nalog</a>
 		<a id="st_link" style="text-decoration: none; color: black;"><div contenteditable class="st_podnaloge">{{part_num}}</div></a>
 		<hr class="nice_hr">
 		<label for="opis"><b>Opis</b></label>
 		<br>
-        <input type="hidden" name="prekoda_gor" id="hidden" value="False">
-		<input type="button" value="bold" onClick="formatText('b');"/> 
-		<input type="button" value="italic" onClick="formatText('i');"/> 
-		<input type="button" value="underline" onClick="formatText('u');"/>
-		<input type="button" value="latex" onClick="formatText('$')"/>
-        <input type="button" value="program" onClick="formatText('`')"/>
-		
-		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
+		<div style="height:26px; width: 100%; overflow: hidden;">
+			<input type="hidden" name="prekoda_gor" id="hidden" value="False" class="upper-buttons">
+			<input type="button" value="bold" onClick="formatText('b');" class="upper-buttons"/> 
+			<input type="button" value="italic" onClick="formatText('i');" class="upper-buttons"/> 
+			<input type="button" value="underline" onClick="formatText('u');" class="upper-buttons"/>
+			<input type="button" value="latex" onClick="formatText('$')" class="upper-buttons"/>
+			<input type="button" value="program" onClick="formatText('`')" class="upper-buttons"/>
+			<input type="button" value="predogled" style="float: right;" onClick="opis_preview()" class="upper-buttons"/>
+		</div>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>

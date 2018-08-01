@@ -28,14 +28,19 @@ def blank():
 @post('/upload')
 def upload():
     global file_name
+    global file
     file = request.files.get('file')
     file_name = file.filename
     print(os.path.splitext(file_name))
 
     "Z file.file dostopamo do nase datoteke, npr."
-##    for line in file.file:
+##    #for line in file.file:
 ##        "moramo dekodirati, ker je zapisana v bitih"
-##        # print(line.decode().rstrip('\n'))
+##        #print(line.decode().rstrip('\n'))
+##        #print(type(line.decode().rstrip('\n')))
+##        #print(len(line.decode().rstrip('\n')))
+##        #print(type(line.decode().rstrip('\n')))
+##        #print(str(line.decode().rstrip('\n')))
     "redirect na obstojeco, ki je zaenkrat tako, da ne uposteva uploadanga fila, ker je treba spremeniti Problem.py"
     return redirect("/index/obstojeca")
 
@@ -90,25 +95,20 @@ def index():
 @get("/index/<izbira>")
 def nova_naloga(izbira):
     global problem
-    global file_name
+    #global file_name # tega zdj ne rabimo več
+    global file
     if izbira == "nova":
         
         #tukaj se ustvari nov Problem ki ima prazne atribute
         redirect("/index/naloga/")
     elif izbira == "obstojeca":
 
-        # ah.. to nč ne dela ok
-        #print(os.getcwd())
-        #cur_path = os.path.dirname(__file__)
-        #print(cur_path)
-        #print(os.getcwd())
-        #path = os.path.dirname(file_name)
-        #print(path)
-        #os.chdir(path)
-        #print(os.path.abspath("edit_files/"+file_name))
-
-        file_name = "../edit_files/"+file_name
-        problem = Problem.load_file(file_name)
+        #old version
+        #file_name = "../edit_files/"+file_name
+        #problem = Problem.load_file(file_name)
+        
+        problem = Problem.read_filefile(file.file)
+        
         for i in range(len(problem.parts)):
             time.sleep(0.05)
             webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))

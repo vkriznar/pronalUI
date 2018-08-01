@@ -46,7 +46,6 @@ class Problem:
             r'(?P<description>(^\s*#( [^\n]*)?\n)*)' # description
             r'(?=\s*(# )?# =+@)',                    # beginning of first part
             problem_string, flags=re.DOTALL | re.MULTILINE)
-
         part_regex = re.compile(
             r'# ===+@(?P<part>\d+)=\s*\n'             # beginning of part header
             r'(?P<description>(\s*#( [^\n]*)?\n)+?)'  # description
@@ -100,7 +99,14 @@ class Problem:
     def load_file(file_name):
         with open(file_name, "r", encoding="utf-8") as f:
             file_string = f.read()
+            
+        return Problem.parse(file_string)
 
+    def read_filefile(filefile):
+        file_string = ""
+        for line in filefile:
+            file_string += line.decode().rstrip()+"\n"
+            
         return Problem.parse(file_string)
 
 

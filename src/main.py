@@ -309,6 +309,8 @@ def podnaloga_post(part_num):
 
 @get("/pretvori/")
 def pretvori():
+    global file_name
+    file_name = "../edit_files/"+file_name
     problem.write_on_file(file_name[:-6] + "_out.py")
     print(problem)
     return HTTPResponse("Uspelo ti je!")

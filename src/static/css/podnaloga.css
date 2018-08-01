@@ -29,9 +29,26 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+hr.nice_hr {
+	border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	margin: 0;
+	width: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.st_podnaloge {
+	width: 100px;
+	margin: auto;
+	font-size: 25px;
+	text-align: center;
+}
+
 button {
     background-color: #262626;
-    color: white;
+    color: #D5DDE5;
     padding: 13px 20px;
     margin: 8px 0;
     border: none;

@@ -2,7 +2,7 @@
 
 <html lang="slo">
 <head>
-	<title>{{title}}</title>
+	<title>Podnaloga {{part_num}}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/podnaloga.css">
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
@@ -14,6 +14,8 @@
 
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
+		<a id="st_link" style="text-decoration: none; color: black;"><div contenteditable class="st_podnaloge">{{part_num}}</div></a>
+		<hr class="nice_hr">
 		<label for="opis"><b>Opis</b></label>
 		<br>
         <input type="hidden" name="prekoda_gor" id="hidden" value="False">
@@ -22,6 +24,7 @@
 		<input type="button" value="underline" onClick="formatText('u');"/>
 		<input type="button" value="latex" onClick="formatText('$')"/>
         <input type="button" value="program" onClick="formatText('`')"/>
+		
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
@@ -321,6 +324,19 @@ $('.editable-sct').blur(function() {
         
         document.getElementById("table-variable").value = JSON.stringify(changes2);
         contents_s = $(this).html();
+    }
+});
+
+var st_podnaloge = $('.st_podnaloge').html();
+$('.st_podnaloge').blur(function() {
+    if (st_podnaloge!=$(this).html()){	
+		st_podnaloge = $(this).html();
+		var r = confirm("Spremeni Podnalogo{{part_num}} v Podnalogo" + st_podnaloge + "?");
+		if (r == true) {
+			var linkString = "/preostevilci{{part_num}}" + st_podnaloge;
+			document.getElementById("st_link").setAttribute("href",linkString);
+			document.getElementById("st_link").click();
+		}
     }
 });
 

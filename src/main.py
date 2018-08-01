@@ -11,6 +11,7 @@ active_test = "chkeql"
 testi = False
 je_bila_izbrisana = False
 podnaloge_za_osvezit = []
+preostevilcenje = []
 trenutno_osvezena = None
 
 webbrowser.open('http://localhost:8080/index/')
@@ -27,19 +28,40 @@ def blank():
 def upload():
     global file_name
     file = request.files.get('file')
-    print(file)
-    # only allow upload of text files
-    # if file.content_type != "text/plain":
-    #    return HTTPResponse("Uspelo ti ni!")
     file_name = file.filename
-    print(file_name)
-    
+    print(os.path.splitext(file_name))
+
     "Z file.file dostopamo do nase datoteke, npr."
 ##    for line in file.file:
 ##        "moramo dekodirati, ker je zapisana v bitih"
 ##        # print(line.decode().rstrip('\n'))
     "redirect na obstojeco, ki je zaenkrat tako, da ne uposteva uploadanga fila, ker je treba spremeniti Problem.py"
     return redirect("/index/obstojeca")
+
+@get('/preostevilci<part_num><num>')
+def preostevilci(part_num, num):
+    global podnaloge_za_osvezit
+    if part_num > num:
+        if part_num in podnaloge_za_osvezit:
+            podnaloge_za_osvezit.remove(part_num)
+        for i in range(num, part_num):
+            if i in podnaloge_za_osvezit:
+                podnaloge_za_osvezit.remove(i)
+            else:
+                podnaloge_za_osvezit.append(-i)
+    else:
+        if num in podnaloge_za_osvezit:
+            return HTTPResponse("Uspelo ti ni!")
+        if num in podnaloge_za_osvezit:
+            podnaloge_za_osvezit.remove(num)
+            podnaloge_za_osvezit.append(str(num))
+        for j in range(part_num+1, num+1):
+            podnaloge_za_osvezit.remove(j)
+            podnaloge_za_osvezit.append(str(j))
+    print(podnaloge_za_osvezit)
+    redirect
+
+
 
 @get("/index/")
 def index():
@@ -132,29 +154,10 @@ def podnaloga(part_num):
     return template("podnaloga.html", napaka=None,
                     description=description, code=solution,
                     precode=precode, tests=tests, testi=testi,
-                    active_test=active_test, changes=None, title="Podnaloga {}".format(part_num), part_num=part_num)
+                    active_test=active_test, changes=None, part_num=part_num)
 
 
 
-
-
-
-
-##@get("/index/naloga/podnaloga<part_num>/prekoda/")
-##def podnaloga(part_num):
-##    global problem
-##    part_num = int(part_num)
-##    global active_test
-##    active_test = "chkeql"
-##
-##    problem_part = problem.parts[part_num-1]
-##    
-##    description = problem_part.description
-##    solution = problem_part.solution
-##    precode = problem_part.precode
-##    tests = problem_part.test
-##    
-##    redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 @get("/index/naloga/podnaloga<part_num>/<test_type>-<edit><group_id><i>/")
 def delete_from_table(part_num, test_type, edit, group_id, i):
@@ -192,6 +195,7 @@ def podnaloga_get_def():
 def podnaloga_post(part_num):
     global problem
     global testi
+    global preostevilcenje
     changes = []
     testi = False
     part_num = int(part_num)
@@ -202,7 +206,6 @@ def podnaloga_post(part_num):
         problem_part.description = request.forms.opis
         problem_part.solution = request.forms.koda
         problem_part.precode = request.forms.prekoda
-    print(request.forms.prekoda_gor)
     if request.forms.prekoda_gor == "True":     #To ni isto kot boolean==True, ker je True string
         problem_part.precode_to_description()
 

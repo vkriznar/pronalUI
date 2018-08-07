@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<script src="../../lib/codemirror.js"></script>
+<link rel="stylesheet" href="../lib/codemirror.css">
+<script src="../mode/javascript/javascript.js"></script>
 
 <html lang="slo">
 <head>
@@ -11,7 +14,18 @@
 </head>
 
 <body>
-
+<!-- Create a simple CodeMirror instance -->
+<script src="lib/codemirror.js"></script>
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("prekoda"), {
+    mode: {name: "python", htmlMode: true },
+    lineNumbers: true,
+    tabMode: "indent",
+    matchBrackets: true,
+    path: 'js/', 
+    searchMode: 'inline',
+});
+</script>
 <div class="container">
 	<!-- <a href="nova" style="text-decoration: none; cursor: pointer;">
 		<div class="nova">

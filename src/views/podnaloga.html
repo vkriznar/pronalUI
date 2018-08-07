@@ -29,9 +29,11 @@
 			<input type="button" value="predogled" style="float: right;" onClick="opis_preview()" class="upper-buttons"/>
 		</div>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi" required>{{description}}</textarea>
-		<label for="predogled"><b>Predogled opisa</b></label>
+        <label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
 		<label for="prekoda"><b>Pre-koda</b></label>
+
+          
         <input type="button" id="prekoda_gor_gumb" value="Pošlji v opis" style="float: right;"/>
 		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
 		<label for="koda"><b>Rešitev</b></label>
@@ -76,12 +78,12 @@
                         <td class="text-center">
                             
                             <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
-                                <div id="redBox" style="display: inline-block;">
-                                   <span id="x">&times;</span>
+                                <div id="redBox" title="izbriši test" style="display: inline-block;">
+                                     <span id="x">&times;</span>
                                 </div>
                             </a>
                             <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
-                                <div id="orangeBox" style="display: inline-block;">
+                                <div id="orangeBox" title="pošlji test v opis" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
@@ -128,7 +130,7 @@
                         <td class="text-center"><div contenteditable="true" class="editable-sct" id="expression_s">{{test.expression}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-sct" id="output_s">{{test.other}}</div></td>
                         <td class="text-center">
-                            <div id="redBox" style="display: inline-block;">
+                            <div id="redBox" title="izbriši test" style="display: inline-block;">
                                 <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
                             <div style="display: inline-block;" contenteditable="true" class="editable-sct" id="i_s">{{i + 1}}</div>

@@ -2,7 +2,7 @@
 <head>
 <script src="lib/codemirror.js"></script>
 <link rel="stylesheet" href="lib/codemirror.css">
-<script src="mode/javascript/javascript.js"></script>
+<script src="mode/python/python.js"></script>
 
 <style>
 body {
@@ -23,9 +23,12 @@ var editor = CodeMirror(document.body, {
 })
 <div id="codeeditor"></div>
 <script>
-var editor = CodeMirror(document.body, {
+var editor = CodeMirror(document.getElementById("codeeditor"), {
   value: "def bla(): pass",
-  mode:  "python"
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
 })
 </script>
 </body>

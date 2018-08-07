@@ -11,10 +11,22 @@ body {
 </style>
 </head>
 <body>
+var editor = CodeMirror(document.getElementById("codeeditor"));
+var editor = CodeMirror(document.body, {
+  value: "[i**2 for i in range(5)]",
+  mode:  "Python"
+})
+
+var editor = CodeMirror(document.body, {
+  value: "function myScript(){return 100;}\n",
+  mode:  "javascript"
+})
 <div id="codeeditor"></div>
 <script>
-var myCodeMirror = CodeMirror(document.body);
-<!--var editor = CodeMirror(document.getElementById("codeeditor"));-->
+var editor = CodeMirror(document.body, {
+  value: "def bla(): pass",
+  mode:  "python"
+})
 </script>
 </body>
 </html>

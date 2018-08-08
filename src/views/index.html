@@ -9,7 +9,35 @@
 	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
 </head>
 
+<script src="{{ get_url('static', filename='lib/codemirror.js') }}"></script>
+<link rel="stylesheet" href="{{ get_url('static', filename='/lib/codemirror.css') }}">
+<script src="{{ get_url('static', filename='mode/python/python.js') }}"></script>
+
 <body>
+
+
+var editor = CodeMirror(document.getElementById("codeeditor"));
+var editor = CodeMirror(document.body, {
+  value: "[i**2 for i in range(5)]",
+  mode:  "Python"
+})
+
+var editor = CodeMirror(document.body, {
+  value: "function myScript(){return 100;}\n",
+  mode:  "javascript"
+})
+<div id="codeeditor"></div>
+<script>
+var editor = CodeMirror(document.getElementById("codeeditor"), {
+  value: "def bla(): pass",
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
+})
+</script>
+
+
 <div class="container">
 	<!-- <a href="nova" style="text-decoration: none; cursor: pointer;">
 		<div class="nova">

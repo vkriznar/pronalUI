@@ -80,11 +80,19 @@
 				</tr>
 			</thead>
 			<tbody class="table-hover">
-				<tbody>  
+				<tbody> 
+                    %naslov_gumba_gor="premakni test gor"
+                    %naslov_gumba_dol="premakni test dol"
 					%if "check_equal" in tests:
                     %    for group_id in range(len(tests["check_equal"])):
                     %        for i in range(len(tests["check_equal"][group_id])):
                     %            test = tests["check_equal"][group_id][i] 
+                    <!--                if i==0: 
+                                        naslov_gumba_gor="premakni skupino gor" 
+                                        elif i==len(tests["check_equal"][group_id]) - 1: 
+                                      naslov_grumba_dol="premakni skupino dol" 
+                    end
+                    -->
 					<tr>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="group_id">{{group_id + 1}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="expression">{{test.expression}}</div></td>
@@ -101,6 +109,44 @@
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
+                            
+                            
+                            %if i==0:
+                            <a href="chkeql-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni skupino gor"style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
+                                </div>
+                            </a>
+                      
+                            <a href="chkeql-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni test dol" style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
+                                </div>
+                            </a>
+                            %elif i==len(tests["check_equal"][group_id]) - 1:
+                            <a href="chkeql-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni test gor"style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
+                                </div>
+                            </a>
+                            <a href="chkeql-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni skupino dol" style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
+                                </div>
+                            </a>
+                            %else:
+                            <a href="chkeql-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni test gor"style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
+                                </div>
+                            </a>
+                            <a href="chkeql-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                                <div id="greenBox" title="premakni test dol" style="display: inline-block;">
+                                     <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
+                                </div>
+                            </a>
+                            %end
+                            
                     <!--         <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit; font-size: 19.5px; position: relative; bottom: 1.7px;">
                                 <div style="display: inline-block;">
                                      <span id="s">&#128190;</span>

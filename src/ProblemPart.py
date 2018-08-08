@@ -175,43 +175,60 @@ class ProblemPart:
     #   problem.parts[0].move_test_group_down('check_equal', 8)
     #   problem.parts[0].move_test_group_down('check_equal', 9)
     #   problem.parts[0].move_test_within_group_down('check_equal', 0, 1)
-    #   problem.parts[0].move_test_within_group_up('check_equal', 0, 0)
+    #   problem.parts[0].move_test_within_group_up('check_equal', 0, 1)
     #
     def move_test_group_up(self, test_type, group_id):
         if not (test_type in self.tests and
-            group_id < len(self.tests[test_type]) - 1):
-                return False
-        else:
-            self.tests[test_type][group_id + 1], self.tests[test_type][group_id] = \
-                self.tests[test_type][group_id], self.tests[test_type][group_id + 1]
-                
-    def move_test_group_down(self, test_type, group_id):
-        if not (test_type in self.tests and
-            group_id > 0 and group_id < len(self.tests[test_type])):
-                return False
+            group_id>0 and group_id < len(self.tests[test_type]) and
+                len(self.tests[test_type]) > 1 ):
+                    print("group up:", test_type, group_id, "FALSE")
+                    return False
+            
         else:
             self.tests[test_type][group_id - 1], self.tests[test_type][group_id] = \
                 self.tests[test_type][group_id], self.tests[test_type][group_id - 1]
+            print("group up:", test_type, group_id, "TRUE")
+            return True
+                
+    def move_test_group_down(self, test_type, group_id):
+        if not (test_type in self.tests and
+            group_id >= 0 and group_id < len(self.tests[test_type])-1 and
+            len(self.tests[test_type]) > 1):
+                print("group down:", test_type, group_id, "FALSE")
+                return False
+            
+        else:
+            self.tests[test_type][group_id + 1], self.tests[test_type][group_id] = \
+                self.tests[test_type][group_id], self.tests[test_type][group_id + 1]
+            print("group down:", test_type, group_id, "TRUE")
+            return True
 
     def move_test_within_group_up(self, test_type, group_id, i):
+##        if not (test_type in self.tests and
+##            group_id < len(self.tests[test_type]) and
+##            i>0 and i < len(self.tests[test_type][group_id]) and
+##                len(self.tests[test_type][group_id]) > 1):
+##            
+##                print("test up:", test_type, group_id, i, "FALSE")
+##                return False
+##        else:
+        self.tests[test_type][group_id][i-1], self.tests[test_type][group_id][i] = \
+            self.tests[test_type][group_id][i], self.tests[test_type][group_id][i-1]
+##            print("test up:", test_type, group_id, i, "TRUE")
+##            return True
+        
+    def move_test_within_group_down(self, test_type, group_id, i):
         if not (test_type in self.tests and
-            group_id < len(self.tests[test_type]) - 1 and
-            i < len(self.tests[test_type][group_id]) -1):
+            group_id < len(self.tests[test_type]) and
+            i < len(self.tests[test_type][group_id]) - 1 and
+                len(self.tests[test_type][group_id]) > 1):
+                print("test down:", test_type, group_id, i, "FALSE")
                 return False
         else:
             self.tests[test_type][group_id][i+1], self.tests[test_type][group_id][i] = \
                 self.tests[test_type][group_id][i], self.tests[test_type][group_id][i+1]
-        
-    def move_test_within_group_down(self, test_type, group_id, i):
-        if not (test_type in self.tests and
-            group_id < len(self.tests[test_type]) - 1 and
-            i> 0 and i < len(self.tests[test_type][group_id])):
-                return False
-        else:
-            self.tests[test_type][group_id][i-1], self.tests[test_type][group_id][i] = \
-                self.tests[test_type][group_id][i], self.tests[test_type][group_id][i-1]
-        
-        
+            print("test down:", test_type, group_id, i, "TRUE")
+            return True
         
 
     @staticmethod

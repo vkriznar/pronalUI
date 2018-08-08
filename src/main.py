@@ -203,7 +203,7 @@ def podnaloga(part_num):
 
 
 @get("/index/naloga/podnaloga<part_num>/<test_type>-<edit><group_id><i>/")
-def delete_from_table(part_num, test_type, edit, group_id, i):
+def edit_tests(part_num, test_type, edit, group_id, i):
     part_num = int(part_num)
     group_id = int(group_id)
     i = int(i)
@@ -212,16 +212,45 @@ def delete_from_table(part_num, test_type, edit, group_id, i):
     global testi
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
+
+    print("PREJ:", tests["check_equal"][group_id])
+    print(tests["check_equal"][group_id][i])
     
     if test_type == "chkeql":
+        test_group = tests["check_equal"][group_id]
         test = tests["check_equal"][group_id][i]
     elif test_type == "chksct":
+        test_group = tests["check_secret"][group_id]
         test = tests["check_secret"][group_id][i]
-        
+
+   
     if edit == "delete":
         problem_part.remove_test(test)
     elif edit == "move":
         problem_part.description += "\n\n    >>> " + test.expression + "\n    " + test.output
+        
+    elif edit=="move_down":
+        test_type = "check_equal" if test_type=="chkeql" else "check_secret"
+        print("smo v move down", group_id, i)
+        if i==len(test_group)-1: # premaknemo celo grupo dol
+            print("premikanje grupe down")
+            problem_part.move_test_group_down(test_type, group_id)
+        else: #premaknemo test znotraj grupe dol
+            print("premikanje testa down")
+            problem_part.move_test_within_group_down(test_type, group_id, i)
+            
+    elif edit=="move_up":
+        test_type = "check_equal" if test_type=="chkeql" else "check_secret"
+        print("smo v move up", group_id, i)
+        if i==0: # premaknemo celo grupo gor
+            print("premikanje grupe up")
+            problem_part.move_test_group_up(test_type, group_id)
+        else: #premaknemo test znotraj grupe gor
+            print("premikanje testa up")
+            problem_part.move_test_within_group_up(test_type, group_id, i)
+        
+    print("POTEM:", tests["check_equal"][group_id])
+        
     
     testi = True
     redirect("/index/naloga/podnaloga{}/".format(part_num))

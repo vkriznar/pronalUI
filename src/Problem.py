@@ -77,6 +77,12 @@ class Problem:
         return Problem(title, description, parts, lib_string, head)
 
     def __repr__(self):
+        def remove_unnecessary_lines(text):
+            return "\n".join([line.rstrip() for line in text.splitlines()])
+        
+        self.title = remove_unnecessary_lines(self.title)
+        self.description = remove_unnecessary_lines(self.description)
+        
         blocks = []
         blocks.append(self.head_string)
         blocks.append("\n# "+ "=" * 77)

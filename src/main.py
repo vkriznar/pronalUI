@@ -5,7 +5,6 @@ from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
 import re
 import json
-import os
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -247,7 +246,9 @@ def podnaloga_post(part_num):
     tests = problem_part.tests
 
     if request.forms.opis:
+        #print("OPIS vmesnik:", request.forms.opis)
         problem_part.description = request.forms.opis
+        #print("OPIS description:", problem_part.description)
         problem_part.solution = request.forms.koda
         problem_part.precode = request.forms.prekoda
     if request.forms.prekoda_gor == "True":     #To ni isto kot boolean==True, ker je True string
@@ -294,7 +295,7 @@ def podnaloga_post(part_num):
 
         for test_type in json_dict:
             for test_data in json_dict[test_type]:
-                print("spremembe: ", test_data)
+                #print("spremembe: ", test_data)
                 group_id = int(test_data["group_id"]) - 1
                 i = int(test_data["index"]) - 1
                 expression = test_data["expression"]
@@ -312,7 +313,7 @@ def pretvori():
     global file_name
     file_name = "../edit_files/"+file_name
     problem.write_on_file(file_name[:-6] + "_out.py")
-    print(problem)
+    #print(problem)
     return HTTPResponse("Uspelo ti je!")
 
 

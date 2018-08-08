@@ -1,5 +1,5 @@
 # =====================================================================@000000=
-# This is a template for a new problem part. To create a new part, uncomment
+# This is a template for a new problem part. To create a new part, delete
 # the template and fill in your content.
 #
 # Define a function `multiply(x, y)` that returns the product of `x` and `y`.

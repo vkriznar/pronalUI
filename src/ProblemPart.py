@@ -90,6 +90,14 @@ class ProblemPart:
 
 
     def __repr__(self):
+        def remove_unnecessary_lines(text):
+            return "\n".join([line.rstrip() for line in text.splitlines()])
+        
+        self.description = remove_unnecessary_lines(self.description)
+        self.precode = remove_unnecessary_lines(self.precode)
+        self.solution = remove_unnecessary_lines(self.solution)
+        self.tests["other"] = remove_unnecessary_lines(self.tests["other"])
+        
         string_list = []
         string_list.append("# "+"="*69+"@{0:06d}=\n".format(self.part_id))                        # beginning of part header
         string_list.append("# "+self.description.replace("\n", "\n# ")+"\n")                      # description
@@ -120,8 +128,7 @@ class ProblemPart:
         
         string_list.append(self.tests["other"])
 
-        return "".join(string_list)
-
+        return "".join(string_list)  
 
     @staticmethod
     def remove_test_type(test, test_type):

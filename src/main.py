@@ -241,25 +241,19 @@ def edit_tests(part_num, test_type, edit, group_id, i):
         problem_part.remove_test(test)
     elif edit == "move":
         problem_part.description += "\n\n    >>> " + test.expression + "\n    " + test.output
-        
+
     elif edit=="move_down":
         test_type = "check_equal" if test_type=="chkeql" else "check_secret"
-        print("smo v move down", group_id, i)
-        if i==len(test_group)-1: # premaknemo celo grupo dol
-            print("premikanje grupe down")
+        if i==len(test_group)-1:   
             problem_part.move_test_group_down(test_type, group_id)
-        else: #premaknemo test znotraj grupe dol
-            print("premikanje testa down")
+        else: 
             problem_part.move_test_within_group_down(test_type, group_id, i)
             
     elif edit=="move_up":
         test_type = "check_equal" if test_type=="chkeql" else "check_secret"
-        print("smo v move up", group_id, i)
-        if i==0: # premaknemo celo grupo gor
-            print("premikanje grupe up")
+        if i==0: 
             problem_part.move_test_group_up(test_type, group_id)
-        else: #premaknemo test znotraj grupe gor
-            print("premikanje testa up")
+        else: 
             problem_part.move_test_within_group_up(test_type, group_id, i)
         
     print("POTEM:", tests["check_equal"][group_id])

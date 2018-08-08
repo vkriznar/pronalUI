@@ -180,7 +180,7 @@
                             <div id="redBox" title="izbriši test" style="display: inline-block;">
                                 <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
-                            <div style="display: inline-block;" contenteditable="true" class="editable-sct" id="i_s">{{i + 1}}</div>
+                            
                             
                             %if i==0:
                             <a href="chksct-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
@@ -209,6 +209,7 @@
                                 </div>
                             </a>
                             %end
+                            <div style="display: inline-block;" contenteditable="true" class="editable-sct" id="i_s">{{i + 1}}</div>
                         </td>
 					</tr>
 					%end

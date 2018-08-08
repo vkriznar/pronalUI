@@ -213,8 +213,24 @@ editor.getDoc().setValue('def alo(): pass');
 
 <script>
 
-var textArea = document.getElementById('prekoda');
-var editor = CodeMirror.fromTextArea(textArea, {
+var precodeArea = document.getElementById('prekoda');
+var editor = CodeMirror.fromTextArea(precodeArea, {
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
+});
+
+var solutionArea = document.getElementById('koda');
+var editor = CodeMirror.fromTextArea(solutionArea, {
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
+});
+
+var otherTestsArea = document.getElementById('other');
+var editor = CodeMirror.fromTextArea(otherTestsArea, {
   lineNumbers: true,
   mode: "python",
   version: 3,

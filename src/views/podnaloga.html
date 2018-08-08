@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<!--
-<script src="lib/codemirror.js"></script>
-<link rel="stylesheet" href="../lib/codemirror.css">
-<script src="mode/javascript/javascript.js"></script>
--->
+
+<script src="{{ get_url('static', filename='lib/codemirror.js') }}"></script>
+<link rel="stylesheet" href="{{ get_url('static', filename='/lib/codemirror.css') }}">
+<script src="{{ get_url('static', filename='mode/python/python.js') }}"></script>
+
 <html lang="slo">
 <head>
 	<title>Podnaloga {{part_num}}</title>
@@ -13,7 +13,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
 </head>
+
 <body>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 <form action="." class="form" id="form" method="post" style="width:960px">
@@ -39,7 +41,15 @@
 
           
         <input type="button" id="prekoda_gor_gumb" value="Pošlji v opis" style="float: right;"/>
+		<!-- 
+		<textarea name="precode_area" id="precode_area" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
+		
+		<div name="precode_area" id="precode_area"></div>
+		-->
+		
 		<textarea name="prekoda" id="prekoda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor">{{precode}}</textarea>
+		
+		
 		<label for="koda"><b>Rešitev</b></label>
 		<textarea name="koda" id="koda" form="form" placeholder="Ta text editor bi rabli najdti kakšnega na spletu, ker bi blo preveč časovno zamudno pisat python-style text editor" required>{{code}}</textarea>
 		<button type="submit" id="naprej" style="display: block;">Shrani zgornje vrednosti</button>
@@ -190,7 +200,29 @@
 	</div>
 </div>
 
+<!--
+var editor = CodeMirror(document.getElementById("precode_area"), {
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
+})
+
+editor.getDoc().setValue('def alo(): pass');
+-->
+
 <script>
+
+var textArea = document.getElementById('prekoda');
+var editor = CodeMirror.fromTextArea(textArea, {
+  lineNumbers: true,
+  mode: "python",
+  version: 3,
+  indentUnit: 4,
+});
+
+
+
 <!-- window.onblur= function() {window.onfocus= function () {location.reload(true)}}; -->
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
 $(document).delegate('#opis', 'keydown', function(e) {

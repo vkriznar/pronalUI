@@ -5,7 +5,6 @@ from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
 import re
 import json
-import os
 
 static_directory = "./static"
 active_test = "chkeql"

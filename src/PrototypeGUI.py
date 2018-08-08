@@ -3,12 +3,23 @@ from tkinter import ttk
 from tkinter import filedialog
 from Problem import Problem
 from ProblemPart import ProblemPart
+import idlelib
+from idlelib.Percolator import Percolator
+from idlelib.ColorDelegator import ColorDelegator
+from idlelib.ColorDelegator import color_config
 
 
 # constants
 STICKY_ALL = (tk.N, tk.S, tk.E, tk.W)
 TITLE_STYLE = "TkHeadingFont"
 PROGRAM_STYLE = "TkFixedFont"
+
+
+def add_colors_to_text(text):
+    color_config(text)
+    p = Percolator(text)
+    d = ColorDelegator()
+    p.insertfilter(d)
 
 # FramedEntryGUI
 class FrEntGUI:
@@ -310,11 +321,13 @@ class PartGUI:
         self.prec_frent = FrEntGUI(self.frame, "Precode", height=6, row=6)
         self.prec_entry = self.prec_frent.entry
         self.prec_entry.config(font=PROGRAM_STYLE)
+        add_colors_to_text(self.prec_entry)
         self.add_update_action(self.prec_entry, "part_precode")
         
         self.solut_frent = FrEntGUI(self.frame, "Solution", height=12, row=8)
         self.solut_entry = self.solut_frent.entry
         self.solut_entry.config(font=PROGRAM_STYLE)
+        add_colors_to_text(self.solut_entry)
         self.add_update_action(self.solut_entry, "part_solution")
 
         self.frame.bind('<Control-Key-r>', self.remove_chosen_tests)

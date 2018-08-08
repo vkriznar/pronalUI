@@ -9,7 +9,12 @@
 	<link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
 </head>
 
+<script src="{{ get_url('static', filename='lib/codemirror.js') }}"></script>
+<link rel="stylesheet" href="{{ get_url('static', filename='/lib/codemirror.css') }}">
+<script src="{{ get_url('static', filename='mode/python/python.js') }}"></script>
+
 <body>
+
 <div class="container">
 	<!-- <a href="nova" style="text-decoration: none; cursor: pointer;">
 		<div class="nova">

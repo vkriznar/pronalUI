@@ -5,6 +5,7 @@ from ProblemPart import ProblemPart, CheckEqual, CheckSecret
 import time
 import re
 import json
+import bottle
 
 static_directory = "./static"
 active_test = "chkeql"
@@ -14,15 +15,27 @@ podnaloge_za_osvezit = []
 preostevilcenje = []
 trenutno_osvezena = None
 
-webbrowser.open('http://localhost:8080/index/')
-    
-@route("/static/<filename:path>")
-def static(filename):
-    return static_file(filename, root=static_directory)
+app = bottle.default_app()
+BaseTemplate.defaults['get_url'] = app.get_url
 
-@get("/")
-def blank():
-    redirect('/index/')
+# webbrowser.open('http://localhost:8080/index/')
+webbrowser.open('http://localhost:8080/')
+
+@route('/')
+def index():
+    return template('index')
+
+@route('/static/<filename:path>', name='static')
+def serve_static(filename):
+    return static_file(filename, root=static_directory)
+    
+##@route("/static/<filename:path>")
+##def static(filename):
+##    return static_file(filename, root=static_directory)
+
+##@get("/")
+##def blank():
+##    redirect('/index/')
 
 @post('/upload')
 def upload():

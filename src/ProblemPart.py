@@ -1,14 +1,13 @@
 import re
-def check_parentheses(line):
+
+def check_parenthesis(line):
     counter=0
-    
     for char in line:
         if char=="(":
             counter += 1
         elif char==")":
             counter -= 1
-            
-    return counter==0
+    return counter
 
 def make_one_line_tuples(lines):
     """
@@ -22,7 +21,7 @@ def make_one_line_tuples(lines):
     for line in lines:
         if line.startswith("("):
             # if number of parantheses -> ( , ) doesn't match, we continue in another line
-            if not check_parentheses(line): 
+            if not check_parenthesis(line) == 0: 
                 inside_tuple=True
                 lines_inside_tuple.append(line.strip())
                 continue
@@ -35,7 +34,7 @@ def make_one_line_tuples(lines):
             # if we are inside tuple, we append curent line on lines_inside_tuple and we check if tuple ends in this line
             lines_inside_tuple.append(line.lstrip())
             
-            if not check_parentheses(line):
+            if not check_parenthesis(line) == 0:
                 # if number of parantheses in this line doesn't match, this means tuple has ended
                 inside_tuple=False
                 lines2.append(" ".join(lines_inside_tuple))
@@ -45,10 +44,7 @@ def make_one_line_tuples(lines):
 
 class CheckEqual:
     def __init__(self, expression, output):
-        # TODO remove string tags in expresion
-        # TODO when expresion is writen to file we should write it with triple " (""")
-        # TODO split output on solution and clean, env
-        expression = expression.replace('"""',"'''")
+        expression = expression.replace('"""',"'''") # maybe not ok, better if tell people that they shouldn't use """ inside strings
         self.expression = expression.strip()
         self.output = output.strip()
 
@@ -58,15 +54,10 @@ class CheckEqual:
     def example(self):
         return ">>> " + self.expression + "\n" + self.output
 
-# TODO check secret should have only one parameter
-# TODO as with check equal all other parameters can be saved in same string
-# TODO because there sholud be only one fild in editor window
-# TODO CheckEqual (4 args) -> (2 args; input, out);   out; res, clean, env
-# TODO CheckSecret (3 args) -> (1 args; input)      input; exp, hint, clean
 class CheckSecret:
     def __init__(self, expression, other=""):
         self.expression = expression
-        other = other.replace('"""', "'''")
+        other = other.replace('"""', "'''") # maybe not ok, better if tell people that they shouldn't use """ inside strings
         self.other = other
 
     def __repr__(self):
@@ -169,14 +160,13 @@ class ProblemPart:
         return True
 
     # moving check secret and equal test up and down
-    # testiranje:
-    #   poženi problem.py,
+    # testing:
+    #   run problem.py,
     #   for i in problem.parts[0].tests["check_equal"]:print(i)
     #   problem.parts[0].move_test_group_down('check_equal', 8)
     #   problem.parts[0].move_test_group_down('check_equal', 9)
     #   problem.parts[0].move_test_within_group_down('check_equal', 0, 1)
     #   problem.parts[0].move_test_within_group_up('check_equal', 0, 1)
-    #
     def move_test_group_up(self, test_type, group_id):
         if not (test_type in self.tests and
             group_id>0 and group_id < len(self.tests[test_type]) and
@@ -245,15 +235,14 @@ class ProblemPart:
                 check_equal_string=check_equal_string.strip().strip("Check.equal(").strip() 
 
                 quotation_mark_type_expression = check_equal_string[0] # can be ' or ''' or " or """
-                
-                
+
                 if not is_triple_quotation_mark(check_equal_string):
                     expression=re.match(r"({0}((.*?)[^{0}]){0})[^{0}]".format(quotation_mark_type_expression), check_equal_string).group(1)
                     output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
                     expression=expression[1:-1]
                     
                 else:
-                    expression=re.match(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type_expression), check_equal_string).group(0)
+                    expression=re.match(r"({0}{0}{0}((.*?)[^{0}]){0}{0}{0})[^{0}]".format(quotation_mark_type_expression), check_equal_string).group(1)
                     output=check_equal_string[len(expression)+1:].strip().strip(",")[:-1].strip()
                     expression=expression[3:-3]
                     
@@ -266,8 +255,9 @@ class ProblemPart:
                 
             
             def classify_check_secret(check_secret_string):
-                # TODO add clean option
-                check_secret_string=check_secret_string.strip().strip("Check.secret(").strip()[:-1].strip()
+                print(check_secret_string)
+                check_secret_string=check_secret_string.strip().strip("Check.secret").strip("(").strip()[:-1].strip()
+                print(check_secret_string)
 
                 quotation_mark_type=check_secret_string[-1]
                 if quotation_mark_type == "'" or quotation_mark_type == '"':
@@ -276,7 +266,7 @@ class ProblemPart:
                         # check if matches on reversed string
                         hint_msg=re.match(r"({0}(.*?)[^{0}]{0})[^{0}]".format(quotation_mark_type), check_secret_string[::-1]).group(1)[::-1]           
                     else:
-                        hint_msg=re.search(r"{0}{0}{0}(.*?){0}{0}{0}".format(quotation_mark_type), check_secret_string[::-1]).group(0)[::-1]
+                        hint_msg=re.search(r"({0}{0}{0}((.*?)[^{0}]){0}{0}{0})[^{0}]".format(quotation_mark_type), check_secret_string[::-1]).group(1)[::-1]
 
                     expression=check_secret_string[0:-len(hint_msg)].strip().strip(",").strip()
 
@@ -284,8 +274,7 @@ class ProblemPart:
                         hint_msg=hint_msg[1:-1]
                     else:
                         hint_msg=hint_msg[3:-3]
-
-
+                        
                 else:
                     expression=check_secret_string
                     hint_msg=""
@@ -293,12 +282,12 @@ class ProblemPart:
                 return CheckSecret(expression, hint_msg)
 
             def decompose_and(line):
-                list_of_check_equals=line.split(" and ")
+                list_of_check_tests=line.split(" and ")
                 
                 check_equals_connected_with_and = []
                 check_secrets_connected_with_and = []
                 
-                for check_string in list_of_check_equals:
+                for check_string in list_of_check_tests:
                     check_string=check_string.strip()
                     if check_string.startswith("Check.equal"):
                         check_equals_connected_with_and.append(classify_check_equal(check_string))
@@ -312,21 +301,35 @@ class ProblemPart:
                 """ INPUT: whole validation part
                     OUTPUT: validation part with ok tests (equal and secret tests connected with whatever) and
                             other lines (which starts where tests are not ok anymore)
-                """
-                def ok_line(line):
-                    if line=="" or line.startswith(("(", ")", "Check.equal", "Check.secret")):
-                        return True
-                    return False
-                
+                """                      
+                   
                 lines = validation.split("\n")
+                inside_tuple = False
+                line_tuple_start = 0
+                
                 for i in range(len(lines)):
                     line = lines[i].strip()
-                    if not ok_line(line):
-                        # print("validation: \n", "\n".join(lines[:i]))
-                        # print("other: \n", lines[i:])
+
+                    if line.startswith("("):
+                        inside_tuple = True
+                        line_tuple_start = i
+                        
+                    elif line.startswith(")"):
+                        inside_tuple = False
+
+                    elif line.startswith(("Check.equal", "Check.secret")) and check_parenthesis(line) < 0 and inside_tuple: # in this case we just come out of tuple
+                            inside_tuple = False
+                            
+                    elif line.startswith(("Check.equal", "Check.secret")) and check_parenthesis(line) > 0: #paranthesis doesn't match and we are not out of tuple !
+                        if inside_tuple:
+                            return "\n".join(lines[:line_tuple_start]), lines[line_tuple_start:]
+                        
                         return "\n".join(lines[:i]), lines[i:]
-                    
-                ## at this point we return empty list for other lines, because all lines are ok
+                    elif line.startswith(("Check.equal", "Check.secret")) and "#" in line: # we have comment in the same line as test ! That needs to go to other tests
+                        if inside_tuple:
+                            return "\n".join(lines[:line_tuple_start]), lines[line_tuple_start:]
+                        return "\n".join(lines[:i]), lines[i:]
+
                 return "\n".join(lines), [] 
                     
                 
@@ -451,31 +454,8 @@ class ProblemPart:
 
 
 
-
-
-
-
-
 def parse_test(problem_part_string):
     problem_part = ProblemPart.parse(problem_part_string)
-
-    # print("ID podnaloge:","problem_part.part_id")
-    # print(problem_part.part_id)
-    # print()
-    # print("Navodila podnaloge:","problem_part.description")
-    # print(problem_part.description)
-    # print()
-    # print("Prekoda naloge:","problem_part.precode")
-    # print(problem_part.precode)
-    # print()
-    # print("Rešitev naloge:","problem_part.solution")
-    # print(problem_part.solution)
-    # print()
-    # TODO:
-    # print("Za teste moramo še določiti strukturo:")
-    # print("problem_part.tests", problem_part.tests)
-    # print()
-
     return problem_part
 
 

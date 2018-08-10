@@ -58,6 +58,50 @@ Check.secret(zmnozi(33, 33), "ne znaš izračunati 33 * 33 !")
 Check.secret(odstej(3, 3))
 
 
+Check.equal("""x""", """l'a'l""") #komentar
+
+
+Check.equal("slovar_naslednikov({})",
+            [1])
+
+( Check.equal("x", "lal") and
+  Check.equal("c", """lalal
+lallala"""))
+
+(
+    Check.equal("x", "lal") and
+    Check.equal("c", """lalal
+                lallala""")
+)
+
+(
+    Check.equal("x", "lal") and
+    Check.equal("c", """lalal""") #lal
+)
+
+Check.secret(slovar_naslednikov([(5, 1), (2, 1), (3, 2), (3, 4), (5, 4), (10, 5), (1, 6), \
+                                 (2, 7), (8, 3), (4, 9), (6, 8), (10, 8), (7, 10), (9, 7), (9, 6)]))
+
+Check.secret(slovar_naslednikov([(5, 1), (2, 1), (3, 2)]),
+                                "neki")
+
+Check.secret(slovar_naslednikov([(5, 1), (2, 1), (3, 2)]), """neki
+                                 neki2""")
+
+Check.secret(slovar_naslednikov([(5, 1), (2, 1), (3, 2)]), """neki"""
+                                 """neki2""")
+
+Check.equal("""slovar_naslednikov([('a', 'b'), ('c', 'b'), ('c', 'd'), ('d', 'a'),
+            ('a', 'c')])""", {'a': ['b', 'c'], 'c': ['b', 'd'], 'd': ['a']})
+
+Check.equal("""slovar_naslednikov([(1, 2), (3, 4), (5, 1),"""
+            """(2, 3), (4, 5)])""",
+            {1: [2], 2: [3], 3: [4], 4: [5], 5: [1]})
+
+Check.equal("slovar_naslednikov([('Ana', 'Tine'), ('Blaž', 'Tine'), ('Peter', 'Mojca'),"
+            "('Robi', 'Mojca'), ('Tine', 'Mojca')])", {'Peter': ['Mojca'], \
+            'Blaž': ['Tine'], 'Robi': ['Mojca'], 'Ana': ['Tine'], 'Tine': ['Mojca']}) narekovajev
+
 print('\n\n' + '*' * 15 + ' POZOR - naloga nima testa! ' +  '*' * 10)
 print('Zato bo vsaka rešitev označena kot pravilna. ')
 print('\nZagotovo si oglej tudi uradno rešitvo (žarnica)')

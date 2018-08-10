@@ -57,8 +57,14 @@ Check.secret(zmnozi(11, 11), 'sporočilo: """neko sporočilo"""') and \
 Check.secret(zmnozi(33, 33), "ne znaš izračunati 33 * 33 !")
 Check.secret(odstej(3, 3))
 
+(
+    Check.equal("x", "lal1") and
+    Check.equal("c", """lalallallala1""")
+)
 
+( Check.equal("x", "lal2") and Check.equal("c", """lalallallala2""" ))
 Check.equal("""x""", """l'a'l""") #komentar
+
 
 
 Check.equal("slovar_naslednikov({})",

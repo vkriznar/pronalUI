@@ -255,9 +255,8 @@ class ProblemPart:
                 
             
             def classify_check_secret(check_secret_string):
-                print(check_secret_string)
                 check_secret_string=check_secret_string.strip().strip("Check.secret").strip("(").strip()[:-1].strip()
-                print(check_secret_string)
+
 
                 quotation_mark_type=check_secret_string[-1]
                 if quotation_mark_type == "'" or quotation_mark_type == '"':
@@ -310,7 +309,8 @@ class ProblemPart:
                 for i in range(len(lines)):
                     line = lines[i].strip()
 
-                    if line.startswith("("):
+                        
+                    if line.startswith("(") and check_parenthesis(line) != 0:
                         inside_tuple = True
                         line_tuple_start = i
                         

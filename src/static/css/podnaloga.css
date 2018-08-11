@@ -273,6 +273,10 @@ td.text-right {
   text-align: right;
 }
 
+#output{max-width: 500px;}
+#output_s {max-width: 540px;}
+#expression, #expression_s {max-width: 200px;}
+
 #redBox, #greenBox, #orangeBox {
     color: #fff;
     font-family: 'Helvetica', 'Arial', sans-serif;

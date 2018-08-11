@@ -12,27 +12,33 @@
 
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-<form action="." class="form" id="form" method="post" style="width:960px">
-	<div class="container">
-		<label for="naslov"><b>Naslov</b></label>
-		<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
-		<label for="opis"><b>Opis</b></label>
-		<br>
-		<body onLoad="onload();">
-		<input type="button" value="bold" onClick="formatText('b');"/> 
-		<input type="button" value="italic" onClick="formatText('i');"/> 
-		<input type="button" value="underline" onClick="formatText('u');"/>
-		<input type="button" value="latex" onClick="formatText('$')"/>
-        <input type="button" value="program" onClick="formatText('`')"/>
-		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
-		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
-		<label for="predogled"><b>Predogled opisa</b></label>
-		<div id="opis_preview"></div>
+<div style="border: 3px solid #f1f1f1; width: 960px; margin: 15px auto 0 auto;">
+	<form action="." class="form" id="form" method="post" style="width:960px">
+		<div class="container">
+			<label for="naslov"><b>Naslov</b></label>
+			<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
+			<label for="opis"><b>Opis</b></label>
+			<br>
+			<body onLoad="onload();">
+			<input type="button" value="bold" onClick="formatText('b');"/> 
+			<input type="button" value="italic" onClick="formatText('i');"/> 
+			<input type="button" value="underline" onClick="formatText('u');"/>
+			<input type="button" value="latex" onClick="formatText('$')"/>
+			<input type="button" value="program" onClick="formatText('`')"/>
+			<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
+			<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
+			<label for="predogled"><b>Predogled opisa</b></label>
+			<div id="opis_preview"></div>
+		</div>
+	</form>
+	<div class="container" style="margin: auto; width: 928px; margin: 5px;">
+		<a class="link" href="#" onclick="document.getElementById('form').submit();">
+			<button id="naprej" style="display: inline-block; margin: auto; width: 49.6%;">Shrani spremembe</button>
+		</a>
+		<a class="link" href="podnaloga/" target="_blank" id="redirect">
+			<button id="naprej" style="display: inline-block; margin: auto; width: 49.6%">Nova podnaloga</button>
+		</a>
 	</div>
-</form>
-<div class="container" style="margin: auto; width: 965px; overflow: hidden; padding: 0;">
-	<a class="link" href="podnaloga/" target="_blank" id="redirect"><button id="naprej" style="display: block; margin: auto;">Nova podnaloga</button></a>
 </div>
 
 
@@ -52,13 +58,6 @@ $(document).delegate('#koda, #opis', 'keydown', function(e) {
 		// postavi caret nazaj na prvotno mest
 		this.selectionStart =
 		this.selectionEnd = start + 4;
-	}
-	else {
-	$(this).val($(this).val().substring(0, start)
-					+ "<br>"
-					+ $(this).val().substring(end));
-	this.selectionStart =
-	this.selectionEnd = start + 4;
 	}
   }
 });
@@ -99,6 +98,17 @@ document.getElementById("redirect").addEventListener("click", function(event){
 		event.preventDefault();
 	}
 });
+
+window.onbeforeunload = function(){
+	return "A res hočs zapustit stran?"
+
+}
+
+$(document).ready(function() {
+		//Da ga ne vprasa ce hoce zapustit stran ko klikne link oz. submita form
+        $('a').click(function() { window.onbeforeunload = null; });
+        $('form').submit(function() { window.onbeforeunload = null; });
+    });
 </script>
 
 	

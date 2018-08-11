@@ -37,6 +37,10 @@
 document.getElementById("file").onchange = function() {
     document.getElementById("form").submit();
 }
+
+%if popup:
+	alert("Dovoljene so samo python datoteke!");
+%end
 </script>
 
 </body>

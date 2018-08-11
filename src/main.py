@@ -14,6 +14,7 @@ je_bila_izbrisana = False
 podnaloge_za_osvezit = []
 preostevilcenje = []
 trenutno_osvezena = None
+popup = False
 
 app = bottle.default_app()
 BaseTemplate.defaults['get_url'] = app.get_url
@@ -23,38 +24,28 @@ webbrowser.open('http://localhost:8080/')
 
 @route('/')
 def index():
-    return template('index')
+    redirect('/index/')
 
 @route('/static/<filename:path>', name='static')
 def serve_static(filename):
     return static_file(filename, root=static_directory)
-    
-##@route("/static/<filename:path>")
-##def static(filename):
-##    return static_file(filename, root=static_directory)
 
-##@get("/")
-##def blank():
-##    redirect('/index/')
+@get("/index/")
+def index():
+    global popup
+    return template("index.html", popup=popup)
 
 @post('/upload')
 def upload():
-    global file_name
     global file
+    global popup
     file = request.files.get('file')
-    file_name = file.filename
-    print(os.path.splitext(file_name))
-
-    "Z file.file dostopamo do nase datoteke, npr."
-##    #for line in file.file:
-##        "moramo dekodirati, ker je zapisana v bitih"
-##        #print(line.decode().rstrip('\n'))
-##        #print(type(line.decode().rstrip('\n')))
-##        #print(len(line.decode().rstrip('\n')))
-##        #print(type(line.decode().rstrip('\n')))
-##        #print(str(line.decode().rstrip('\n')))
-    "redirect na obstojeco, ki je zaenkrat tako, da ne uposteva uploadanga fila, ker je treba spremeniti Problem.py"
-    return redirect("/index/obstojeca")
+    if os.path.splitext(file.filename)[1] != ".py":
+        popup = True
+        redirect("/index/")
+    else:
+        popup = False
+        return redirect("/index/nova_naloga")
 
 @get('/preostevilci<part_num><num>')
 def preostevilci(part_num, num):
@@ -98,33 +89,19 @@ def preostevilci(part_num, num):
 
 
 
-@get("/index/")
-def index():
-    return template("index.html")
-
 ## tole spodi ni ok !!
 "Zacetna stran kjer uporabnik izbire, ali bo ustvaril novo datoteko ali bo vnesel ze obstojeco datoteko za urejanje"
-@get("/index/<izbira>")
-def nova_naloga(izbira):
+@get("/index/nova_naloga")
+def nova_naloga():
     global problem
-    #global file_name # tega zdj ne rabimo več
     global file
-    if izbira == "nova":
-        
-        #tukaj se ustvari nov Problem ki ima prazne atribute
-        redirect("/index/naloga/")
-    elif izbira == "obstojeca":
 
-        #old version
-        #file_name = "../edit_files/"+file_name
-        #problem = Problem.load_file(file_name)
-        
-        problem = Problem.read_filefile(file.file)
-        
-        for i in range(len(problem.parts)):
-            time.sleep(0.05)
-            webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
-        redirect("/index/naloga/")
+    problem = Problem.read_filefile(file.file)
+
+    for i in range(len(problem.parts)):
+        time.sleep(0.05)
+        webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
+    redirect("/index/naloga/")
 
 @get("/index/naloga/")
 def naloga():

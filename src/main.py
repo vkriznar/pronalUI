@@ -148,11 +148,9 @@ def naloga_post():
 def podnaloga_izbrisi(part_num):
     global problem
     global je_bila_izbrisana
-    global naloge_za_osvezit
     global podnaloge_za_osvezit
     part_num = int(part_num)
     del problem.parts[part_num-1]
-    # je_bila_izbrisana = True
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
 
     return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))

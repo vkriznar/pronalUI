@@ -434,12 +434,9 @@ var st_podnaloge = $('.st_podnaloge').html();
 $('.st_podnaloge').blur(function() {
     if (st_podnaloge!=$(this).html()){	
 		st_podnaloge = $(this).html();
-		var r = confirm("Spremeni Podnalogo{{part_num}} v Podnalogo" + st_podnaloge + "?");
-		if (r == true) {
-			var linkString = "/preostevilci{{part_num}}" + st_podnaloge;
-			document.getElementById("st_link").setAttribute("href",linkString);
-			document.getElementById("st_link").click();
-		}
+		var linkString = "/preostevilci{{part_num}}" + st_podnaloge;
+		document.getElementById("st_link").setAttribute("href",linkString);
+		document.getElementById("st_link").click();
     }
 });
 
@@ -464,13 +461,30 @@ var vis = (function(){
     }
 })();
 
+var osvezi = true;
 
 vis(function(){
 	if (vis()==true) {
+		osvezi = false;
 		location.reload(true);
 	}
 });
 
+
+window.onbeforeunload = function(){
+	if (osvezi){
+		return "A res hočs zapustit stran?"
+	}
+	else {
+		osvezi = true;
+	}
+}
+
+$(document).ready(function() {
+		//Da ga ne vprasa ce hoce zapustit stran ko klikne link oz. submita form
+        $('a').click(function() { window.onbeforeunload = null; });
+        $('form').submit(function() { window.onbeforeunload = null; });
+    });
 
 </script>
 

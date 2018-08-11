@@ -223,11 +223,12 @@ def edit_tests(part_num, test_type, edit, group_id, i):
 
     global problem
     global testi
+    print(group_id, i)
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
-
-    print("PREJ:", tests["check_equal"][group_id])
-    print(tests["check_equal"][group_id][i])
+    #print(tests["check_equal"])
+    #print("PREJ:", tests["check_equal"][group_id])
+    #print(tests["check_equal"][group_id][i])
     
     if test_type == "chkeql":
         test_group = tests["check_equal"][group_id]
@@ -256,7 +257,7 @@ def edit_tests(part_num, test_type, edit, group_id, i):
         else: 
             problem_part.move_test_within_group_up(test_type, group_id, i)
         
-    print("POTEM:", tests["check_equal"][group_id])
+    #print("POTEM:", tests["check_equal"][group_id])
         
     
     testi = True

@@ -24,6 +24,7 @@
 		<input type="button" value="italic" onClick="formatText('i');"/> 
 		<input type="button" value="underline" onClick="formatText('u');"/>
 		<input type="button" value="latex" onClick="formatText('$')"/>
+        <input type="button" value="program" onClick="formatText('`')"/>
 		<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
 		<label for="predogled"><b>Predogled opisa</b></label>
@@ -68,7 +69,7 @@ function formatText(x) {
 	var textAreaSubstring = textAreaValue.substring(textArea.selectionStart, textArea.selectionEnd);
 	var textAreaBefore = textAreaValue.substring(0, textArea.selectionStart);
 	var textAreaAfter = textAreaValue.substring(textArea.selectionEnd, textAreaValue.length);
-	if (x != "$"){
+	if (x != "$" && x != '`'){
 		textArea.value = textAreaBefore + '<' + x + '>' + textAreaSubstring + '</' + x + '>' + textAreaAfter;
 	}
 	else {

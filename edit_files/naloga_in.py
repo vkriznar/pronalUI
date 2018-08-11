@@ -60,7 +60,7 @@ Check.secret(zmnozi(33, 33), "ne znaš izračunati 33 * 33 !")
 Check.secret(odstej(3, 3))
 
 Check.secret(zmnozi(100, 100), """lala""")
-Check.secret(zmnozi(500, 123), '''lalalallaa''')
+Check.secret(zmnozi(500, 123), '''lalalallaalalalallalaalalalalalallalaalalalllalalalalalalalalaalallalalalalalaalalallalalalalaaalalla''')
 
 Check.secret(zmnozi(11, 11), 'sporočilo: """neko sporočilo"""') and \
 Check.secret(zmnozi(33, 33), "ne znaš izračunati 33 * 33 !")
@@ -72,7 +72,7 @@ Check.secret(x)
     Check.equal("c", 5)
 )
 
-( Check.equal("x", "lal2") and Check.equal("c", """lalallallala2""" ))
+( Check.equal("x", "lal2") and Check.equal("c", """lalallallalalalalalalalalallallaalalalalallalalalalalalalalalalalala2""" ))
 Check.equal("""x""", """l'a'l""") #komentar
 
 Check.equal("zmnozi(20, 20)", 400) and \

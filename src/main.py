@@ -39,7 +39,9 @@ def index():
 def upload():
     global file
     global popup
+    global file_name # to zaenkrat rabimo, za pisat na datoteko
     file = request.files.get('file')
+    file_name = file.filename # to zaenkrat rabimo, za pisat na datoteko
     if os.path.splitext(file.filename)[1] != ".py":
         popup = True
         redirect("/index/")

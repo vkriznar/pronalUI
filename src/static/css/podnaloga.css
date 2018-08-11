@@ -64,7 +64,7 @@ button:hover {
 	display: block; 
 	width:170px; 
 	height: 15px;
-	padding: 6px;	
+	padding: 6px 6px 7px 6px;	
 	float: right;
 	font-size: 15px;
 	text-align: center;

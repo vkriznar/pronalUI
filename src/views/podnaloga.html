@@ -92,25 +92,25 @@
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="output">{{test.output}}</div></td>
                         <td class="text-center">
                             
-                            <a href="chkeql-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-delete-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="redBox" title="izbriši test" style="display: inline-block;">
                                      <span id="x">&times;</span>
                                 </div>
                             </a>
-                            <a href="chkeql-move{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-move-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="orangeBox" title="pošlji test v opis" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
 
                             %if i==0:
-                            <a href="chkeql-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-move_up-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni skupino gor"style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
                             %else:
-                            <a href="chkeql-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-move_up-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni test gor" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
@@ -118,13 +118,13 @@
                             %end
         
                             %if i==len(tests["check_equal"][group_id]) - 1:
-                            <a href="chkeql-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-move_down-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni skupino dol" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
                                 </div>
                             </a>
                             %else:
-                            <a href="chkeql-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chkeql-move_down-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni test dol" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
                                 </div>
@@ -169,18 +169,18 @@
                         <td class="text-center"><div contenteditable="true" class="editable-sct" id="output_s">{{test.other}}</div></td>
                         <td class="text-center">
                             <div id="redBox" title="izbriši test" style="display: inline-block;">
-                                <a href="chksct-delete{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
+                                <a href="chksct-delete-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;"><span id="x">&times;</span></a>
                             </div>
                             
                             
                             %if i==0:
-                            <a href="chksct-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chksct-move_up-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni skupino gor"style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
                             </a>
                             %else:
-                            <a href="chksct-move_up{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chksct-move_up-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni test gor" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8593;</span>
                                 </div>
@@ -188,13 +188,13 @@
                             %end
         
                             %if i==len(tests["check_secret"][group_id]) - 1:
-                            <a href="chksct-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chksct-move_down-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni skupino dol" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
                                 </div>
                             </a>
                             %else:
-                            <a href="chksct-move_down{{group_id}}{{i}}/" style="text-decoration:none; color: inherit;">
+                            <a href="chksct-move_down-{{group_id}}-{{i}}/" style="text-decoration:none; color: inherit;">
                                 <div id="greenBox" title="premakni test dol" style="display: inline-block;">
                                      <span id="up" style="position: relative; bottom: 3px;">&#8595;</span>
                                 </div>

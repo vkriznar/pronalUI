@@ -192,7 +192,7 @@ def podnaloga(part_num):
 
 
 
-@get("/index/naloga/podnaloga<part_num>/<test_type>-<edit><group_id><i>/")
+@get("/index/naloga/podnaloga<part_num>/<test_type>-<edit>-<group_id>-<i>/")
 def edit_tests(part_num, test_type, edit, group_id, i):
     part_num = int(part_num)
     group_id = int(group_id)
@@ -200,7 +200,7 @@ def edit_tests(part_num, test_type, edit, group_id, i):
 
     global problem
     global testi
-    print(group_id, i)
+    print(edit,group_id, i)
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
     #print(tests["check_equal"])

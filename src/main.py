@@ -240,7 +240,7 @@ def podnaloga_post(part_num):
 
             active_test = "chksct"
         else:
-            tests["other"] += request.forms.other
+            tests["other"] = request.forms.other
 
     if request.forms.changes:
         json_dict = json.loads(request.forms.changes)

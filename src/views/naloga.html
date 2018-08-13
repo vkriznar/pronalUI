@@ -13,10 +13,11 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <div style="border: 3px solid #f1f1f1; width: 960px; margin: 15px auto 0 auto;">
-	<form action="." class="form" id="form" method="post" style="width:960px">
+	<form action="." class="form" id="form" method="post" style="width:960px; margin-top: 0;">
 		<div class="container">
 			<label for="naslov"><b>Naslov</b></label>
 			<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
+			<br><br>
 			<label for="opis"><b>Opis</b></label>
 			<br>
 			<body onLoad="onload();">
@@ -27,16 +28,20 @@
 			<input type="button" value="program" onClick="formatText('`')"/>
 			<input type="button" value="predogled" style="float: right;" onClick="opis_preview()"/>
 			<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
+			<br><br>
 			<label for="predogled"><b>Predogled opisa</b></label>
 			<div id="opis_preview"></div>
 		</div>
 	</form>
-	<div class="container" style="margin: auto; width: 928px; margin: 5px;">
+	<div class="container">
 		<a class="link" href="#" onclick="document.getElementById('form').submit();">
-			<button id="naprej" style="display: inline-block; margin: auto; width: 49.6%;">Shrani spremembe</button>
+			<button id="naprej" class="bottom-buttons">Shrani spremembe</button>
 		</a>
 		<a class="link" href="podnaloga/" target="_blank" id="redirect">
-			<button id="naprej" style="display: inline-block; margin: auto; width: 49.6%">Nova podnaloga</button>
+			<button id="naprej" class="bottom-buttons">Nova podnaloga</button>
+		</a>
+		<a class="link" href="/pretvori/">
+			<button id="naprej" class="bottom-buttons">Oddaj nalogo</button>
 		</a>
 	</div>
 </div>

@@ -32,7 +32,7 @@
 			<input type="button" value="underline" onClick="formatText('u');" class="upper-buttons"/>
 			<input type="button" value="latex" onClick="formatText('$')" class="upper-buttons"/>
 			<input type="button" value="program" onClick="formatText('`')" class="upper-buttons"/>
-			<input type="button" value="predogled" style="float: right;" onClick="opis_preview()" class="upper-buttons"/>
+			<input type="button" value="Posodobi predogled opisa" style="float: right;" onClick="opis_preview()" class="upper-buttons"/>
 		</div>
 		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
 		<br><br>
@@ -40,7 +40,7 @@
 		<div id="opis_preview"></div>
 		<br><br>
 		<label for="prekoda"><b>Pre-koda</b></label>  
-        <input type="button" id="prekoda_gor_gumb" value="Pošlji v opis" style="float: right;"/>
+        <input type="button" id="prekoda_gor_gumb" value="Pošlji pre-kodo v opis" style="float: right;"/>
 		<div class="textarea_codemirror">
 			<textarea name="prekoda" id="prekoda" form="form">{{precode}}</textarea>
 		</div>
@@ -49,7 +49,7 @@
 		<div class="textarea_codemirror">
 			<textarea name="koda" id="koda" form="form">{{code}}</textarea>
 		</div>
-		<button type="submit" id="naprej" style="display: block;">Shrani zgornje vrednosti</button>
+		<button type="submit" id="naprej" style="display: block;">Shrani spremembe opisa, pre-kode in rešitve</button>
 	</div>
 </form>
 <br>
@@ -59,7 +59,7 @@
 			<label for="testi"><b>Dodani testi - Check equal</b></label>
 			<form action="." id="table_edit" role="form" method="post" class="table-changes" style="display: inline-block;">
 				<input type="hidden" name="changes" id="table-variable" value="">
-				<button type="submit" style="width:160px; margin-top: 0;">Shrani spremembe</button>
+				<button type="submit" style="width:290px; margin-top: 0;">Shrani spremembe equal in secret testov</button>
 			</form>
 			<br><br>
 			<table class="table-fill">
@@ -137,7 +137,7 @@
 			<br>
 			<label for="testi"><b>Dodani testi - Check secret</b></label>
 			<div class="table-changes" style="display: inline-block; margin-bottom: 10px;">
-				<button type="submit" form="table_edit" style="width:160px; margin: 0 0 8px 0;">Shrani spremembe</button>
+				<button type="submit" form="table_edit" style="width:290px; margin: 0 0 8px 0;">Shrani spremembe equal in secret testov</button>
 			</div>
 			<table class="table-fill">
 			<thead>
@@ -224,11 +224,11 @@
 			</form>
 		</div>
 		<br>
-		<label for="other"><b id="other_label" style="width: 50%;">Dodaj preostale teste</b></label>
+		<label for="other"><b id="other_label" style="width: 50%;">Preostali testi</b></label>
 		<form action="." role="form" method="post" class="form1" id="form_other">
 			<input type="hidden" name="tipTesta" value="other">
 			<div id="other_codemirror"><textarea name="other" id="other" form="form_other" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
-			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Dodaj</button>
+			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Dodaj prestale teste</button>
 		</form>
 	</div>
 	<br>
@@ -356,7 +356,7 @@ function tiptesta(test) {
 		document.getElementById("sct").style.display = "block";		
 	%end
 	%if tests["other"]:
-		document.getElementById("posodobi_f3").innerHTML="Posodobi";		
+		document.getElementById("posodobi_f3").innerHTML="Shrani spremembe preostalih testov";		
 	%end
 %end
 

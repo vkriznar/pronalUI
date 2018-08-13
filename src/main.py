@@ -109,7 +109,7 @@ def podnaloga_izbrisi(part_num):
     listu in ce je ji zmanjsamo part_num za ena"""
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
 
-    return HTTPResponse("Uspelo ti je izbrisati nalogo {0}!".format(part_num))
+    return HTTPResponse("Uspelo ti je izbrisati nalogo {0}. Poskrbi da se ostale podnaloge osvežijo".format(part_num))
 
 
 "Stran z podnalogo, 'part_num' oznacuje specificno podnalogo na kateri se trenutno nahajamo"
@@ -134,11 +134,11 @@ def podnaloga(part_num):
                 podnaloge_za_osvezit.remove(part_num)
                 """da se nebi part_num 3 osvezil na 1(npr. ce izbrisemo podnalogo 1), moramo prepriciti da se prvic 
                 osvezi podnaloga z part_num 2 zato to shranimo v trenutno_osvezena"""
-                trenutno_osvezena = part_num-1
+                if podnaloge_za_osvezit:
+                    trenutno_osvezena = part_num-1
                 redirect("/index/naloga/podnaloga{}/".format(part_num-1))
             else:
                 trenutno_osvezena = None
-
     return template("podnaloga.html", napaka=None,
                     description=problem_part.description, code=problem_part.solution,
                     precode=problem_part.precode, tests=problem_part.tests,

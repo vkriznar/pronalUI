@@ -1,5 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
-
 body {
 	margin-top: 0px;
 	margin-right: 0px;
@@ -10,7 +8,6 @@ body {
 html {overflow-x: hidden; margin-bottom: 100px;}
 
 form {border: 3px solid #f1f1f1; margin-left: auto; margin-right: auto;}
-
 
 label {font-size: 19px;}
 
@@ -25,8 +22,8 @@ input[type=text], input[type=password], input[type=number] {
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+	-webkit-appearance: none; 
+	margin: 0; 
 }
 
 hr.nice_hr {
@@ -138,6 +135,10 @@ button:hover {
 	overflow-y: auto;
 }
 
+.textarea_codemirror {
+	border: 1px solid #ccc; 
+	margin-top: 8px;
+}
 
 div.table-title {
    display: block;
@@ -244,33 +245,12 @@ td:last-child {
   border-right: 0px;
 }
 
-th.text-left {
-  text-align: left;
-}
-
 th.text-center {
   text-align: center;
 }
 
-th.text-right {
-  text-align: right;
-}
-
-td.text-left {
-  text-align: left;
-}
-
-td.text-left-me {
-  text-align: left;
-  font-style: oblique;
-}
-
 td.text-center {
   text-align: center;
-}
-
-td.text-right {
-  text-align: right;
 }
 
 #output{max-width: 500px;}
@@ -278,6 +258,7 @@ td.text-right {
 #expression, #expression_s {max-width: 200px;}
 
 #redBox, #greenBox, #orangeBox {
+	opacity: 0.8;
     color: #fff;
     font-family: 'Helvetica', 'Arial', sans-serif;
     font-size: 1.2em;
@@ -338,9 +319,29 @@ select {
 	background: url(https://image.flaticon.com/icons/svg/60/60995.svg) 96% / 15% no-repeat #eee;
 } 
 
+#form_other {
+	height: 310px; 
+	width: 100%; 
+	display: inline-block; 
+	margin-top: 8px;
+}
+
+#other_codemirror {
+	border: 1px solid #ccc; 
+	width: 88.5%; 
+	float:left;
+}
+
 #testi {
-	margin-left:auto;
-	margin-right: auto;
+	display:block; 
+	margin: auto; 
+	overflow: hidden;
+}
+
+.bottom-buttons {
+	display: inline-block; 
+	margin: auto; 
+	width: 33.018%;
 }
 
 

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 
-<script src="{{ get_url('static', filename='lib/codemirror.js') }}"></script>
-<link rel="stylesheet" href="{{ get_url('static', filename='/lib/codemirror.css') }}">
-<script src="{{ get_url('static', filename='mode/python/python.js') }}"></script>
 
 <html lang="slo">
 <head>
 	<title>Podnaloga {{part_num}}</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/podnaloga.css">
+	<link rel="stylesheet" href="{{ get_url('static', filename='/lib/codemirror.css') }}">
 	<meta name="author" content="Vid Križnar">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +15,8 @@
 <body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="{{ get_url('static', filename='lib/codemirror.js') }}"></script>
+<script src="{{ get_url('static', filename='mode/python/python.js') }}"></script>
 
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
@@ -41,19 +41,19 @@
 		<br><br>
 		<label for="prekoda"><b>Pre-koda</b></label>  
         <input type="button" id="prekoda_gor_gumb" value="Pošlji v opis" style="float: right;"/>
-		<div style="border: 1px solid #ccc; margin-top: 8px;">
+		<div class="textarea_codemirror">
 			<textarea name="prekoda" id="prekoda" form="form">{{precode}}</textarea>
 		</div>
 		<br>
 		<label for="koda"><b>Rešitev</b></label>
-		<div style="border: 1px solid #ccc; margin-top: 8px;">
+		<div class="textarea_codemirror">
 			<textarea name="koda" id="koda" form="form">{{code}}</textarea>
 		</div>
 		<button type="submit" id="naprej" style="display: block;">Shrani zgornje vrednosti</button>
 	</div>
 </form>
 <br>
-<div class="container" id="testi" style="display:block; margin: auto; overflow: hidden;">
+<div class="container" id="testi">
 	<div class="testi">
 		<div id="eql" style="display: none;">
 			<label for="testi"><b>Dodani testi - Check equal</b></label>
@@ -73,19 +73,10 @@
 			</thead>
 			<tbody class="table-hover">
 				<tbody> 
-                    <!--%naslov_gumba_gor="premakni test gor"
-                    %naslov_gumba_dol="premakni test dol"
-                    -->
 					%if "check_equal" in tests:
                     %    for group_id in range(len(tests["check_equal"])):
                     %        for i in range(len(tests["check_equal"][group_id])):
                     %            test = tests["check_equal"][group_id][i] 
-                    <!--                if i==0: 
-                                        naslov_gumba_gor="premakni skupino gor" 
-                                        elif i==len(tests["check_equal"][group_id]) - 1: 
-                                      naslov_grumba_dol="premakni skupino dol" 
-                    end
-                    -->
 					<tr>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="group_id">{{group_id + 1}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="expression">{{test.expression}}</div></td>
@@ -234,36 +225,25 @@
 		</div>
 		<br>
 		<label for="other"><b id="other_label" style="width: 50%;">Dodaj preostale teste</b></label>
-		<form action="." role="form" method="post" class="form1" id="form3" style="height: 310px; width: 100%; display: inline-block; margin-top: 8px;">
+		<form action="." role="form" method="post" class="form1" id="form_other">
 			<input type="hidden" name="tipTesta" value="other">
-			<div style="border: 1px solid #ccc; width: 88.5%; float:left;"><textarea name="other" id="other" form="form3" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
+			<div id="other_codemirror"><textarea name="other" id="other" form="form_other" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
 			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Dodaj</button>
 		</form>
 	</div>
 	<br>
 	<div>
-        <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/" onclick="close_window();">
-			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Izbriši podnalogo</button>
+        <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/">
+			<button id="naprej" class="bottom-buttons">Izbriši podnalogo</button>
 		</a>
 		<a class="link" href="/index/naloga/podnaloga/" target="_blank" >
-			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Nova podnaloga</button>
+			<button id="naprej" class="bottom-buttons">Nova podnaloga</button>
 		</a>
 		<a class="link" href="/pretvori/">
-			<button id="naprej" style="display: inline-block; margin: auto; width: 33.018%;">Oddaj nalogo</button>
+			<button id="naprej" class="bottom-buttons">Oddaj nalogo</button>
 		</a>
 	</div>
 </div>
-
-<!--
-var editor = CodeMirror(document.getElementById("precode_area"), {
-  lineNumbers: true,
-  mode: "python",
-  version: 3,
-  indentUnit: 4,
-})
-
-editor.getDoc().setValue('def alo(): pass');
--->
 
 <script>
 
@@ -292,8 +272,6 @@ var editor = CodeMirror.fromTextArea(otherTestsArea, {
 });
 
 
-
-<!-- window.onblur= function() {window.onfocus= function () {location.reload(true)}}; -->
 // jQuery koda, ki če uporabnik pritisne tab ga prestavi za tab v deno, ne samo da se premakne na naslednji element na strani
 $(document).delegate('#opis', 'keydown', function(e) {
   var keyCode = e.keyCode || e.which;
@@ -358,9 +336,6 @@ document.getElementById("prekoda_gor_gumb").addEventListener("click", function(e
 		document.getElementById("hidden").value = "False";
     }
 });
-
-
-
 
 function tiptesta(test) {
 	if(test.value == "chkeql" || test == "chkeql") {
@@ -487,6 +462,7 @@ $(document).ready(function() {
         $('a').click(function() { window.onbeforeunload = null; });
         $('form').submit(function() { window.onbeforeunload = null; });
     });
+
 
 </script>
 

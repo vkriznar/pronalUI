@@ -16,7 +16,7 @@
 	<form action="." class="form" id="form" method="post" style="width:960px; margin-top: 0;">
 		<div class="container">
 			<label for="naslov"><b>Naslov</b></label>
-			<input type="text" id="naslov" placeholder="Vnesi naslov naloge" name="naslov" value="{{adress}}" autofocus>
+			<input type="text" id="naslov" placeholder="Vnesite naslov naloge." name="naslov" value="{{adress}}" autofocus>
 			<br><br>
 			<label for="opis"><b>Opis</b></label>
 			<br>
@@ -27,7 +27,7 @@
 			<input type="button" value="latex" onClick="formatText('$')"/>
 			<input type="button" value="program" onClick="formatText('`')"/>
 			<input type="button" value="Posodobi predogled opisa" style="float: right;" onClick="opis_preview()"/>
-			<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
+			<textarea name="opis" id="opis" form="form" placeholder="Vnesite besedilo naloge.">{{description}}</textarea>
 			<br><br>
 			<label for="predogled"><b>Predogled opisa</b></label>
 			<div id="opis_preview"></div>

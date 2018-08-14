@@ -73,11 +73,12 @@ Check.secret(x)
 )
 
 ( Check.equal("x", "lal2") and Check.equal("c", """lalallallalalalalalalalalallallaalalalalallalalalalalalalalalalalala2""" ))
+Check.equal('x{0}'.format(y), 50 // 6)
 Check.equal("""x""", """l'a'l""") #komentar
 
 Check.equal("zmnozi(20, 20)", 400) and \
 Check.equal("zmnozi('20', 20)", 400) and \
-Check.equal('x', 50 // 6)
+
 
 Check.equal("slovar_naslednikov({})",
             [1])

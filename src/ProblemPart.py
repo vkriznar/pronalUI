@@ -325,7 +325,7 @@ class ProblemPart:
                             return "\n".join(lines[:line_tuple_start]), lines[line_tuple_start:]
                         
                         return "\n".join(lines[:i]), lines[i:]
-                    elif line.startswith(("Check.equal", "Check.secret")) and "#" in line: # we have comment in the same line as test ! That needs to go to other tests
+                    elif line.startswith(("Check.equal", "Check.secret")) and ("#" in line or ".format" in line): # we have comment in the same line as test ! That needs to go to other tests
                         if inside_tuple:
                             return "\n".join(lines[:line_tuple_start]), lines[line_tuple_start:]
                         return "\n".join(lines[:i]), lines[i:]

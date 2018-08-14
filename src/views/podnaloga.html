@@ -34,7 +34,7 @@
 			<input type="button" value="program" onClick="formatText('`')" class="upper-buttons"/>
 			<input type="button" value="Posodobi predogled opisa" style="float: right;" onClick="opis_preview()" class="upper-buttons"/>
 		</div>
-		<textarea name="opis" id="opis" form="form" placeholder="Dodaj besedilo k nalogi">{{description}}</textarea>
+		<textarea name="opis" id="opis" form="form" placeholder="Vnesite besedilo podnaloge.">{{description}}</textarea>
 		<br><br>
         <label for="predogled"><b>Predogled opisa</b></label>
 		<div id="opis_preview"></div>
@@ -228,7 +228,7 @@
 		<form action="." role="form" method="post" class="form1" id="form_other">
 			<input type="hidden" name="tipTesta" value="other">
 			<div id="other_codemirror"><textarea name="other" id="other" form="form_other" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
-			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Dodaj preostale teste</button>
+			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Shrani spremembe preostalih testov</button>
 		</form>
 	</div>
 	<br>

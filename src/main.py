@@ -205,6 +205,7 @@ def podnaloga_post(part_num):
     part_num = int(part_num)
     problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
+    print(request.forms.changes)
 
     if request.forms.opis:
         problem_part.description = request.forms.opis

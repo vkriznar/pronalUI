@@ -20,13 +20,13 @@
 
 <form action="." class="form" id="form" method="post" style="width:960px">
 	<div class="container">
-		<a href="/posodobi-naloge" style="width:210px" class="posodobi-button">Posodobi številke podnalog</a>
-		<a id="st_link" style="text-decoration: none; color: black;"><div contenteditable class="st_podnaloge">{{part_num}}</div></a>
+		<a id="st_link" style="text-decoration: none; color: black;"><div class="st_podnaloge">{{part_num}}</div></a>
 		<hr class="nice_hr">
 		<label for="opis"><b>Opis</b></label>
 		<br>
 		<div style="height:26px; width: 100%; overflow: hidden;">
 			<input type="hidden" name="prekoda_gor" id="hidden" value="False" class="upper-buttons">
+			<input type="hidden" name="changes" id="table-variable" value="">
 			<input type="button" value="bold" onClick="formatText('b');" class="upper-buttons"/> 
 			<input type="button" value="italic" onClick="formatText('i');" class="upper-buttons"/> 
 			<input type="button" value="underline" onClick="formatText('u');" class="upper-buttons"/>
@@ -49,7 +49,6 @@
 		<div class="textarea_codemirror">
 			<textarea name="koda" id="koda" form="form">{{code}}</textarea>
 		</div>
-		<button type="submit" id="naprej" style="display: block;">Shrani spremembe opisa, pre-kode in rešitve</button>
 	</div>
 </form>
 <br>
@@ -57,10 +56,6 @@
 	<div class="testi">
 		<div id="eql" style="display: none;">
 			<label for="testi"><b>Dodani testi - Check equal</b></label>
-			<form action="." id="table_edit" role="form" method="post" class="table-changes" style="display: inline-block;">
-				<input type="hidden" name="changes" id="table-variable" value="">
-				<button type="submit" style="width:290px; margin-top: 0;">Shrani spremembe equal in secret testov</button>
-			</form>
 			<br><br>
 			<table class="table-fill">
 			<thead>
@@ -136,9 +131,7 @@
 		<div id="sct" style="display: none;">
 			<br>
 			<label for="testi"><b>Dodani testi - Check secret</b></label>
-			<div class="table-changes" style="display: inline-block; margin-bottom: 10px;">
-				<button type="submit" form="table_edit" style="width:290px; margin: 0 0 8px 0;">Shrani spremembe equal in secret testov</button>
-			</div>
+			<br><br>
 			<table class="table-fill">
 			<thead>
 				<tr>
@@ -201,6 +194,7 @@
 			</tbody>
 			</table>
 		</div>
+		<br>
 		<div class="dodajanje" id="dodajanje" style="margin-top: 20px;">
 			<label for="test"><b id="test" style="width: 50%;">Dodaj test</b></label>
 			<select id="testSelect" name="tipTesta" onchange="tiptesta(this)" style="display: inline-block; padding-left: 5px;">
@@ -225,12 +219,11 @@
 		</div>
 		<br>
 		<label for="other"><b id="other_label" style="width: 50%;">Preostali testi</b></label>
-		<form action="." role="form" method="post" class="form1" id="form_other">
-			<input type="hidden" name="tipTesta" value="other">
-			<div id="other_codemirror"><textarea name="other" id="other" form="form_other" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
-			<button type="submit" class="submit" id="posodobi_f3" style="float:right; display:block; width:100px; margin-top: 0;">Shrani spremembe preostalih testov</button>
-		</form>
+		<br><br>
+		<div id="other_codemirror"><textarea name="other" id="other" form="form" placeholder="Vnesi ostale teste">{{tests["other"]}}</textarea></div>
 	</div>
+	<br>
+	<button id="naprej" style="display: block;" onclick="submitForm();">Shrani spremembe strani</button>
 	<br>
 	<div>
         <a class="link" href="/index/naloga/podnaloga_izbrisi{{part_num}}/">
@@ -239,9 +232,8 @@
 		<a class="link" href="/index/naloga/podnaloga/" target="_blank" >
 			<button id="naprej" class="bottom-buttons">Nova podnaloga</button>
 		</a>
-		<a class="link" href="/pretvori/">
-			<button id="naprej" class="bottom-buttons">Oddaj nalogo</button>
-		</a>
+		<button id="naprej" class="bottom-buttons" onclick="oddajNalogo();">Oddaj nalogo</button>
+		<a class="link" id="oddaj" href="/pretvori/" style="visability: hidden;"></a>
 	</div>
 </div>
 
@@ -355,9 +347,6 @@ function tiptesta(test) {
 	%if tests["check_secret"]:
 		document.getElementById("sct").style.display = "block";		
 	%end
-	%if tests["other"]:
-		document.getElementById("posodobi_f3").innerHTML="Shrani spremembe preostalih testov";		
-	%end
 %end
 
 $(document).ready(function() {
@@ -388,6 +377,8 @@ $('.editable-eql').blur(function() {
     changes2.check_equal.push(change);
     document.getElementById("table-variable").value = JSON.stringify(changes2); //changes2;
     contents_e = $(this).html();
+	console.log(changes2);
+	console.log(document.getElementById("table-variable").value);
 });
 
 $('.editable-sct').blur(function() {
@@ -439,10 +430,9 @@ var osvezi = true;
 vis(function(){
 	if (vis()==true) {
 		osvezi = false;
-		location.reload(true);
+		document.getElementById('form').submit();
 	}
 });
-
 
 window.onbeforeunload = function(){
 	if (osvezi){
@@ -450,6 +440,18 @@ window.onbeforeunload = function(){
 	}
 	else {
 		osvezi = true;
+	}
+}
+
+function submitForm() {
+	osvezi = false;
+	document.getElementById('form').submit();
+}
+
+function oddajNalogo() {
+	var c = confirm("Ali ste preverili, da imate na vseh podnalogah shranjene vse morebitne spremembe?");
+	if (c == true) {
+		document.getElementById('oddaj').click();
 	}
 }
 

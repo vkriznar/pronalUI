@@ -40,9 +40,8 @@
 		<a class="link" href="podnaloga/" target="_blank" id="redirect">
 			<button id="naprej" class="bottom-buttons">Nova podnaloga</button>
 		</a>
-		<a class="link" href="/pretvori/">
-			<button id="naprej" class="bottom-buttons">Oddaj nalogo</button>
-		</a>
+		<button id="naprej" class="bottom-buttons" onclick="oddajNalogo();">Oddaj nalogo</button>
+		<a class="link" id="oddaj" href="/pretvori/" style="visability: hidden;"></a>
 	</div>
 </div>
 
@@ -104,16 +103,60 @@ document.getElementById("redirect").addEventListener("click", function(event){
 	}
 });
 
-window.onbeforeunload = function(){
-	return "A res hočs zapustit stran?"
+var vis = (function(){
+    var stateKey, eventKey, keys = {
+        hidden: "visibilitychange",
+        webkitHidden: "webkitvisibilitychange",
+        mozHidden: "mozvisibilitychange",
+        msHidden: "msvisibilitychange"
+    };
+    for (stateKey in keys) {
+        if (stateKey in document) {
+            eventKey = keys[stateKey];
+            break;
+        }
+    }
+    return function(c) {
+        if (c) document.addEventListener(eventKey, c);
+        return !document[stateKey];
+    }
+})();
 
+var osvezi = true;
+
+vis(function(){
+	if (vis()==true) {
+		osvezi = false;
+		document.getElementById('form').submit();
+	}
+});
+
+window.onbeforeunload = function(){
+	if (osvezi){
+		return "A res hočs zapustit stran?"
+	}
+	else {
+		osvezi = true;
+	}
+}
+
+function submitForm() {
+	osvezi = false;
+	document.getElementById('form').submit();
+}
+
+function oddajNalogo() {
+	var c = confirm("Ali ste preverili, da imate na vseh podnalogah shranjene vse morebitne spremembe?");
+	if (c == true) {
+		document.getElementById('oddaj').click();
+	}
 }
 
 $(document).ready(function() {
-		//Da ga ne vprasa ce hoce zapustit stran ko klikne link oz. submita form
-        $('a').click(function() { window.onbeforeunload = null; });
-        $('form').submit(function() { window.onbeforeunload = null; });
-    });
+	//Da ga ne vprasa ce hoce zapustit stran ko klikne link oz. submita form
+	$('a').click(function() { window.onbeforeunload = null; });
+	$('form').submit(function() { window.onbeforeunload = null; });
+});
 </script>
 
 	

@@ -44,7 +44,7 @@ def make_one_line_tuples(lines):
 
 class CheckEqual:
     def __init__(self, expression, output):
-        expression = expression.replace('"""',"'''") # maybe not ok, better if tell people that they shouldn't use """ inside strings
+        expression = expression.replace('"""',"'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
         self.expression = expression.strip()
         self.output = output.strip()
 
@@ -57,7 +57,7 @@ class CheckEqual:
 class CheckSecret:
     def __init__(self, expression, other=""):
         self.expression = expression
-        other = other.replace('"""', "'''") # maybe not ok, better if tell people that they shouldn't use """ inside strings
+        other = other.replace('"""', "'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
         self.other = other
 
     def __repr__(self):
@@ -148,7 +148,6 @@ class ProblemPart:
             group_id < len(self.tests[test_type]) and
             i < len(self.tests[test_type][group_id])):
                 test = self.tests[test_type][group_id][i]
-                print(expression, output, test)
             
         else:
             return False

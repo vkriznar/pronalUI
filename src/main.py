@@ -253,7 +253,6 @@ def podnaloga_post(part_num):
                 i = int(test_data["index"]) - 1
                 expression = test_data["expression"]
                 output = test_data["output"] if test_type == "check_equal" else test_data["other"]
-                print(test_type, group_id, i, expression, output)
                 problem_part.change_test_by_id(test_type, group_id, i, expression, output)
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))

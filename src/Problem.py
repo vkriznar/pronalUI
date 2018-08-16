@@ -19,20 +19,23 @@ class Problem:
         
 
     @staticmethod
-    def parse(file_string):  
+    def parse(file_string):
+##        DO NOT DELETE THIS ! (we will use this if they don't fix problem on TOMO)
+##        maybe better if we look for:
+##        # ===========================================================================@=
+##        # Ne spreminjajte te vrstice ali česarkoli pod njo.
+##        # =============================================================================
+##        because we don't always want template
+
         split_index = file_string.find(
-"""
-# # =====================================================================@000000=
+"""# # =====================================================================@000000=
 # # This is a template for a new problem part. To create a new part, uncomment
-# # the template and fill in your content.
-""")
+# # the template and fill in your content.""")
         if split_index==-1: # if there is no english tempalate, then we try to find slovene template
             split_index = file_string.find(
-"""
-# # =====================================================================@000000=
+"""# # =====================================================================@000000=
 # # To je predloga za novo podnalogo. Če želite ustvariti novo podnalogo,
-# # pobrišite komentarje ter vsebino zamenjajte s svojo.
-""")
+# # pobrišite komentarje ter vsebino zamenjajte s svojo.""")
         #print(split_index)
         # for regex to work we add first template line
         problem_string = file_string[:split_index + 100]
@@ -88,11 +91,17 @@ class Problem:
         blocks.append("\n# "+ "=" * 77)
         blocks.append("# " + "\n# ".join(self.title.split("\n"))+ "\n#")
         blocks.append("# "+"\n# ".join(self.description.split("\n")))
+        
         for part in self.parts:
             blocks.append(str(part))
-
+##        # DO NOT DELETE ! (we will use this if they don't fix problem on TOMO)
+##        # if there are no parts on the file, we don't write template, because it appears weird on TOMO
+##        if len(self.parts)==0:
+##            print("ni podnalog")
+##            self.lib_string = self.lib_string[self.lib_string.find("\n\n")+1:]
         blocks.append(self.lib_string)
 
+    
         return "\n".join(blocks)
 
 

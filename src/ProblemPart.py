@@ -148,6 +148,7 @@ class ProblemPart:
             group_id < len(self.tests[test_type]) and
             i < len(self.tests[test_type][group_id])):
                 test = self.tests[test_type][group_id][i]
+                print(expression, output, test)
             
         else:
             return False

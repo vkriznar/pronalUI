@@ -78,7 +78,7 @@
                     %        for i in range(len(tests["check_equal"][group_id])):
                     %            test = tests["check_equal"][group_id][i] 
 					<tr>
-                        <td class="text-center"><div contenteditable="true" class="editable-eql" id="group_id">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div class="editable-eql" id="group_id">{{group_id + 1}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="expression">{{test.expression}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-eql" id="output">{{test.output}}</div></td>
                         <td class="text-center">
@@ -155,7 +155,7 @@
                     %        for i in range(len(tests["check_secret"][group_id])):
                     %            test = tests["check_secret"][group_id][i]
 					<tr>
-                        <td class="text-center"><div contenteditable="true" class="editable-sct" id="group_id_s">{{group_id + 1}}</div></td>
+                        <td class="text-center"><div class="editable-sct" id="group_id_s">{{group_id + 1}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-sct" id="expression_s">{{test.expression}}</div></td>
                         <td class="text-center"><div contenteditable="true" class="editable-sct" id="output_s">{{test.other}}</div></td>
                         <td class="text-center">
@@ -376,35 +376,31 @@ $(document).ready(function() {
 
 var changes2 = {"check_equal" : [], "check_secret" : []};
 
-var contents_e = $('.editable-eql').html();
+
 $('.editable-eql').blur(function() {
-    if (contents_e!=$(this).html()){
-        change = {
-            "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id').textContent,
-            "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression').textContent,
-            "output" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output').textContent,
-            "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i').textContent
-            };
-        changes2.check_equal.push(change);
-        document.getElementById("table-variable").value = JSON.stringify(changes2); //changes2;
-        contents_e = $(this).html();
-    }
+    change = {
+        "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id').textContent,
+        "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression').textContent,
+        "output" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output').textContent,
+        "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i').textContent
+        };
+       console.log(change);
+    changes2.check_equal.push(change);
+    document.getElementById("table-variable").value = JSON.stringify(changes2); //changes2;
+    contents_e = $(this).html();
 });
 
-var contents_s = $('.editable-sct').html();
 $('.editable-sct').blur(function() {
-    if (contents_s!=$(this).html()){
-        change = {
-            "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent,
-            "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression_s').textContent,
-            "other" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output_s').textContent,
-            "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i_s').textContent 
-            };
-        changes2.check_secret.push(change);
-        
-        document.getElementById("table-variable").value = JSON.stringify(changes2);
-        contents_s = $(this).html();
-    }
+    change = {
+        "group_id" : $(this)[0].parentNode.parentNode.cells[0].querySelector('#group_id_s').textContent,
+        "expression" : $(this)[0].parentNode.parentNode.cells[1].querySelector('#expression_s').textContent,
+        "other" : $(this)[0].parentNode.parentNode.cells[2].querySelector('#output_s').textContent,
+        "index" : $(this)[0].parentNode.parentNode.cells[3].querySelector('#i_s').textContent 
+        };
+    changes2.check_secret.push(change);
+    
+    document.getElementById("table-variable").value = JSON.stringify(changes2);
+    contents_s = $(this).html();
 });
 
 var st_podnaloge = $('.st_podnaloge').html();

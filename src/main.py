@@ -246,11 +246,14 @@ def podnaloga_post(part_num):
         json_dict = json.loads(request.forms.changes)
 
         for test_type in json_dict:
+            print(json_dict)
             for test_data in json_dict[test_type]:
                 group_id = int(test_data["group_id"]) - 1
+                #group_id_stara = int(test_data["group_id"]) - 1
                 i = int(test_data["index"]) - 1
                 expression = test_data["expression"]
                 output = test_data["output"] if test_type == "check_equal" else test_data["other"]
+                print(test_type, group_id, i, expression, output)
                 problem_part.change_test_by_id(test_type, group_id, i, expression, output)
 
     redirect("/index/naloga/podnaloga{}/".format(part_num))

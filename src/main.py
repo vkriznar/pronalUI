@@ -202,10 +202,13 @@ def podnaloga_post(part_num):
     global problem
     global preostevilcenje
 
+    print(len(problem.parts))
     part_num = int(part_num)
-    problem_part = problem.parts[part_num-1]
+    if part_num > len(problem.parts) and part_num in podnaloge_za_osvezit:
+        problem_part = problem.parts[part_num-2]
+    else:
+        problem_part = problem.parts[part_num-1]
     tests = problem_part.tests
-    print(request.forms.changes)
 
     if request.forms.opis:
         problem_part.description = request.forms.opis

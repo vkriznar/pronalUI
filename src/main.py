@@ -202,7 +202,6 @@ def podnaloga_post(part_num):
     global problem
     global preostevilcenje
 
-    print(len(problem.parts))
     part_num = int(part_num)
     if part_num > len(problem.parts) and part_num in podnaloge_za_osvezit:
         problem_part = problem.parts[part_num-2]
@@ -268,9 +267,9 @@ def pretvori():
     global file
     "shranimo nalogo na racunalnik. To je treba se spremeniti, zdaj je tocno doloceno mesto!"
     file_name = "../edit_files/" + file.filename
-    problem.write_on_file(file_name[:-6] + "_out.py")
+    problem.write_on_file(file_name[:-5] + "out.py")
 
-    return HTTPResponse("Uspelo ti je oddati nalogo!")
+    return HTTPResponse("Naloga shranjena")
 
 
 run(host='localhost', port=8080, debug=True)

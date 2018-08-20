@@ -2,6 +2,7 @@ from bottle import *
 import webbrowser
 from Problem import Problem
 from ProblemPart import ProblemPart, CheckEqual, CheckSecret
+import requests
 import time
 import json
 import bottle
@@ -268,8 +269,12 @@ def pretvori():
     "shranimo nalogo na racunalnik. To je treba se spremeniti, zdaj je tocno doloceno mesto!"
     file_name = "../edit_files/" + file.filename
     problem.write_on_file(file_name[:-5] + "out.py")
+    url = "http://localhost:8080/index/"
+    files = {'file': open('neki.txt', 'rb')}
+    r = requests.post(url, files=files)
+    print(r.text)
 
-    return HTTPResponse("Naloga shranjena")
+    return HTTPResponse("bravo!")
 
 
-run(host='localhost', port=8080, debug=True)
+run(host='0.0.0.0', port=8080, debug=True)

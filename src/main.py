@@ -93,7 +93,7 @@ def naloga_post():
         problem.description = request.forms.opis
         return template("naloga.html", napaka=None, adress=problem.title, description=problem.description)
     else:
-        return HTTPResponse("Ni ti uspelo! Naloga mora imeti naslov.")
+        return HTTPResponse("Spremembe niso shranjene. Naloga mora imeti naslov!")
 
 
 "Funckija, ki izbrise izbrano podnalogo"
@@ -110,10 +110,10 @@ def podnaloga_izbrisi(part_num):
     listu in ce je ji zmanjsamo part_num za ena"""
     podnaloge_za_osvezit = [i for i in range(part_num+1, len(problem.parts)+2)]
 
-    return HTTPResponse("Uspelo ti je izbrisati podnalogo {0}. Osveži preostale podnaloge.".format(part_num))
+    return HTTPResponse("Izbrisali ste podnalogo {0}. Osvežite preostale podnaloge.".format(part_num))
 
 
-"Stran z podnalogo, 'part_num' oznacuje specificno podnalogo na kateri se trenutno nahajamo"
+"Stran s podnalogo, 'part_num' oznacuje specificno podnalogo na kateri se trenutno nahajamo"
 @get("/index/naloga/podnaloga<part_num>/")
 def podnaloga(part_num):
     global problem
@@ -226,7 +226,7 @@ def podnaloga_post(part_num):
             if test_num == len(tests["check_equal"]):
                 tests["check_equal"].append([check_equal_test])
             elif test_num > len(tests["check_equal"]):
-                return HTTPResponse("Ni ti uspelo! Številka skupine mora biti med 1 in {0}.".format(len(tests["check_equal"])+1))
+                return HTTPResponse("Test ni dodan. Številka skupine mora biti med 1 in {0}!".format(len(tests["check_equal"])+1))
             else:
                 tests["check_equal"][test_num].append(check_equal_test)
             active_test = "chkeql"
@@ -238,7 +238,7 @@ def podnaloga_post(part_num):
             if test_num == len(tests["check_secret"]):
                 tests["check_secret"].append([check_secret_test])
             elif test_num > len(tests["check_secret"]):
-                return HTTPResponse("Ni ti uspelo! Številka skupine mora biti med 1 in {0}.".format(len(tests["check_secret"])+1))
+                return HTTPResponse("Test ni dodan. Številka skupine mora biti med 1 in {0}!".format(len(tests["check_secret"])+1))
             else:
                 tests["check_secret"][test_num].append(check_secret_test)
 
@@ -274,7 +274,7 @@ def pretvori():
     r = requests.post(url, files=files)
     print(r.text)
 
-    return HTTPResponse("bravo!")
+    return HTTPResponse("Naloga je shranjena.")
 
 
 run(host='0.0.0.0', port=8080, debug=True)

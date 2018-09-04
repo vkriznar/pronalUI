@@ -16,11 +16,6 @@
 <body>
 
 <div class="container">
-	<!-- <a href="nova" style="text-decoration: none; cursor: pointer;">
-		<div class="nova">
-			<p>Ustvari novo nalogo</p>
-		</div>
-	</a> -->
 	<div class="obstojeca" onclick="document.getElementById('file').click();">
 		<p>Izberite nalogo za urejanje</p>
 		<div id="upload" style="display:none;">
@@ -34,10 +29,11 @@
 
 
 <script>
+//funckija, ki submita form ko uporabnik uploada nek file
 document.getElementById("file").onchange = function() {
     document.getElementById("form").submit();
 }
-
+//Server pošlje podatke ali je bila vnesena datoteka napačna in popup to uporabnika opozori
 %if popup:
 	alert("Dovoljene so samo python datoteke!");
 %end

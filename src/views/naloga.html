@@ -92,7 +92,7 @@ $(document).ready(function() {
 	opis_preview();
 });
 
-
+//Naloga mora nujno imeti naslov, zato preden se form submita, se preveri če naslov ni prazen
 document.getElementById("redirect").addEventListener("click", function(event){
 	if(document.getElementById("naslov").value) {
 		document.getElementById("form").submit();
@@ -103,6 +103,7 @@ document.getElementById("redirect").addEventListener("click", function(event){
 	}
 });
 
+//Preveri če je trenutni tab v focusu, če je in če osvezi ni nastavljen na true se strqan samodejno osveži
 var vis = (function(){
     var stateKey, eventKey, keys = {
         hidden: "visibilitychange",

@@ -163,7 +163,7 @@ div.table-title {
   border-radius:3px;
   border-collapse: collapse;
   height: 120px;
-
+  word-wrap: break-word;
   margin: auto;
   max-width: 1110px;
   padding:5px;
@@ -251,6 +251,10 @@ th.text-center {
 
 td.text-center {
   text-align: center;
+}
+
+select::-ms-expand {
+    display: none;
 }
 
 #output{max-width: 500px;}

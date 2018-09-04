@@ -40,12 +40,12 @@ Izberite datoteko, ki jo želite urejati (recimo datumi_edit.py).
 
 #### Spreminjanje naloge (opis, osnovno besedilo)
 
-###### Naslov
+##### Naslov
 
 V sekciji naslov vnesite naslov naloge.
 Idealno že naslov pove nekaj o vsebini naloge.
 
-###### Opis
+##### Opis
 
 V opis dodajte daljše besedilo naloge, 
 motivacijo za kaj se gre in po možnosti neko zgodbo.
@@ -55,16 +55,16 @@ delu naloge lahko pričakuje.
 Za uporabo posebnih simbolov si oglejte sekcijo 
 [Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa).
 
-###### Pregled opisa
+##### Pregled opisa
 
 Oblikovno dodelan pregled opisa, ki ste ga napisali.
 
-###### Shranjevanje
+##### Shranjevanje
 
 Po končanem spreminjanju naloge kliknite na gumb 
 Shrani spremembe naslova in opisa.
 
-###### Ustvarjanje nove podnaloge
+##### Ustvarjanje nove podnaloge
 
 Če želite ustvariti novo podnalogo pritisnite 
 gumb Nova podanloga. Idealno bi moral gumb 
@@ -72,7 +72,7 @@ ustvariti nalogo na prvem mestu, kar pa za enkrat
 še ni implementirano. Spremembe postavitve naloge 
 se lahko naredijo na koncu tudi ročno.
 
-###### Oddaj nalogo
+##### Oddaj nalogo
 
 Oddaj nalogo na tem mestu pride malokrat v poštev 
 razen, če ste naredili le popravke v naslovu in opisu, 
@@ -82,18 +82,18 @@ poravljanjem nalog v zavihtkih.
 
 #### Spreminjanje podnalog
 
-###### Opis
+##### Opis
 
 V opis dodajte besedilo v katerem so navodila kakšen 
 program mora reševalec v tem delu naloge napisati.
 Za uporabo posebnih simbolov si oglejte sekcijo 
 [Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa).
 
-###### Pregled opisa
+##### Pregled opisa
 
 Oblikovno dodelan pregled opisa, ki ste ga napisali.
 
-###### Pre-koda
+##### Pre-koda
 
 Sem dodajte Python kodo, 
 ki bo reševalcu že na začetku na voljo.
@@ -102,11 +102,11 @@ delno rešena naloga ali pa kakšna uporabna pomožna funkcija.
 Kadar je naloga tipa popravi kodo, sem dodate kodo, 
 ki jo mora uporabnik popraviti ali dopolniti.
 
-###### Rešitev
+##### Rešitev
 
 Sem dodate vašo rešitev naloge v obliki Python programa.
 
-###### Dodani testi - Check equal
+##### Dodani testi - Check equal
 
 V tem sklopu se vam pokažejo testi, 
 za katere uporabnik dobi informacijo o rezultatu. 
@@ -126,7 +126,7 @@ Urejanje omogoča:
 Dodatno je desno še številka, ki označuje vrstni red 
 testa znotraj posamezne skupine testov.
 
-###### Dodani testi - Check secret
+##### Dodani testi - Check secret
 
 Velja vse kot za Dodani testi - Check equal,
 le da so to testi o katerih uporabnik ne dobi povratne 
@@ -135,7 +135,7 @@ Sporočilo, v katerem je lahko namig zakaj je prišlo do napake.
 Ni tudi možnosti za premik testa v opis, 
 saj test nima uradnega rezultata, ki bi ga lahko izkoristili za primer.
 
-###### Dodajanje testov
+##### Dodajanje testov
 
 Omogoča dodajanje testov Check equal in Check secret.
 Check Equal - po solpcih so informacije:
@@ -150,7 +150,7 @@ Check Secret - po solpcih so informacije:
 3. sporočilo
 4. gumb za dodajanje testa
 
-###### Preostali testi
+##### Preostali testi
 
 Testi, ki niso standardne oblike so v skupini preostali testi. 
 Tu se velikokrat napiše kakšen test, ki uporablja 
@@ -160,22 +160,22 @@ Omogoča še veliko dodatnih funkcionalnosti, ki
 so navedene v navodilih za uporabo sistema Tomo 
 (prosojnice os sestavljanju testov; na primer preverjanje branja, pisanja).
 
-###### Shrani spremembe
+##### Shrani spremembe
 
 Po končanem spreminanju podnaloge pritisnite gumb 
 Shrani spremembe v podnalogi, da se vnesene spremembe 
 zapišejo v  sistem.
 
-###### Izbriši podnalogo
+##### Izbriši podnalogo
 
 Izbriše trenutno podnalogo iz sklopa te naloge.
 
-###### Nova podnaloga
+##### Nova podnaloga
 
 Ustvari novo podnalogo, privzeto se uporabi že 
 v naprej pripravljena predloga, ki jo nato popravite.
 
-###### Oddaj nalogo
+##### Oddaj nalogo
 
 Po končanem spreminju vseh nalog shranite vse naloge in 
 jih oddajte z pritiskom na gumb Oddaj nalogo.
@@ -195,11 +195,11 @@ in Open file dialog.
 
 #### Problem
 
-###### Problem title
+##### Problem title
 
 Write the title of your problem.
 
-###### Problem description
+##### Problem description
 
 Write problem description; 
 some motivation and overview 
@@ -207,19 +207,19 @@ of knowledge used in this problem.
 
 #### Part
 
-###### Part description
+##### Part description
 
 Description of what should be done in this problem part.
 
-###### Precode
+##### Precode
 
 Code which will be available for students.
 
-###### Solution
+##### Solution
 
 Your official solution of problem part.
 
-###### Test section
+##### Test section
 
 Check equal an Check secret tests.
 Test group and individual test 

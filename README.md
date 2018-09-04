@@ -53,7 +53,7 @@ Nakažite tudi osnovno vsebino, ki pove
 kakšne zahteve se v programerskem
 delu naloge lahko pričakuje.
 Za uporabo posebnih simbolov si oglejte sekcijo 
-[Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa)
+[Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa).
 
 ###### Pregled opisa
 
@@ -87,7 +87,7 @@ poravljanjem nalog v zavihtkih.
 V opis dodajte besedilo v katerem so navodila kakšen 
 program mora reševalec v tem delu naloge napisati.
 Za uporabo posebnih simbolov si oglejte sekcijo 
-[Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa)
+[Navodila za oznake znotraj opisa](#navodila-za-oznake-znotraj-opisa).
 
 ###### Pregled opisa
 

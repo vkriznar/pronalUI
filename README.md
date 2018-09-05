@@ -22,6 +22,9 @@ sicer uporabimo 4 presledke
 
 ### Navodila za pisanje rešitev in testov
 
+Prepovedano je uporabljati:
+1. Trojne enojne narekovaje (''')
+
 TODO vzemi iz Tomo
 
 ### Navodila za uporabo spletnega vmestnika
@@ -102,9 +105,15 @@ delno rešena naloga ali pa kakšna uporabna pomožna funkcija.
 Kadar je naloga tipa popravi kodo, sem dodate kodo, 
 ki jo mora uporabnik popraviti ali dopolniti.
 
+Če želite, da se koda pojavi v besedilu naloge pritisnite gumb
+Pošlji Pre-kodo v opis. Včasih želite, da je koda na voljo le 
+v opisu in ni že v naprej priravljena, v tem primeru 
+po kliku izbrišite vsebino tega okna.
+
 ##### Rešitev
 
 Sem dodate vašo rešitev naloge v obliki Python programa.
+Poglejte še navodila pod Navodila za pisanje rešitev in testov.
 
 ##### Dodani testi - Check equal
 
@@ -149,6 +158,14 @@ Check Secret - po solpcih so informacije:
 2. izraz
 3. sporočilo
 4. gumb za dodajanje testa
+
+Dodatna navodila za vse:
+1. skupina testa: testi v isti skupini so vezani z and
+2. izraz: brez zunanjih narekovajev
+3. rezultat: brez zunanjih narekovajev (če rezultat niz ima normalno narekovaje)
+
+Prepovedana je uporaba trojnih enojnih narekovajev (''').
+Poglejte še navodila pod Navodila za pisanje rešitev in testov.
 
 ##### Preostali testi
 
@@ -233,7 +250,62 @@ To add new part to problem press Add new part.
 
 #### Buttons
 
-TODO
+##### Problem
+
+###### Load file
+
+Loads the problem_edit.py file.
+
+###### Save file
+
+Saves the chenges of editing into original file.
+
+###### Save file as
+
+Saves the chenges of editing into new file.
+
+###### Add new part
+
+##### Description and code
+
+Adds new part to same number as curent problem part.
+
+###### Precode to description
+
+Adds precode to description.
+
+##### Test
+
+###### Create group
+
+Creates new Check equal group with one empty test.
+
+###### Create test equal
+
+Creates test equal in chosen (by checkbox) test equal group.
+
+###### Change test group
+
+Moves chosen tests into chosen group.
+
+###### Switch test or group
+
+Switches the position of two groups 
+or switches the position of two tests.
+
+###### Remove tests
+
+One of the most usefull functions.
+Removes chosen tests or groups.
+
+###### Group to secret
+
+Transformes given check equal group of tests 
+to check secret group of tests.
+
+###### To description
+
+Adds chosen test equal tests to description.
 
 
 Navodila za programerje

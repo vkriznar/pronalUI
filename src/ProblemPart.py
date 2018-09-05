@@ -74,6 +74,8 @@ class CheckEqual:
         self.expression = self.expression.strip()
         self.output = self.output.strip()
 
+    def to_secret(self):
+        return CheckSecret(self.expression)
 
 
 class CheckSecret:
@@ -182,6 +184,30 @@ class ProblemPart:
             print(type(test))
             print(test)
             print("Can not remove this test type.")
+
+
+    def switch_tests(self, test1, test2):
+        """Switches given tests if they are same type."""
+        
+        if type(test1) == type(test2):
+            if isinstance(test1, CheckEqual):
+                tests = self.tests["check_equal"]
+            elif isinstance(test1, CheckSecret):
+                tests = self.tests["check_secret"]
+
+        a1 = b1 = a2 = b2 = None
+        for i, group in enumerate(tests):
+            for j, test in enumerate(group):
+                if test == test1:
+                    a1, b1 = i, j
+                if test == test2:
+                    a2, b2 = i, j
+
+        if None in (a1, a2, b1, b2):
+            return
+
+        tests[a1][b1], tests[a2][b2] = tests[a2][b2], tests[a1][b1]
+        
 
     def change_test_by_id(self, test_type, group_id, i, expression, output):
         if (test_type in self.tests and

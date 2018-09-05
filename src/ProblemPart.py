@@ -57,15 +57,22 @@ class CheckEqual:
     """Class for CheckEqual tests manipulation."""
     
     def __init__(self, expression, output):
-        expression = expression.replace('"""',"'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
-        self.expression = expression.strip()
-        self.output = output.strip()
+        self.expression = expression
+        self.output = output
+        self.clean()
 
     def __repr__(self):
+        self.clean()
         return 'Check.equal("""{0}""", {1})'.format(self.expression, self.output)
 
     def example(self):
+        self.clean()
         return ">>> " + self.expression + "\n" + self.output
+
+    def clean(self):
+        self.expression = self.expression.replace('"""',"'''")
+        self.expression = self.expression.strip()
+        self.output = self.output.strip()
 
 
 
@@ -74,14 +81,18 @@ class CheckSecret:
     
     def __init__(self, expression, other=""):
         self.expression = expression
-        other = other.replace('"""', "'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
         self.other = other
-
+        self.clean()
+        
     def __repr__(self):
+        self.clean()
         if len(self.other) > 0:
             return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)
         else:
             return "Check.secret({0})".format(self.expression)
+
+    def clean(self):
+        self.other = self.other.replace('"""', "'''")
 
 
 

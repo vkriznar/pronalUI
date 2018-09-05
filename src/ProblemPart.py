@@ -1,6 +1,14 @@
 import re
 
+
+
 def check_parenthesis(line):
+    """
+    Returns the diference betwean the opening and closing parenthesis
+    in given line.
+    """
+
+    # TODO: Why is this not done with str.count ??
     counter=0
     for char in line:
         if char=="(":
@@ -8,6 +16,7 @@ def check_parenthesis(line):
         elif char==")":
             counter -= 1
     return counter
+
 
 def make_one_line_tuples(lines):
     """
@@ -42,7 +51,11 @@ def make_one_line_tuples(lines):
             
     return lines2
 
+
+
 class CheckEqual:
+    """Class for CheckEqual tests manipulation."""
+    
     def __init__(self, expression, output):
         expression = expression.replace('"""',"'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
         self.expression = expression.strip()
@@ -54,7 +67,11 @@ class CheckEqual:
     def example(self):
         return ">>> " + self.expression + "\n" + self.output
 
+
+
 class CheckSecret:
+    """Class for CheckSecret tests manipulation."""
+    
     def __init__(self, expression, other=""):
         self.expression = expression
         other = other.replace('"""', "'''") # maybe not ok, better if we tell people that they shouldn't use """ inside strings
@@ -65,8 +82,12 @@ class CheckSecret:
             return 'Check.secret({0}, """{1}""")'.format(self.expression, self.other)
         else:
             return "Check.secret({0})".format(self.expression)
-    
+
+
+
 class ProblemPart:
+    """Class for holding the abstract information of problem part string."""
+    
     def __init__(self, part_id, description, precode, solution, tests):
         self.part_id = part_id
         # we use strip, because the user can input only white space and we don't want to save that
@@ -81,6 +102,8 @@ class ProblemPart:
 
 
     def __repr__(self):
+        """Returns string representation of ProblemPart."""
+        
         def remove_unnecessary_lines(text):
             return "\n".join([line.rstrip() for line in text.splitlines()])
         
@@ -121,8 +144,11 @@ class ProblemPart:
 
         return "".join(string_list)  
 
+
     @staticmethod
     def remove_test_type(test, test_type):
+        """Removes the test from test group given by test_type."""
+        
         for test_group in test_type:
             if test in test_group:
                 if len(test_group) > 1:
@@ -132,8 +158,11 @@ class ProblemPart:
 
                 # cause we already find it
                 return
+
         
     def remove_test(self, test):
+        """Removes given test form problem part."""
+        
         if isinstance(test, CheckEqual):
             ProblemPart.remove_test_type(test, self.tests["check_equal"])
         elif isinstance(test, CheckSecret):
@@ -159,6 +188,8 @@ class ProblemPart:
             test.other = output
         return True
 
+    # TODO: Clean up below comment.
+
     # moving check secret and equal test up and down
     # testing:
     #   run problem.py,
@@ -168,28 +199,35 @@ class ProblemPart:
     #   problem.parts[0].move_test_within_group_down('check_equal', 0, 1)
     #   problem.parts[0].move_test_within_group_up('check_equal', 0, 1)
     def move_test_group_up(self, test_type, group_id):
-        if not (test_type in self.tests and
-            group_id>0 and group_id < len(self.tests[test_type]) and
-                len(self.tests[test_type]) > 1 ):
-                    return False
-            
-        else:
-            self.tests[test_type][group_id - 1], self.tests[test_type][group_id] = \
-                self.tests[test_type][group_id], self.tests[test_type][group_id - 1]
-            return True
-                
-    def move_test_group_down(self, test_type, group_id):
-        if not (test_type in self.tests and
-            group_id >= 0 and group_id < len(self.tests[test_type])-1 and
-            len(self.tests[test_type]) > 1):
-                return False
-            
-        else:
-            self.tests[test_type][group_id + 1], self.tests[test_type][group_id] = \
-                self.tests[test_type][group_id], self.tests[test_type][group_id + 1]
+        """Moves test group up, by fliping it with above group."""
+        
+        if test_type not in self.tests or len(self.tests[test_type]) <= 1:
+            return False
+
+        tests = self.tests[test_type]
+        if 0 < group_id < len(self.tests[test_type]):
+            tests[group_id - 1], tests[group_id] = tests[group_id], tests[group_id - 1]
             return True
 
+        return False
+                
+    def move_test_group_down(self, test_type, group_id):
+        """Moves test group down, by fliping it with below group."""
+        
+        if test_type not in self.tests or len(self.tests[test_type]) <= 1:
+            return False
+
+        tests = self.tests[test_type]
+        if 0 < group_id + 1 < len(tests):
+            tests[group_id + 1], tests[group_id] = tests[group_id], tests[group_id + 1]
+            return True
+
+        return False
+
     def move_test_within_group_up(self, test_type, group_id, i):
+        """Moves tests within group up."""
+
+        # TODO: This should be cleaned up it is hardcore code.
         if not (test_type in self.tests and
             group_id < len(self.tests[test_type]) and
             i>0 and i < len(self.tests[test_type][group_id]) and
@@ -201,6 +239,9 @@ class ProblemPart:
             return True
         
     def move_test_within_group_down(self, test_type, group_id, i):
+        """Moves tests within group down."""
+
+        # TODO: This should be cleaned up it is hardcore code.
         if not (test_type in self.tests and
             group_id < len(self.tests[test_type]) and
             i < len(self.tests[test_type][group_id]) - 1 and
@@ -214,6 +255,11 @@ class ProblemPart:
 
     @staticmethod
     def parse_tests(validation):
+        """
+        Parses tests form validation section of string and saves
+        them in self.tests dict.
+        """
+        
         ## TODO add meta data (for now we have double list for and conection, maybe use dict?)
         def classify_tests(validation):
                 
@@ -384,6 +430,10 @@ class ProblemPart:
 
     @staticmethod
     def parse(problem_part_string):
+        """
+        Parses the problem part string of problem string and converts
+        it to problem part.
+        """
         def strip_hashes(description):
             if description is None:
                 return ''
@@ -415,6 +465,8 @@ class ProblemPart:
 
 
     def code_to_description(self, code, line_num):
+        """Adds given code to description in corect format."""
+        
         if len(code.strip()) > 0:
             string_list = self.description.split("\n")
             insert_text = "\n    " + code.replace("\n", "\n    ")
@@ -426,19 +478,27 @@ class ProblemPart:
             self.description = "\n".join(string_list)
 
     def precode_to_description(self, line_num=-1):
+        """Adds given precode to description in corect format."""
         self.code_to_description(self.precode, line_num)
 
-# no need for this function use check_equals_to_description
-## TODO remove in future
-    def check_equal_to_description(self, test, line_num=-1):
-        code = test.example()
-        self.code_to_description(code, line_num)
+
+### no need for this function use check_equals_to_description
+#### TODO remove in future
+##    def check_equal_to_description(self, test, line_num=-1):
+##        code = test.example()
+##        self.code_to_description(code, line_num)
+
 
     def check_equals_to_description(self, tests, line_num=-1):
+        """Adds given check equal tests to description."""
         tests = [test for test in tests if isinstance(test, CheckEqual)]
         code = "\n".join([z.example() for z in tests])
         self.code_to_description(code, line_num)
 
+
+
+    # TODO: This two methods should be removed because their only
+    # purpuse is debug. This can be done with Problem methods.
     def write_on_file(self, file):
         with open(file, "w", encoding="utf-8") as f:
             f.write(str(self))
@@ -453,6 +513,7 @@ class ProblemPart:
 
 
 
+# TODO functions below should be removed as they are only used for debug
 
 def parse_test(problem_part_string):
     problem_part = ProblemPart.parse(problem_part_string)

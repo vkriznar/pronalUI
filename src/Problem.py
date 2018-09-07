@@ -3,6 +3,8 @@ from ProblemPart import ProblemPart
 import numpy as np
 
 def strip_hashes(description):
+    """Removes hash and space sings form each line in description."""
+    
     if description is None:
         return ''
     else:
@@ -10,6 +12,12 @@ def strip_hashes(description):
         return "\n".join(line[line.index('#')+2:] for line in lines)
 
 class Problem:
+    """
+    Defines Problem class in wich we store abstract representation of problem
+    string. This class implements all necesery method for problem manipulation.
+    For example we can create problem object from string. We can also save
+    given problem when we are done with editing it.
+    """
     def __init__(self, title, description, parts, lib_string, head_string):
         self.head_string = head_string # header lines at the beginning of file
         self.title = title.strip()
@@ -20,12 +28,16 @@ class Problem:
 
     @staticmethod
     def parse(file_string):
+        """Transforms the string representing problem into Problem object."""
+        
 ##        DO NOT DELETE THIS ! (we will use this if they don't fix problem on TOMO)
 ##        maybe better if we look for:
 ##        # ===========================================================================@=
 ##        # Ne spreminjajte te vrstice ali česarkoli pod njo.
 ##        # =============================================================================
 ##        because we don't always want template
+
+        # Mitja: I would like to delate above messege.
 
         split_index = file_string.find(
 """# # =====================================================================@000000=
@@ -80,6 +92,10 @@ class Problem:
         return Problem(title, description, parts, lib_string, head)
 
     def __repr__(self):
+        """
+        String representation of problem. Same as on Tomo,
+        can be read in object with parse method.
+        """
         def remove_unnecessary_lines(text):
             return "\n".join([line.rstrip() for line in text.splitlines()])
         
@@ -94,6 +110,9 @@ class Problem:
         
         for part in self.parts:
             blocks.append(str(part))
+
+        # Mitja: TODO better explanation of below messege.
+        
 ##        # DO NOT DELETE ! (we will use this if they don't fix problem on TOMO)
 ##        # if there are no parts on the file, we don't write template, because it appears weird on TOMO
 ##        if len(self.parts)==0:
@@ -106,17 +125,20 @@ class Problem:
 
 
     def write_on_file(self, file_name):
+        """Writes the problem string representation in given file."""
         with open(file_name, "w", encoding="utf-8") as f:
             f.write(str(self))
 
 
     @staticmethod
-    def load_file(file_name):
-        with open(file_name, "r", encoding="utf-8") as f:
+    def load_file(file_path):
+        """Reads the problem from file, given by file_path string."""
+        with open(file_path, "r", encoding="utf-8") as f:
             file_string = f.read()
             
         return Problem.parse(file_string)
 
+    # Mitja: TODO: Why do we need this? If needed convert to static and comment it.
     def read_filefile(filefile):
         file_string = ""
         for line in filefile:
@@ -125,12 +147,26 @@ class Problem:
         return Problem.parse(file_string)
 
 
-    def new_problem_part(self):
-        self.parts.append(ProblemPart.load_file("parameters/default_part.py"))
-        return self.parts[-1]
+    def new_problem_part(self, i=-1):
+        """Creates default problem part, given for later modifications."""
+        # TODO: Rethink if this method realy needs to load new file
+        # as default problem
+        # part could be also read from given file
+        try:
+            def_problem = ProblemPart.load_file("parameters/default_part.py")
+        except:
+            print("Error loading the default_part file.")
+            
+        if 0 <= i < len(self.parts):
+            self.parts.insert(i, def_problem)
+        else:
+            self.parts.append(def_problem)
+
+        return def_problem
 
 
     def remove_problem_part(self, problem_part):
+        """Removes given problem part."""
         if problem_part in self.parts:
             self.parts.remove(problem_part)
         else:
@@ -139,6 +175,7 @@ class Problem:
 
     
     def renumbering_parts(self, new_numbers):
+        """Renumbers the problem part with respect to new_numbers list."""
         parts = np.array(self.parts)
         self.parts = parts[new_numbers].tolist()
         

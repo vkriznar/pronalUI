@@ -17,9 +17,10 @@ input[type="file"]::-webkit-file-upload-button{
 
 .container {
 	width: 960px; 
-	margin: 200px auto 0 auto; 
+	margin: 150px auto 0 auto; 
 	display: block; 
 }
+
 
 /* .nova, */ .obstojeca {
 	background-color: rgba(242, 242, 242, 0.40);
@@ -58,5 +59,28 @@ label {
 	margin: 16px
 }
 
+.footer_href_first, .footer_href_second {
+	text-decoration: none;
+	color: black;
+	font-size: 16px;
+	color: #23527c;
+}
 
+.footer_href_first {
+	margin: 0 30px 0 0;
+}
+
+.footer_href_second {
+		margin: 0 0 0 30px;;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+hr.nice_hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
 

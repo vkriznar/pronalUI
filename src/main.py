@@ -6,6 +6,7 @@ import requests
 import time
 import json
 import bottle
+import os
 
 static_directory = "./static"
 
@@ -16,6 +17,7 @@ podnaloge_za_osvezit = []
 preostevilcenje = []
 trenutno_osvezena = None
 popup = False
+filename = ""
 
 app = bottle.default_app()
 BaseTemplate.defaults['get_url'] = app.get_url
@@ -41,28 +43,56 @@ def index():
     return template("index.html", popup=popup)
 
 
-"Route kjer se iz izbrane datoteke parsa in se preveri ce je"
-@post('/upload')
-def upload():
-    global file
+##"Route kjer se iz izbrane datoteke parsa in se preveri ce je"
+##@post('/upload')
+##def upload():
+##    global file
+##    global popup
+##    global problem
+##    file = request.files.get('file')
+##    "preverimo ce je vnesena datoteka res python datoteka"
+##    if os.path.splitext(file.filename)[1] != ".py":
+##        """ce ni, ga redirectamo nazaj na osnovno stran, ter na spletni strani se mu pojavi popup ki mu pove, da so
+##         dovoljena samo python datoteke"""
+##        popup = True
+##        redirect("/index/")
+##    else:
+##        popup = False
+##        problem = Problem.read_filefile(file.file)
+##        "za vsako podnalogo se odpre zavihek z to podnalogo, time sleep je zato da se v pravilnem vrstnem redu odprejo"
+##        for i in range(len(problem.parts)):
+##            time.sleep(0.05)
+##            webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
+##
+##        redirect("/index/naloga/")
+
+@route('/upload', method='POST')
+def do_upload():
     global popup
     global problem
-    file = request.files.get('file')
-    "preverimo ce je vnesena datoteka res python datoteka"
-    if os.path.splitext(file.filename)[1] != ".py":
-        """ce ni, ga redirectamo nazaj na osnovno stran, ter na spletni strani se mu pojavi popup ki mu pove, da so
-         dovoljena samo python datoteke"""
+    global filename
+    upload = request.files.get('file')
+    filename, ext = os.path.splitext(upload.filename)
+    if ext not in ('.py','.txt'):
         popup = True
         redirect("/index/")
-    else:
-        popup = False
-        problem = Problem.read_filefile(file.file)
-        "za vsako podnalogo se odpre zavihek z to podnalogo, time sleep je zato da se v pravilnem vrstnem redu odprejo"
-        for i in range(len(problem.parts)):
-            time.sleep(0.05)
-            webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
 
-        redirect("/index/naloga/")
+    file_path = "{path}/{file}".format(
+        path="datoteke/uporabnik", file=upload.filename)
+
+    with open(file_path, 'wb') as f:
+        f.write(upload.file.read())
+    
+    popup = False
+    problem = Problem.load_file(file_path)
+    for i in range(len(problem.parts)):
+        time.sleep(0.05)
+        webbrowser.open('http://localhost:8080/index/naloga/podnaloga{}/'.format(i + 1))
+
+    redirect("/index/naloga/")
+
+
+
 
 
 "Funkcija ki preostevilci vrstni red podnalog"
@@ -262,19 +292,31 @@ def podnaloga_post(part_num):
     redirect("/index/naloga/podnaloga{}/".format(part_num))
 
 
-"Route, ki odda nalogo in jo shrani na racunalnik"
+##"Route, ki odda nalogo in jo shrani na racunalnik"
+##@get("/pretvori/")
+##def pretvori():
+##    global file
+##    "shranimo nalogo na racunalnik. To je treba se spremeniti, zdaj je tocno doloceno mesto!"
+##    file_name = "../edit_files/" + file.filename
+##    problem.write_on_file(file_name[:-5] + "out.py")
+##    url = "http://localhost:8080/index/"
+##    files = {'file': open('neki.txt', 'rb')}
+##    r = requests.post(url, files=files)
+##    print(r.text)
+##
+##    return HTTPResponse("Naloga je shranjena.")
+
 @get("/pretvori/")
 def pretvori():
-    global file
-    "shranimo nalogo na racunalnik. To je treba se spremeniti, zdaj je tocno doloceno mesto!"
-    file_name = "../edit_files/" + file.filename
-    problem.write_on_file(file_name[:-5] + "out.py")
-    url = "http://localhost:8080/index/"
-    files = {'file': open('neki.txt', 'rb')}
-    r = requests.post(url, files=files)
-    print(r.text)
+    global problem
+    global filename
+    filename_out = filename+"_out.py"
+    problem.write_on_file("download/{file}".format(file=filename_out))
+    redirect("/download/{file}".format(file=filename_out))
 
-    return HTTPResponse("Naloga je shranjena.")
+@route('/download/<filename:path>')
+def download(filename):
+    return static_file(filename, root="download", download=filename)
 
 
 run(host='0.0.0.0', port=8080, debug=True)

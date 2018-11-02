@@ -138,13 +138,13 @@ class Problem:
             
         return Problem.parse(file_string)
 
-    # Mitja: TODO: Why do we need this? If needed convert to static and comment it.
-    def read_filefile(filefile):
-        file_string = ""
-        for line in filefile:
-            file_string += line.decode().rstrip()+"\n"
-            
-        return Problem.parse(file_string)
+##    # Mitja: TODO: Why do we need this? If needed convert to static and comment it.
+##    def read_filefile(filefile):
+##        file_string = ""
+##        for line in filefile:
+##            file_string += line.decode().rstrip()+"\n"
+##            
+##        return Problem.parse(file_string)
 
 
     def new_problem_part(self, i=-1):

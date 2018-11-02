@@ -5,29 +5,37 @@ from Problem import Problem
 from ProblemPart import ProblemPart
 from ProblemPart import CheckEqual
 from ProblemPart import CheckSecret
-import idlelib
+
 try:
-    from idlelib.Percolator import Percolator
+    import idlelib
+    try:
+        from idlelib.Percolator import Percolator
+    except:
+        from idlelib.percolator import Percolator
+    try:
+        from idlelib.ColorDelegator import ColorDelegator
+        from idlelib.ColorDelegator import color_config
+    except:
+        from idlelib.colorizer import ColorDelegator
+        from idlelib.colorizer import color_config
+
+    def add_colors_to_text(text):
+        color_config(text)
+        p = Percolator(text)
+        d = ColorDelegator()
+        p.insertfilter(d)
+
 except:
-    from idlelib.percolator import Percolator
-try:
-    from idlelib.ColorDelegator import ColorDelegator
-    from idlelib.ColorDelegator import color_config
-except:
-    from idlelib.colorizer import ColorDelegator
-    from idlelib.colorizer import color_config
+    print("WARNING: idlelib dependency needs to be fixed.")
+    print("WARNING: runing program with no colors for code.")
+    
+    def add_colors_to_text(text):
+        pass
 
 # constants
 STICKY_ALL = (tk.N, tk.S, tk.E, tk.W)
 TITLE_STYLE = "TkHeadingFont"
 PROGRAM_STYLE = "TkFixedFont"
-
-
-def add_colors_to_text(text):
-    color_config(text)
-    p = Percolator(text)
-    d = ColorDelegator()
-    p.insertfilter(d)
 
 # FramedEntryGUI
 class FrEntGUI:

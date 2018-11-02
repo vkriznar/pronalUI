@@ -6,10 +6,16 @@ from ProblemPart import ProblemPart
 from ProblemPart import CheckEqual
 from ProblemPart import CheckSecret
 import idlelib
-from idlelib.Percolator import Percolator
-from idlelib.ColorDelegator import ColorDelegator
-from idlelib.ColorDelegator import color_config
-
+try:
+    from idlelib.Percolator import Percolator
+except:
+    from idlelib.percolator import Percolator
+try:
+    from idlelib.ColorDelegator import ColorDelegator
+    from idlelib.ColorDelegator import color_config
+except:
+    from idlelib.colorizer import ColorDelegator
+    from idlelib.colorizer import color_config
 
 # constants
 STICKY_ALL = (tk.N, tk.S, tk.E, tk.W)

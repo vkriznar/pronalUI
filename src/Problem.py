@@ -121,7 +121,7 @@ class Problem:
         blocks.append(self.lib_string)
 
     
-        return "\n".join(blocks)
+        return "\n".join(blocks).replace("\\ \n","\\\n")
 
 
     def write_on_file(self, file_name):
